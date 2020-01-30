@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "imagekitio-angular": [
+        "dist/imagekitio-angular"
+      ],
+      "imagekitio-angular/*": [
+        "dist/imagekitio-angular/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

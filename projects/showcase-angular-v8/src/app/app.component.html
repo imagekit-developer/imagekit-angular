@@ -1,0 +1,12 @@
+<div className="App">
+  <h1>Hi! This is an ImageKit Angular SDK Demo!</h1>
+  <p>Let's add an Image</p>
+  <ik-image src={{src}} alt="This is an alt">
+  </ik-image>
+  <p>Let's transform this once</p>
+  <ik-image src={{src}} [transformation]="transformationOne"></ik-image>
+  <p>Let's transform this more than once</p>
+  <ik-image path="{{path}}" [transformation]="transformationTwo"></ik-image>
+  <p>LQIP</p>
+  <ik-image path="{{path}}" [lqip]="lqip"></ik-image>
+</div>

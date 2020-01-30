@@ -44,3 +44,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# env files
+
+./projects/showcase-angular-v8/environment.dev.ts

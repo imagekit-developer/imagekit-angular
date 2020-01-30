@@ -2,5 +2,159 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "projects": {}
+  "projects": {
+    "imagekitio-angular": {
+      "projectType": "library",
+      "root": "projects/imagekitio-angular",
+      "sourceRoot": "projects/imagekitio-angular/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/imagekitio-angular/tsconfig.lib.json",
+            "project": "projects/imagekitio-angular/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/imagekitio-angular/src/test.ts",
+            "tsConfig": "projects/imagekitio-angular/tsconfig.spec.json",
+            "karmaConfig": "projects/imagekitio-angular/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/imagekitio-angular/tsconfig.lib.json",
+              "projects/imagekitio-angular/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "showcase-angular-v8": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/showcase-angular-v8",
+      "sourceRoot": "projects/showcase-angular-v8/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/showcase-angular-v8",
+            "index": "projects/showcase-angular-v8/src/index.html",
+            "main": "projects/showcase-angular-v8/src/main.ts",
+            "polyfills": "projects/showcase-angular-v8/src/polyfills.ts",
+            "tsConfig": "projects/showcase-angular-v8/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "projects/showcase-angular-v8/src/favicon.ico",
+              "projects/showcase-angular-v8/src/assets"
+            ],
+            "styles": [
+              "projects/showcase-angular-v8/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/showcase-angular-v8/src/environments/environment.ts",
+                  "with": "projects/showcase-angular-v8/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "showcase-angular-v8:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "showcase-angular-v8:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "showcase-angular-v8:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/showcase-angular-v8/src/test.ts",
+            "polyfills": "projects/showcase-angular-v8/src/polyfills.ts",
+            "tsConfig": "projects/showcase-angular-v8/tsconfig.spec.json",
+            "karmaConfig": "projects/showcase-angular-v8/karma.conf.js",
+            "assets": [
+              "projects/showcase-angular-v8/src/favicon.ico",
+              "projects/showcase-angular-v8/src/assets"
+            ],
+            "styles": [
+              "projects/showcase-angular-v8/src/styles.css"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/showcase-angular-v8/tsconfig.app.json",
+              "projects/showcase-angular-v8/tsconfig.spec.json",
+              "projects/showcase-angular-v8/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/showcase-angular-v8/e2e/protractor.conf.js",
+            "devServerTarget": "showcase-angular-v8:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "showcase-angular-v8:serve:production"
+            }
+          }
+        }
+      }
+    }},
+  "defaultProject": "imagekitio-angular"
 }
