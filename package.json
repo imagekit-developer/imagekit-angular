@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
+    "startv8": "ng serve",
+    "build": "ng build imagekitio-angular",
+    "buildv8": "ng build",
+    "test": "ng test imagekitio-angular",
+    "lint": "ng lint imagekitio-angular",
     "e2e": "ng e2e"
   },
   "private": true,
@@ -21,9 +22,12 @@
     "@angular/router": "~8.2.14",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
+    "imagekit-javascript": "^1.0.3",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "~0.803.23",
+    "@angular-devkit/build-ng-packagr": "~0.803.23",
     "@angular/cli": "~8.3.22",
     "@angular/compiler-cli": "~8.2.14",
     "@angular/language-service": "~8.2.14",
@@ -38,8 +42,10 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "ng-packagr": "^5.4.0",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
+    "tsickle": "^0.37.0",
     "tslint": "~5.15.0",
     "typescript": "~3.5.3"
   }
