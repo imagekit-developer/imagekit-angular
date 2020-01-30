@@ -1,13 +1,14 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { IkImageComponent } from './ik-image/ik-image.component';
+import { IkUploadComponent } from './ik-upload/ik-upload.component';
 import { ImageKitConfiguration } from './imagekit.service';
 
 
 @NgModule({
-  declarations: [IkImageComponent],
+  declarations: [IkUploadComponent, IkImageComponent],
   imports: [
   ],
-  exports: [IkImageComponent]
+  exports: [IkUploadComponent, IkImageComponent]
 })
 export class ImagekitioAngularModule {
   constructor (@Optional() @SkipSelf() parentModule: ImagekitioAngularModule) {

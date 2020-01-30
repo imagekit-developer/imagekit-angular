@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import ImageKit from 'imagekit-javascript';
+const pjson = require('../package.json');
 
 interface Lqip {
   readonly active: boolean;
@@ -14,12 +15,13 @@ export class ImageKitConfiguration {
     fileName?: string;
     tags?: Array<string>;
     useUniqueFileName?: boolean;
-    responseFields?: string;
+    responseFields?: any;
     isPrivateFile?: boolean;
     folder?: string;
-    customCoordinates?: string;
-    onError?: any;
-    onSuccess?: any;
+    customCoordinates?: any;
+    onError?: Function;
+    onSuccess?: Function;
+    sdkVersion?: string;
 }
 
 @Injectable({
@@ -28,8 +30,8 @@ export class ImageKitConfiguration {
 export class ImagekitService {
   _ikInstance: any;
   constructor(configuration: ImageKitConfiguration) {
+    configuration.sdkVersion = `angular-${pjson.version}`,
     this._ikInstance = new ImageKit(configuration)
-    console.log(this._ikInstance);
   }
 
   get ikInstance(): any {
