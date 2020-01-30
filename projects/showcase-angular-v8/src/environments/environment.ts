@@ -3,7 +3,7 @@
  */
 export const environment = {
   production: false,
-  urlEndpoint: '<YOUR_URL_ENDPOINT>',
-  publicKey: '<YOUR_PUBLIC_KEY>',
-  authenticationEndpoint: '<YOUR_AUTHENTICATION_ENDPOINT>'
+  urlEndpoint: "<YOUR_URL_ENDPOINT>",
+  publicKey: "<YOUR_PUBLIC_KEY>",
+  authenticationEndpoint: "<YOUR_AUTHENTICATION_ENDPOINT>",
 };

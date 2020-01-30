@@ -26,4 +26,16 @@ export class AppComponent {
     }
   ];
   lqip = { active: true, quality: 30 };
+
+  handleUploadSuccess(res) {
+    console.log('File upload success with response: ', res);
+  }
+
+  handleUploadError(err) {
+    console.log('There was an error in upload: ', err);
+  }
+
+  handleFileInput(event) {
+    console.log('This is the event on file change: ', event);
+  }
 }
