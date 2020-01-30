@@ -15,7 +15,7 @@ ImageKit is a complete image optimization and transformation solution that comes
 
 Use the components in your code:
 
-    `<ik-image src={{src}}></ik-image>`
+  `<ik-image src={{src}}></ik-image>`
 
 ## Usage
 
