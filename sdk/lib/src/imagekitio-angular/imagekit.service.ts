@@ -24,16 +24,12 @@ export class ImageKitConfiguration {
     sdkVersion?: string;
 }
 
-// @Injectable({
-//   providedIn: 'root'
-// })
 @Injectable()
 export class ImagekitService {
   _ikInstance: any;
   constructor(configuration: ImageKitConfiguration) {
     configuration.sdkVersion = `angular-${pjson.version}`,
     this._ikInstance = new ImageKit(configuration)
-    console.log(configuration);
   }
 
   get ikInstance(): any {

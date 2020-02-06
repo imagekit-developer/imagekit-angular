@@ -5,11 +5,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build:app": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "build:lib": "rimraf dist && ng-packagr -p lib/package.json && npm run assets",
+    "build": "rimraf dist && ng-packagr -p lib/package.json && npm run assets",
     "assets": "node ./scripts/copy-assets.js"
   },
   "private": false,
