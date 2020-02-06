@@ -39,7 +39,6 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   loadImage() {
-    console.log('this is ', this.imagekit);
     const nativeElement = this.el.nativeElement;
     const image = nativeElement.children[0];
     if (this.src) {

@@ -1,0 +1,56 @@
+name: Publish
+
+on:
+  release:
+    types: [published]
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [8.x, 10.x, 12.x]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: npm install, build, and test
+      run: |
+        npm install -g @angular/cli@1.4.10
+        cd sdk
+        npm install
+        npm run test
+        npm run build
+      env:
+        CI: true
+        PUBLIC_KEY: ${{ secrets.ik_public_key }}
+        PRIVATE_KEY: ${{ secrets.ik_private_key }}
+        URL_ENDPOINT: ${{ secrets.ik_url_endopint }}
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12
+        registry-url: https://registry.npmjs.org/
+    - name: npm publish
+      run: |
+        npm install -g @angular/cli@1.4.10
+        cd sdk
+        npm install
+        npm run build
+        cd dist/imagekitio-angular
+        npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
+        npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+        CI: true
