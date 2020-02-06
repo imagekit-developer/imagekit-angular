@@ -48,6 +48,6 @@ SDK is build in angular 4 for forward compatibilty and `ng-packagr` is used to c
 
 Use 
 ```sh
-npm run build:lib
+npm run build
 ```
 from the `sdk` folder to build the library. This creates a package in `dist/imagekitio-angular` folder.
