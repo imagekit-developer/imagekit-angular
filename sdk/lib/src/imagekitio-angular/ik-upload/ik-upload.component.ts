@@ -6,13 +6,13 @@ import { ImagekitService } from '../imagekit.service';
   providers: [ImagekitService]
 })
 export class IkUploadComponent implements OnInit {
-  @Input('fileName') fileName:string;
-  @Input('useUniqueFileName') useUniqueFileName:boolean = true;
-  @Input('tags') tags:any;
-  @Input('folder') folder:string;
-  @Input('isPrivateFile') isPrivateFile:boolean = false;
-  @Input('customCoordinates') customCoordinates:any;
-  @Input('responseFields') responseFields:any;
+  @Input('fileName') fileName:string; //required
+  @Input('useUniqueFileName') useUniqueFileName:boolean; //optional
+  @Input('tags') tags:string; //optional
+  @Input('folder') folder:string; //optional
+  @Input('isPrivateFile') isPrivateFile:boolean; //optional
+  @Input('customCoordinates') customCoordinates:string; //optional
+  @Input('responseFields') responseFields:string; //optional
   @Output() onError: EventEmitter<any> = new EventEmitter();
   @Output() onSuccess: EventEmitter<any> = new EventEmitter();
   @Input() onFileInput: Function;
@@ -37,22 +37,31 @@ export class IkUploadComponent implements OnInit {
     let ik = this.imagekit.ikInstance;
     const onError = this.onError;
     const onSuccess = this.onSuccess;
-    const params = {
+    const params:object = {
       file: file,
       fileName: fileName,
-      useUniqueFileName: useUniqueFileName,
-      isPrivateFile: isPrivateFile,
-      folder: folder,
     }
-    if (tags) {
+    if (useUniqueFileName !== undefined) {
+      Object.assign(params, { useUniqueFileName: useUniqueFileName });
+    }
+
+    if (folder !== undefined) {
+      Object.assign(params, { folder: folder });
+    }
+
+    if (isPrivateFile !== undefined) {
+      Object.assign(params, { isPrivateFile: isPrivateFile });
+    }
+
+    if (tags !== undefined) {
       Object.assign(params, { tags: tags });
     }
 
-    if (customCoordinates) {
+    if (customCoordinates !== undefined) {
       Object.assign(params, { customCoordinates: customCoordinates });
     }
 
-    if (responseFields) {
+    if (responseFields !== undefined) {
       Object.assign(params, { responseFields: responseFields });
     }
 
