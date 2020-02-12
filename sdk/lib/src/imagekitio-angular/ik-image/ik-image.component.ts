@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit, OnDestroy, ElementRef, Input } from '@angular/core';
+import { Component, AfterViewInit, OnInit, ElementRef, Input } from '@angular/core';
 import { ImagekitService } from '../imagekit.service';
 
 @Component({
@@ -6,12 +6,13 @@ import { ImagekitService } from '../imagekit.service';
   template: `<img src={{src}}>`,
   providers: [ImagekitService]
 })
-export class IkImageComponent implements AfterViewInit, OnInit, OnDestroy {
+export class IkImageComponent implements AfterViewInit, OnInit {
   @Input('src') src:string;
   @Input('path') path:string;
   @Input('transformation') transformation:Array<Object> = [];
   @Input('lqip') lqip:any;
   url = '';
+  lqipUrl = '';
 
   observer: MutationObserver;
 
@@ -19,28 +20,23 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Create an observer instance
-    this.observer = new MutationObserver(() => {
-        this.loadImage();
-    });
-    // Observe changes to attributes or child transformations to re-render the image
-    const config = {attributes: true, childList: true};
-
-    // pass in the target node, as well as the observer options
-    this.observer.observe(this.el.nativeElement, config);
-}
-
-  ngOnDestroy(): void {
-    this.observer.disconnect();
+    this.setUrl();
   }
 
   ngAfterViewInit() {
-    this.loadImage();
+    const that = this;
+    this.loadImage(this.lqip && this.lqip.active ? this.lqipUrl : this.url);
+    const imageObserver = new IntersectionObserver(function (entry:any, observer) {
+      if (entry[0] && entry[0].isIntersecting) {
+        let image = entry[0].target;
+        that.loadImage(that.url);
+        imageObserver.unobserve(image);
+      }
+    });
+    imageObserver.observe(this.el.nativeElement);
   }
 
-  loadImage() {
-    const nativeElement = this.el.nativeElement;
-    const image = nativeElement.children[0];
+  setUrl() {
     if (this.src) {
       this.url = this.imagekit.ikInstance.url({ src: this.src, transformation: this.transformation, transformationPosition: "query" });
     } else if (this.path) {
@@ -48,7 +44,34 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnDestroy {
     } else {
       throw new Error('Missing src / path during initialization!');
     }
-    this.setElementAttributes(image, {"src": this.url});
+
+    if (this.lqip !== undefined && this.lqip.active === true) {
+      const { quality } = this.lqip;
+      this.lqipUrl = this.lqipload(quality);
+    }
+  }
+
+  loadImage(url:string) {
+    const nativeElement = this.el.nativeElement;
+    const image = nativeElement.children[0];
+    this.setElementAttributes(image, {"src": url});
+  }
+
+  lqipload(quality) {
+    let url = this.url;
+    let lqip = "";
+    if (this.path !== undefined) {
+      let newUrl = url.split("tr:");
+      if (newUrl[0] === url) {
+        let temp = url.split("/");
+        lqip = `${temp[0]}//${temp[2]}/${temp[3]}/tr:q-${quality}/${temp[4]}`;
+      } else {
+        lqip = `${newUrl[0]}tr:q-${quality}${newUrl[1]}`;
+      }
+    } else {
+      lqip = `${url}?tr=q-${quality}`;
+    }
+    return lqip;
   }
 
   setElementAttributes(element, attributesLiteral) {
