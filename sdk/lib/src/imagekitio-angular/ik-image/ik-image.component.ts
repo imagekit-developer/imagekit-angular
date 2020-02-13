@@ -53,9 +53,22 @@ export class IkImageComponent implements AfterViewInit, OnInit {
 
   loadImage(url:string) {
     const nativeElement = this.el.nativeElement;
+    const attributes = nativeElement.attributes;
+    const attrsToSet = this.namedNodeMapToObject(attributes);
+    attrsToSet['src'] = url;
     const image = nativeElement.children[0];
-    this.setElementAttributes(image, {"src": url});
+    this.setElementAttributes(image, attrsToSet);
   }
+
+  namedNodeMapToObject(source: NamedNodeMap): any {
+    let target = {};
+    Object.keys(source).forEach(index => {
+      const name = source[index].name;
+      const value = source[index].value;
+      target[name] = value;
+    });
+    return target;
+  };
 
   lqipload(quality) {
     let url = this.url;

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ImagekitService } from '../imagekit.service';
 @Component({
   selector: 'ik-upload',
@@ -18,7 +18,7 @@ export class IkUploadComponent implements OnInit {
   @Input() onFileInput: Function;
   fileToUpload: File = null;
 
-  constructor(private el: ElementRef, private imagekit: ImagekitService) { }
+  constructor(private imagekit: ImagekitService) { }
 
   ngOnInit() {
   }
@@ -37,7 +37,6 @@ export class IkUploadComponent implements OnInit {
     let ik = this.imagekit.ikInstance;
     const onError = this.onError;
     const onSuccess = this.onSuccess;
-<<<<<<< HEAD
     const params:object = {
       file: file,
       fileName: fileName,
@@ -63,24 +62,6 @@ export class IkUploadComponent implements OnInit {
     }
 
     if (responseFields !== undefined) {
-=======
-    const params = {
-      file: file,
-      fileName: fileName,
-      useUniqueFileName: useUniqueFileName,
-      isPrivateFile: isPrivateFile,
-      folder: folder,
-    }
-    if (tags) {
-      Object.assign(params, { tags: tags });
-    }
-
-    if (customCoordinates) {
-      Object.assign(params, { customCoordinates: customCoordinates });
-    }
-
-    if (responseFields) {
->>>>>>> 1f4eb7aef87dc106229e5ff4f7b9905e7eaa8b2f
       Object.assign(params, { responseFields: responseFields });
     }
 
