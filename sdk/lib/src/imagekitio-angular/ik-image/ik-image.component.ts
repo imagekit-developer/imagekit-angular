@@ -20,7 +20,7 @@ export class IkImageComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
-    this.setUrl();
+    this.setUrl(this.src, this.path, this.transformation, this.lqip);
   }
 
   ngAfterViewInit() {
@@ -36,18 +36,17 @@ export class IkImageComponent implements AfterViewInit, OnInit {
     imageObserver.observe(this.el.nativeElement);
   }
 
-  setUrl() {
-    if (this.src) {
-      this.url = this.imagekit.ikInstance.url({ src: this.src, transformation: this.transformation, transformationPosition: "query" });
-    } else if (this.path) {
-      this.url = this.imagekit.ikInstance.url({ path: this.path, transformation: this.transformation });
+  setUrl(src, path, transformation, lqip) {
+    if (src) {
+      this.url = this.imagekit.ikInstance.url({ src: src, transformation: transformation, transformationPosition: "query" });
+    } else if (path) {
+      this.url = this.imagekit.ikInstance.url({ path: path, transformation: transformation });
     } else {
       throw new Error('Missing src / path during initialization!');
     }
 
-    if (this.lqip !== undefined && this.lqip.active === true) {
-      const { quality } = this.lqip;
-      this.lqipUrl = this.lqipload(quality);
+    if (lqip !== undefined && lqip.active === true) {
+      this.lqipUrl = this.lqipload(lqip.quality);
     }
   }
 
