@@ -4,7 +4,6 @@ import { ImagekitService } from '../imagekit.service';
 @Component({
   selector: 'ik-image',
   template: `<img src={{src}}>`,
-  providers: [ImagekitService]
 })
 export class IkImageComponent implements AfterViewInit, OnInit {
   @Input('src') src:string;
@@ -36,17 +35,17 @@ export class IkImageComponent implements AfterViewInit, OnInit {
     imageObserver.observe(this.el.nativeElement);
   }
 
-  setUrl(src, path, transformation, lqip) {
+  setUrl(src?, path?, transformation?, lqip?) {
     if (src) {
-      this.url = this.imagekit.ikInstance.url({ src: src, transformation: transformation, transformationPosition: "query" });
+      this.url = this.imagekit.getUrl({ src: src, transformation: transformation, transformationPosition: "query" });
     } else if (path) {
-      this.url = this.imagekit.ikInstance.url({ path: path, transformation: transformation });
+      this.url = this.imagekit.getUrl({ path: path, transformation: transformation });
     } else {
       throw new Error('Missing src / path during initialization!');
     }
 
-    if (lqip !== undefined && lqip.active === true) {
-      this.lqipUrl = this.lqipload(lqip.quality);
+    if (lqip && lqip.active === true) {
+      this.lqipUrl = this.lqipload(lqip.quality, this.url, this.path);
     }
   }
 
@@ -69,10 +68,9 @@ export class IkImageComponent implements AfterViewInit, OnInit {
     return target;
   };
 
-  lqipload(quality) {
-    let url = this.url;
+  lqipload(quality, url, path) {
     let lqip = "";
-    if (this.path !== undefined) {
+    if (path) {
       let newUrl = url.split("tr:");
       if (newUrl[0] === url) {
         let temp = url.split("/");
