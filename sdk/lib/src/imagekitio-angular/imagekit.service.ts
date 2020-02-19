@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import ImageKit from 'imagekit-javascript';
-const pjson = require('../../package.json');
+import { Injectable } from "@angular/core";
+import * as ImageKit from "imagekit-javascript";
+const pjson = require("../../package.json");
 
 export interface Lqip {
   readonly active: boolean;
@@ -8,31 +8,33 @@ export interface Lqip {
 }
 
 export class ImageKitConfiguration {
-    urlEndpoint: string;
-    publicKey: string;
-    authenticationEndpoint?: string;
-    lqip?: Lqip;
-    fileName?: string;
-    tags?: Array<string>;
-    useUniqueFileName?: boolean;
-    responseFields?: any;
-    isPrivateFile?: boolean;
-    folder?: string;
-    customCoordinates?: any;
-    onError?: Function;
-    onSuccess?: Function;
-    sdkVersion?: string;
+  urlEndpoint: string;
+  publicKey: string;
+  authenticationEndpoint?: string;
+  lqip?: Lqip;
+  fileName?: string;
+  tags?: string;
+  useUniqueFileName?: boolean;
+  responseFields?: any;
+  isPrivateFile?: boolean;
+  folder?: string;
+  customCoordinates?: any;
+  sdkVersion?: string;
 }
 
 @Injectable()
 export class ImagekitService {
   _ikInstance: any;
-  constructor(configuration: ImageKitConfiguration) {
-    configuration.sdkVersion = `angular-${pjson.version}`,
-    this._ikInstance = new ImageKit(configuration)
+  constructor(private configuration: ImageKitConfiguration) {
+    (configuration.sdkVersion = `angular-${pjson.version}`),
+      (this._ikInstance = new ImageKit(this.configuration));
   }
 
   get ikInstance(): any {
     return this._ikInstance;
+  }
+
+  getUrl(config: object): string {
+    return this._ikInstance.url(config);
   }
 }

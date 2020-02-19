@@ -4,7 +4,6 @@ This document describes how to develop Imagekit Angular SDK.
 
 - [Setting up development environment](#setting-up-development-environment)
 - [Building the project](#building-the-project)
-- [File naming convention](#file-naming-convention)
 
 ## Setting up development environment
 
@@ -51,3 +50,13 @@ Use
 npm run build
 ```
 from the `sdk` folder to build the library. This creates a package in `dist/imagekitio-angular` folder.
+
+### Running Tests
+
+The designated directory for tests is `sdk/src/sdk-tests` folder. All tests will be executed once on the Chrome Headless browser.
+
+Use 
+```sh
+npm run test
+```
+from the `sdk` folder to start testing.

@@ -24,19 +24,26 @@ export class IkUploadComponent implements OnInit {
   }
 
   handleFileInput(e) {
+    const onError = this.onError;
+    const onSuccess = this.onSuccess;
     const files = e.target.files;
     this.fileToUpload = files.item(0);
     if (this.onFileInput) {
       this.onFileInput(e);
       return;
     }
-    this.upload(this.fileToUpload, this.fileName, this.useUniqueFileName, this.tags, this.folder, this.isPrivateFile, this.customCoordinates, this.responseFields)
+    const params = this.getUploadParams(this.fileToUpload, this.fileName, this.useUniqueFileName, this.tags, this.folder, this.isPrivateFile, this.customCoordinates, this.responseFields)
+    const ik = this.imagekit.ikInstance;
+    ik.upload(params, function (err, result) {
+      if (err) {
+        onError.emit(err);
+      } else {
+        onSuccess.emit(result);
+      }
+    });
   }
 
-  upload(file, fileName, useUniqueFileName, tags, folder, isPrivateFile, customCoordinates, responseFields) {
-    let ik = this.imagekit.ikInstance;
-    const onError = this.onError;
-    const onSuccess = this.onSuccess;
+  getUploadParams(file, fileName, useUniqueFileName?, tags?, folder?, isPrivateFile?, customCoordinates?, responseFields?) {
     const params:object = {
       file: file,
       fileName: fileName,
@@ -64,14 +71,6 @@ export class IkUploadComponent implements OnInit {
     if (responseFields !== undefined) {
       Object.assign(params, { responseFields: responseFields });
     }
-
-    ik.upload(params, function (err, result) {
-      if (err) {
-        onError.emit(err);
-      } else {
-        onSuccess.emit(result);
-      }
-    });
+    return params;
   }
-
 }
