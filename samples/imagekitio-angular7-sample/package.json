@@ -23,7 +23,6 @@
     "path": "^0.12.7",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
-    "imagekitio-angular": "0.0.2",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {

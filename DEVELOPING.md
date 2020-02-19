@@ -60,3 +60,24 @@ Use
 npm run test
 ```
 from the `sdk` folder to start testing.
+
+### Running Sample Apps
+
+Every sample app requires a different version of Angular CLI. Please refer to individual sample app `Readme.md` for details.
+Before sample apps can be used, `imagekitio-angular` library needs to be packed and installed using file system within the sample apps. Use the following steps to run any sample app.
+
+1. In the `sdk` folder, install dependencies with `npm install`
+2. Build library with `npm run build`
+3. In the `sdk/dist/imagekitio-angular` folder, use `npm pack` to create a tarball with version mentioned in the current package.json for sdk. 
+4. Go to `samples/imagekitio-angular<x>-sample` folder and use `npm install` to install dependencies.
+5. Use `npm install ../../sdk/dist/imagekitio-angular/imagekitio-angular-x.x.x.tgz` where x.x.x needs to be replaced with current version. For example, sdk version is `0.0.1`, then above command becomes `npm install ../../sdk/dist/imagekitio-angular/imagekitio-angular-0.0.1.tgz`
+6. Configure sample app with required keys. Use each app's `Readme.md` for exact details.
+7. Use npm start from the `samples/imagekitio-angular<x>-sample` folder to run app for particular angular version.
+
+### Running Sample Server
+
+Sample server for upload implementation is available at `samples/sample-server`. To run the server, follow these steps
+
+1. Create a `.env` file based on `sample.env` and enter your private key.
+2. Use `npm install` to install dependencies. 
+3. Use `npm run server` to start the server.
