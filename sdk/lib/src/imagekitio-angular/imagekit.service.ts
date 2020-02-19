@@ -19,8 +19,6 @@ export class ImageKitConfiguration {
   isPrivateFile?: boolean;
   folder?: string;
   customCoordinates?: any;
-  onError?: Function;
-  onSuccess?: Function;
   sdkVersion?: string;
 }
 
