@@ -8,7 +8,10 @@ import { ImagekitService } from '../imagekit.service';
 export class IkImageComponent implements AfterViewInit, OnInit {
   @Input('src') src:string;
   @Input('path') path:string;
+  @Input('urlEndpoint') urlEndpoint:string;
   @Input('transformation') transformation:Array<Object> = [];
+  @Input('transformationPosition') transformationPosition:string;
+  @Input('queryParameters') queryParameters:Object;
   @Input('lqip') lqip:any;
   url = '';
   lqipUrl = '';
@@ -19,7 +22,7 @@ export class IkImageComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
-    this.setUrl(this.src, this.path, this.transformation, this.lqip);
+    this.setUrl(this.src, this.path, this.transformation, this.lqip, this.urlEndpoint, this.transformationPosition, this.queryParameters);
   }
 
   ngAfterViewInit() {
@@ -35,18 +38,36 @@ export class IkImageComponent implements AfterViewInit, OnInit {
     imageObserver.observe(this.el.nativeElement);
   }
 
-  setUrl(src?, path?, transformation?, lqip?) {
-    if (src) {
-      this.url = this.imagekit.getUrl({ src: src, transformation: transformation, transformationPosition: "query" });
-    } else if (path) {
-      this.url = this.imagekit.getUrl({ path: path, transformation: transformation });
-    } else {
-      throw new Error('Missing src / path during initialization!');
-    }
-
+  setUrl(src?, path?, transformation?, lqip?, urlEndpoint?, transformationPosition?, queryParameters?) {
+    const config = this.getConfigObject(src, path, transformation, transformationPosition, urlEndpoint, queryParameters)
+    this.url = this.imagekit.getUrl(config);
     if (lqip && lqip.active === true) {
       this.lqipUrl = this.lqipload(lqip.quality, this.url, this.path);
     }
+  }
+
+  getConfigObject(src?, path?, transformation?, transformationPosition?, urlEndpoint?, queryParameters?) {
+    const config = {
+      transformation: transformation,
+    };
+    if (urlEndpoint) {
+      config['urlEndpoint'] = urlEndpoint;
+    }
+    if (queryParameters) {
+      config['queryParameters'] = queryParameters;
+    }
+    if (src) {
+      config['src'] = src;
+      config['transformationPosition'] = 'query';
+    } else if (path) {
+      config['path'] = path;
+      if (transformationPosition) {
+        config['transformationPosition'] = transformationPosition;
+      }
+    } else {
+      throw new Error('Missing src / path during initialization!');
+    }
+    return config;
   }
 
   loadImage(url:string) {

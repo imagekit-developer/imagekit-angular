@@ -35,6 +35,7 @@ export class ImagekitService {
   }
 
   getUrl(config: object): string {
-    return this._ikInstance.url(config);
+    const url = this._ikInstance.url(config);
+    return url;
   }
 }
