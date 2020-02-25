@@ -1,4 +1,4 @@
-# ImageKit.io Angular SDK
+# [WIP] ImageKit.io Angular SDK
 
 [![Node CI](https://github.com/imagekit-developer/imagekit-angular/workflows/Node%20CI/badge.svg)](https://github.com/imagekit-developer/imagekit-angular/)
 [![npm version](https://img.shields.io/npm/v/imagekitio-angular)](https://www.npmjs.com/package/imagekitio-angular) 
