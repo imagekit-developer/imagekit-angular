@@ -82,8 +82,11 @@ describe("IkImageComponent", () => {
   });
 
   it("if SRC is used to create URL, transformartioPosition should be query", () => {
-    const config = component.getConfigObject('abc');
-    expect(config['transformationPosition']).toBe('query')
+    // const config = component.getConfigObject('abc');
+    const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
+    component.setUrl("https://abc.com/def", null, transformation);
+    // expect(config['transformationPosition']).toBe('query')
+    expect(component.url).toContain('&tr=');
   });
 
   it("if SRC is used to create URL, transformartioPosition should be query even if anything else is passed", () => {
