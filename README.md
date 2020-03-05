@@ -50,7 +50,7 @@ In order to use the SDK, you need to provide it with a few configuration paramet
 
 `publicKey` and `urlEndpoint` are mandatory parameters for SDK initialization.
 `authenticationEndpoint` is essential if you want to use the SDK for client-side uploads.
-`transformationPosition` is optional. The default value for the parametere is `path`. Acceptable values are `path` & `query`
+`transformationPosition` is optional. The default value for the parameter is `path`. Acceptable values are `path` & `query`
 
 _Note: Do not include your Private Key in any client side code, including this SDK or its initialization. If you pass the `privateKey` parameter while initializing this SDK, it throws an error_
 
@@ -172,7 +172,7 @@ The component tries to keep the it simple, it loads a lower quality image using 
 
 ## File Upload
 #### ik-upload
-The SDK provides a simple Component to upload files to the ImageKit Media Library. It accepts `fileName` parameter as a prop. The file parameter is provided as an input from the user. 
+The SDK provides a simple Component to upload files to the ImageKit Media Library. It has an attribute called `fileName` which is used by SDK for `fileName` parameter required to upload. The `file` parameter is provided as an input from the user. 
 
 Also make sure that you have specified `authenticationEndpoint` during SDK initialization. The SDK makes an HTTP GET request to this endpoint and expects a JSON response with three fields i.e. `signature`, `token` and `expire`.  
 
@@ -185,4 +185,4 @@ Sample Usage
   <ik-upload fileName="my-upload" /></ik-upload>
 ```
 
-`ik-upload` component accepts all the parameters supported by the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/client-side-file-upload#request-structure-multipart-form-data) as props e.g. `tags`, `useUniqueFileName`, `folder`, `isPrivateFile`, `customCoordinates` etc.
+`ik-upload` component accepts all the parameters supported by the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/client-side-file-upload#request-structure-multipart-form-data) as attributes e.g. `tags`, `useUniqueFileName`, `folder`, `isPrivateFile`, `customCoordinates` etc.
