@@ -23,7 +23,7 @@ describe("IkImageComponent", () => {
     expect(component.url).toBe(`https://example.com/def?ik-sdk-version=${version}`);
   });
 
-  it("Presence and absence of trailing slash in should not result in double slash (//) in the returned url", () => {
+  it("Presence and absence of trailing slash in urlEndpoint should not result in double slash (//) in the returned url", () => {
     let comp: IkImageComponent;
     let iKService: ImagekitService;
     iKService = new ImagekitService({
@@ -49,7 +49,7 @@ describe("IkImageComponent", () => {
     );
   });
 
-  it("Presence and absence of leading slash in parameter should not result in double slash (//) in the returned url", () => {
+  it("Presence and absence of leading slash in path parameter should not result in double slash (//) in the returned url", () => {
     let comp: IkImageComponent;
     let iKService: ImagekitService;
     iKService = new ImagekitService({
@@ -114,8 +114,8 @@ describe("IkImageComponent", () => {
   });
 
   it("setUrl should create correct URL when src is provided", () => {
-    component.setUrl("abc");
-    expect(component.url).toContain(`/abc?ik-sdk-version=${version}`);
+    component.setUrl("https://test-absolute-path.com/image.jpg");
+    expect(component.url).toContain(`https://test-absolute-path.com/image.jpg?ik-sdk-version=${version}`);
   });
 
   it("setUrl should create correct URL when path is provided", () => {

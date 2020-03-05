@@ -1,11 +1,11 @@
-import { Component, AfterViewInit, OnInit, ElementRef, Input } from '@angular/core';
+import { Component, AfterViewInit, OnInit, ElementRef, Input, OnChanges } from '@angular/core';
 import { ImagekitService } from '../imagekit.service';
 
 @Component({
   selector: 'ik-image',
   template: `<img src={{src}}>`,
 })
-export class IkImageComponent implements AfterViewInit, OnInit {
+export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   @Input('src') src:string;
   @Input('path') path:string;
   @Input('urlEndpoint') urlEndpoint:string;
@@ -23,6 +23,10 @@ export class IkImageComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.setUrl(this.src, this.path, this.transformation, this.lqip, this.urlEndpoint, this.transformationPosition, this.queryParameters);
+  }
+
+  ngOnChanges(): void {
+    this.ngOnInit();
   }
 
   ngAfterViewInit() {
