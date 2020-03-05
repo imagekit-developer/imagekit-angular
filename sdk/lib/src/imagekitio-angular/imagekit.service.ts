@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import * as ImageKit from "imagekit-javascript";
+// import ImageKit from "imagekit-javascript";
+const ImageKit = require("imagekit-javascript")
 const pjson = require("../../package.json");
 
 export interface Lqip {

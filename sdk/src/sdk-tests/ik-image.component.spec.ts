@@ -19,8 +19,8 @@ describe("IkImageComponent", () => {
   });
 
   it("urlEndpoint passed to component should be used over initialized value", () => {
-    component.setUrl(null, "def", null, null, 'localhost:3000');
-    expect(component.url).toBe(`localhost:3000/def?ik-sdk-version=${version}`);
+    component.setUrl(null, "def", null, null, 'https://example.com');
+    expect(component.url).toBe(`https://example.com/def?ik-sdk-version=${version}`);
   });
 
   it("Presence and absence of trailing slash in should not result in double slash (//) in the returned url", () => {
