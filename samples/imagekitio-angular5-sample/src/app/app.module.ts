@@ -14,7 +14,7 @@ import { ImagekitioAngularModule } from "imagekitio-angular";
     ImagekitioAngularModule.forRoot({
       urlEndpoint: "<YOUR_URL_ENDPOINT>",
       publicKey: "<YOUR_PUBLIC_KEY>",
-      authenticationEndpoint: "<YOUR_AUTH_ENDPOINT>"
+      authenticationEndpoint: "<YOUR_AUTH_ENDPOINT e.g http://localhost:3000/auth>"
     })
   ],
   providers: [],

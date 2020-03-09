@@ -10,7 +10,7 @@ This project shows the usage of ImageKit Angular SDK in an Angular 4 app. Please
   @angular/cli: 1.4.10
 ```
 
-## Runnning the application
+## Running the application
 
 Before you can use Imagekit SDK, you need to provide config values required in `app.module.ts` and `app.component.ts`. You can either configure your environment and take values from there, or directly provide in respective files.
 
