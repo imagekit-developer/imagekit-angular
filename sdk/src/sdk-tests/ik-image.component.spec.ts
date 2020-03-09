@@ -105,7 +105,7 @@ describe("IkImageComponent", () => {
   it("Parameters passed to queryParameters should be present in URL if src with existing query is used", () => {
     component.setUrl('https://example.com/ab.png?foo=bar&baz=nax', null, null, null, null, null, {version:5, name: 'check'});
     expect(component.url).toContain('&version=5&name=check');
-    expect(component.url).toBe('https://example.com/ab.png?foo=bar&baz=nax&ik-sdk-version=angular-0.0.1&version=5&name=check');
+    expect(component.url).toBe(`https://example.com/ab.png?foo=bar&baz=nax&ik-sdk-version=${version}&version=5&name=check`);
   });
 
   it("Parameters passed to queryParameters should be present in URL if path is used", () => {
