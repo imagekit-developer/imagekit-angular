@@ -20,6 +20,7 @@
         "@angular/platform-browser": "~9.1.6",
         "@angular/platform-browser-dynamic": "~9.1.6",
         "@angular/router": "~9.1.6",
+        "imagekitio-angular": "file:../../sdk/dist/imagekitio-angular/imagekitio-angular-1.0.0.tgz",
         "path": "^0.12.7",
         "rxjs": "~6.5.4",
         "tslib": "^1.10.0",
