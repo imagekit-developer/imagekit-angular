@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "imagekitio-angular7-sample": {
+    "angular8app": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/imagekitio-angular7-sample",
+            "outputPath": "dist/angular8app",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -58,18 +58,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "imagekitio-angular7-sample:build"
+            "browserTarget": "angular8app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "imagekitio-angular7-sample:build:production"
+              "browserTarget": "angular8app:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "imagekitio-angular7-sample:build"
+            "browserTarget": "angular8app:build"
           }
         },
         "test": {
@@ -103,7 +103,7 @@
         }
       }
     },
-    "imagekitio-angular7-sample-e2e": {
+    "angular8app-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -112,11 +112,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "imagekitio-angular7-sample:serve"
+            "devServerTarget": "angular8app:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "imagekitio-angular7-sample:serve:production"
+              "devServerTarget": "angular8app:serve:production"
             }
           }
         },
@@ -132,5 +132,5 @@
       }
     }
   },
-  "defaultProject": "imagekitio-angular7-sample"
+  "defaultProject": "angular8app"
 }

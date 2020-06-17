@@ -10,7 +10,7 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('Welcome to imagekitio-angular7-sample!');
+    expect(page.getTitleText()).toEqual('Welcome to angular8app!');
   });
 
   afterEach(async () => {

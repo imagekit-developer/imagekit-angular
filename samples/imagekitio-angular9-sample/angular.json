@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "imagekitio-angular9-sample": {
+    "angular9app": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,12 +13,12 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/imagekitio-angular9-sample",
+            "outputPath": "dist/angular9app",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -41,7 +41,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -63,18 +62,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "imagekitio-angular9-sample:build"
+            "browserTarget": "angular9app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "imagekitio-angular9-sample:build:production"
+              "browserTarget": "angular9app:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "imagekitio-angular9-sample:build"
+            "browserTarget": "angular9app:build"
           }
         },
         "test": {
@@ -111,19 +110,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "imagekitio-angular9-sample:serve"
+            "devServerTarget": "angular9app:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "imagekitio-angular9-sample:serve:production"
+              "devServerTarget": "angular9app:serve:production"
             }
           }
         }
       }
-    }
-  },
-  "defaultProject": "imagekitio-angular9-sample",
-  "cli": {
-    "analytics": false
-  }
+    }},
+  "defaultProject": "angular9app"
 }

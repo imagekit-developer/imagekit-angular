@@ -10,7 +10,7 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('imagekitio-angular9-sample app is running!');
+    expect(page.getTitleText()).toEqual('angular9app app is running!');
   });
 
   afterEach(async () => {

@@ -12,9 +12,7 @@
   <p>Upload</p>
   <p>To use this funtionality please remember to setup the server</p>
   <p>Provide custom upload method</p>
-  <ik-upload fileName="test_new" [useUniqueFileName]="false" [isPrivateFile]="false"
-    (onSuccess)="handleUploadSuccess($event)" (onError)="handleUploadError($event)" [onFileInput]="handleFileInput"></ik-upload>
+  <ik-upload fileName="test_new" [useUniqueFileName]="false" [isPrivateFile]="false" (onSuccess)="handleUploadSuccess($event)" (onError)="handleUploadError($event)" [onFileInput]="handleFileInput"></ik-upload>
   <p>Use imagekit upload method</p>
-  <ik-upload fileName="test_new" [useUniqueFileName]="false" [isPrivateFile]="false"
-      (onSuccess)="handleUploadSuccess($event)" (onError)="handleUploadError($event)"></ik-upload>
+  <ik-upload fileName="test_new" [useUniqueFileName]="false" [isPrivateFile]="false" (onSuccess)="handleUploadSuccess($event)" (onError)="handleUploadError($event)"></ik-upload>
 </div>

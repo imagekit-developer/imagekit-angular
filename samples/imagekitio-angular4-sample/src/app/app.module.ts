@@ -1,11 +1,14 @@
-import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 
-import { AppComponent } from "./app.component";
-import { ImagekitioAngularModule } from "imagekitio-angular";
+import { AppComponent } from './app.component';
+
+import { ImagekitioAngularModule } from 'imagekitio-angular';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent
+  ],
   imports: [
     BrowserModule,
     ImagekitioAngularModule.forRoot({
@@ -17,4 +20,4 @@ import { ImagekitioAngularModule } from "imagekitio-angular";
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
