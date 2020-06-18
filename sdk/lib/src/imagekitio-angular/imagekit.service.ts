@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 const ImageKit = require("imagekit-javascript");
 // When SDK is built and packed, the path of this file changes, hence static path cannot work
 // const pjson = require("../../package.json");
-const SDK_VERSION = '1.0.0';
+const SDK_VERSION = '1.0.1';
 
 export interface Lqip {
   readonly active: boolean;
