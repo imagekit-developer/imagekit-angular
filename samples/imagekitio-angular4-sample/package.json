@@ -1,5 +1,5 @@
 {
-  "name": "imagekitio-angular4-sample",
+  "name": "angular4app",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -21,8 +21,8 @@
     "@angular/platform-browser": "^4.2.4",
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
+    "imagekitio-angular": "^1.0.0",
     "core-js": "^2.4.1",
-    "imagekitio-angular": "file:../../sdk/dist/imagekitio-angular/imagekitio-angular-0.0.1.tgz",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
   },

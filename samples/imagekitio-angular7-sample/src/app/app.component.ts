@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'angular8app';
   transformationOne = [{ height: "200", width: "200" }];
   path = "/default-image.jpg";
 

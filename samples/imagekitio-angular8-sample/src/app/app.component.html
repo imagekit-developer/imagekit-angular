@@ -1,10 +1,10 @@
 <div className="App">
   <h1>Hi! This is an ImageKit Angular SDK Demo!</h1>
   <p>Let's add an Image</p>
-  <ik-image src="https://ik.imagekit.io/18ykd9wzp/default-image.jpg" alt="This is an alt">
+  <ik-image src="https://ik.imagekit.io/demo/default-image.jpg" alt="This is an alt">
   </ik-image>
   <p>Let's transform this once</p>
-  <ik-image src="https://ik.imagekit.io/18ykd9wzp/default-image.jpg" [transformation]="transformationOne"></ik-image>
+  <ik-image src="https://ik.imagekit.io/demo/default-image.jpg" [transformation]="transformationOne"></ik-image>
   <p>Let's transform this more than once</p>
   <ik-image path="{{path}}" [transformation]="transformationTwo"></ik-image>
   <p>LQIP</p>
@@ -12,9 +12,7 @@
   <p>Upload</p>
   <p>To use this funtionality please remember to setup the server</p>
   <p>Provide custom upload method</p>
-  <ik-upload fileName="test_new" [useUniqueFileName]="false" [isPrivateFile]="false"
-    (onSuccess)="handleUploadSuccess($event)" (onError)="handleUploadError($event)" [onFileInput]="handleFileInput"></ik-upload>
+  <ik-upload fileName="test_new" [useUniqueFileName]="false" [isPrivateFile]="false" (onSuccess)="handleUploadSuccess($event)" (onError)="handleUploadError($event)" [onFileInput]="handleFileInput"></ik-upload>
   <p>Use imagekit upload method</p>
-  <ik-upload fileName="test_new" [useUniqueFileName]="false" [isPrivateFile]="false"
-      (onSuccess)="handleUploadSuccess($event)" (onError)="handleUploadError($event)"></ik-upload>
+  <ik-upload fileName="test_new" [useUniqueFileName]="false" [isPrivateFile]="false" (onSuccess)="handleUploadSuccess($event)" (onError)="handleUploadError($event)"></ik-upload>
 </div>

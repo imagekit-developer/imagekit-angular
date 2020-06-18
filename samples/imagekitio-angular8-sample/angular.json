@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "imagekitio-angular8-sample": {
+    "angular8app": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/imagekitio-angular8-sample",
+            "outputPath": "dist/angular8app",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -63,18 +63,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "imagekitio-angular8-sample:build"
+            "browserTarget": "angular8app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "imagekitio-angular8-sample:build:production"
+              "browserTarget": "angular8app:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "imagekitio-angular8-sample:build"
+            "browserTarget": "angular8app:build"
           }
         },
         "test": {
@@ -111,15 +111,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "imagekitio-angular8-sample:serve"
+            "devServerTarget": "angular8app:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "imagekitio-angular8-sample:serve:production"
+              "devServerTarget": "angular8app:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "imagekitio-angular8-sample"
+  "defaultProject": "angular8app"
 }

@@ -1,13 +1,10 @@
 # Imagekit Angular 7 Sample
 
-This project shows the usage of ImageKit Angular SDK in an Angular 7 app. Please note that you need to have `@angular/cli v7.*.*` installed to run this application. If you are on latest version, you can uninstall current version and install required one like this: 
+This project shows the usage of ImageKit Angular SDK in an Angular 7 app. Please note that you need to have `@angular/cli v7.*.*` installed to run this application. You can install that version locally by running this command in the folder for this sample application:
 
 
 ```sh
-> npm remove -g @angular/cli
-> npm install -g @angular/cli@7.3.8
-> ng --version
-  @angular/cli: 7.3.8
+> npm install
 ```
 
 ## Running the application

@@ -1,13 +1,10 @@
 # Imagekit Angular 4 Sample
 
-This project shows the usage of ImageKit Angular SDK in an Angular 4 app. Please note that you need to have `@angular/cli v1.4.*` installed to run this application. If you are on latest version, you can uninstall current version and install required one like this: 
+This project shows the usage of ImageKit Angular SDK in an Angular 4 app. Please note that you need to have `@angular/cli v1.4.10` installed to run this application. You can install that version locally by running this command in the folder for this sample application:
 
 
 ```sh
-> npm remove -g @angular/cli
-> npm install -g @angular/cli@1.4.10
-> ng --version
-  @angular/cli: 1.4.10
+> npm install
 ```
 
 ## Running the application
@@ -15,4 +12,3 @@ This project shows the usage of ImageKit Angular SDK in an Angular 4 app. Please
 Before you can use Imagekit SDK, you need to provide config values required in `app.module.ts` and `app.component.ts`. You can either configure your environment and take values from there, or directly provide in respective files.
 
 To start the application, use `npm start` command.
-

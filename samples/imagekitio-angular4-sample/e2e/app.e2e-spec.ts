@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('imagekitio-angular4-sample App', () => {
+describe('angular4app App', () => {
   let page: AppPage;
 
   beforeEach(() => {

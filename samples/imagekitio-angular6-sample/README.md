@@ -1,13 +1,10 @@
 # Imagekit Angular 6 Sample
 
-This project shows the usage of ImageKit Angular SDK in an Angular 6 app. Please note that you need to have `@angular/cli v6.1.*` installed to run this application. If you are on latest version, you can uninstall current version and install required one like this: 
+This project shows the usage of ImageKit Angular SDK in an Angular 6 app. Please note that you need to have `@angular/cli v6.*.*` installed to run this application. You can install that version locally by running this command in the folder for this sample application:
 
 
 ```sh
-> npm remove -g @angular/cli
-> npm install -g @angular/cli@6.1.1
-> ng --version
-  @angular/cli: 6.1.1
+> npm install
 ```
 
 ## Running the application

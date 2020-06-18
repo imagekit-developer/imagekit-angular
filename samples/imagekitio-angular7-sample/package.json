@@ -1,5 +1,5 @@
 {
-  "name": "imagekitio-angular7-sample",
+  "name": "angular7app",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -19,15 +19,15 @@
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
+    "imagekitio-angular": "^1.0.0",
     "core-js": "^2.5.4",
-    "path": "^0.12.7",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.0",
-    "@angular/cli": "~7.3.8",
+    "@angular/cli": "~7.3.9",
     "@angular/compiler-cli": "~7.2.0",
     "@angular/language-service": "~7.2.0",
     "@types/node": "~8.9.4",
