@@ -30,22 +30,22 @@ The library includes 2 Components:
 In order to use the SDK, you need to provide it with a few configuration parameters. The configuration parameters must be passed to the `ImagekitioAngularModule` module in your `app.module.ts` file. example:
 
 ```js
-    @NgModule({
-      declarations: [
-        AppComponent
-      ],
-      imports: [
-        BrowserModule,
-        AppRoutingModule,
-        ImagekitioAngularModule.forRoot({
-          publicKey: environment.publicKey,
-          urlEndpoint: environment.urlEndpoint,
-          authenticationEndpoint: environment.authenticationEndpoint
-        })
-      ],
-      providers: [],
-      bootstrap: [AppComponent]
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ImagekitioAngularModule.forRoot({
+      publicKey: environment.publicKey,
+      urlEndpoint: environment.urlEndpoint,
+      authenticationEndpoint: environment.authenticationEndpoint
     })
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
 ```
 
 `publicKey` and `urlEndpoint` are mandatory parameters for SDK initialization.
@@ -61,22 +61,23 @@ The ik-image component defines an ImageKit Image tag. example usage:
 #### Using image path and image hostname or endpoint
 
 ```js
-    <ik-image path="/default-image.jpg" transformation={[{
-      "height": "300",
-      "width": "400"
-    }]}></ik-image>
-  ```
+<ik-image path="/default-image.jpg" transformation={[{
+  "height": "300",
+  "width": "400"
+}]}></ik-image>
+```
+
 #### Using full image URL  
 
-  ```js
-  <ik-image 
-      src="<full_image_url_from_db>" 
-      transformation={[{
-      "height": "300",
-      "width": "400"
-    }]}
-    ></ik-image>
-  ```
+```js
+<ik-image 
+    src="<full_image_url_from_db>" 
+    transformation={[{
+    "height": "300",
+    "width": "400"
+  }]}
+  ></ik-image>
+```
   
 `src` is the complete URL that is already mapped to ImageKit.
 `path` is the location of the image in the ImageKit cloud. `urlEndpoint` + `path` makes the complete url.
@@ -182,18 +183,18 @@ An example of this server is provided in the sample-server folder of the SDK.
 
 Sample Usage
 ```js
-  // Simple upload
-  <ik-upload fileName="my-upload" /></ik-upload>
+// Simple upload
+<ik-upload fileName="my-upload" /></ik-upload>
 
-  // Using callbacks and other parameters of upload API
-  <ik-upload fileName="test_new" [useUniqueFileName]="false" [isPrivateFile]="true"
-      (onSuccess)="handleUploadSuccess($event)" (onError)="handleUploadError($event)"></ik-upload>
+// Using callbacks and other parameters of upload API
+<ik-upload fileName="test_new" [useUniqueFileName]="false" [isPrivateFile]="true"
+    (onSuccess)="handleUploadSuccess($event)" (onError)="handleUploadError($event)"></ik-upload>
 ```
 
 `ik-upload` component accepts all the parameters supported by the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/client-side-file-upload#request-structure-multipart-form-data) as attributes e.g. `tags`, `useUniqueFileName`, `folder`, `isPrivateFile`, `customCoordinates` etc.
 
 ## Sample application
-The `samples` folder contains a fully working sample angular application for angular versions 4, 5, 6, 7, and 8. Every application has a README.md file with full instructions on how to run it locally.
+The `samples` folder contains a fully working sample angular application for angular versions 4, 5, 6, 7, 8 and 9. Every application has a README.md file with full instructions on how to run it locally.
 
 ## Support
 
