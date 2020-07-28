@@ -12,12 +12,6 @@ import { ImageKitConfiguration, ImagekitService } from './imagekit.service';
   providers: [ ImagekitService ]
 })
 export class ImagekitioAngularModule {
-  constructor (@Optional() @SkipSelf() parentModule: ImagekitioAngularModule) {
-    if (parentModule) {
-      throw new Error(
-        'ImagekitioAngularModule is already loaded. Import it in the AppModule only');
-    }
-  }
 
   static forRoot(config: ImageKitConfiguration): ModuleWithProviders {
     return {
