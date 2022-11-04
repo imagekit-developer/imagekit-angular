@@ -12,7 +12,7 @@ describe("ImagekitService", () => {
     });
   })
 
-  it("The url returned should have sdk version parameter with the value", () => {
-    expect(imagekitService.getUrl({src: 'abc'})).toContain(`ik-sdk-version=${version}`)
+  it("url should be returning correctly if src is provided", () => {
+    expect(imagekitService.getUrl({src: 'https://example.com/abc'})).toContain(`abc`)
   });
 });
