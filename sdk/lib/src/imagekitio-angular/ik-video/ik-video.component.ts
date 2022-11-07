@@ -3,13 +3,12 @@ import { ImagekitService } from '../imagekit.service';
 
 @Component({
   selector: 'ik-video',
-  template: `<video controls><source src={{src}} type={{type}}>`,
+  template: `<video controls><source src={{src}}>`,
 })
 
 export class IkVideoComponent implements OnInit {
     @Input('urlEndpoint') urlEndpoint:string;
     @Input('path') path:string; //required
-    @Input('type') type:string; //required
     @Input('src') src:string; //required
     @Input('transformation') transformation:Array<Object> = [];
     @Input('transformationPosition') transformationPosition:string;
