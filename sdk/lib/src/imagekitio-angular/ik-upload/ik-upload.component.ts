@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ImagekitService } from '../imagekit.service';
+import { Dic, HTMLInputEvent } from '../utility/ik-type-def-collection';
+
 @Component({
   selector: 'ik-upload',
   template: `<input type="file" (change)="handleFileInput($event)" />`,
@@ -20,10 +22,10 @@ export class IkUploadComponent implements OnInit {
 
   constructor(private imagekit: ImagekitService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
-  handleFileInput(e) {
+  handleFileInput(e: HTMLInputEvent): void {
     const onError = this.onError;
     const onSuccess = this.onSuccess;
     const files = e.target.files;
@@ -43,8 +45,10 @@ export class IkUploadComponent implements OnInit {
     });
   }
 
-  getUploadParams(file, fileName, useUniqueFileName?, tags?, folder?, isPrivateFile?, customCoordinates?, responseFields?) {
-    const params:object = {
+  getUploadParams(file, fileName: string, useUniqueFileName?: boolean, tags?: string, 
+    folder?: string, isPrivateFile?: boolean, customCoordinates?: string, responseFields?: string)
+    : Dic {
+    const params: Dic = {
       file: file,
       fileName: fileName,
     }

@@ -91,7 +91,7 @@ describe("IkImageComponent", () => {
     const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
     const config = component.getConfigObject('https://example.com/ab.png', null, transformation, 'path', null);
     expect(config['transformationPosition']).toBe('query')
-    component.setUrl('https://example.com/ab.png', null, transformation, 'path', null)
+    component.setUrl('https://example.com/ab.png', 'path', transformation, null, null)
     expect(component.url).toContain('?tr=');
   });
 
