@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, OnInit, ElementRef, Input, OnChanges } from '@angular/core';
 import { ImagekitService } from '../imagekit.service';
+import { Dic } from '../utility/ik-type-def-collection'
 
 @Component({
   selector: 'ik-image',
@@ -9,13 +10,13 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   @Input('src') src:string;
   @Input('path') path:string;
   @Input('urlEndpoint') urlEndpoint:string;
-  @Input('transformation') transformation:Array<Object> = [];
+  @Input('transformation') transformation:Array<Dic> = [];
   @Input('transformationPosition') transformationPosition:string;
-  @Input('queryParameters') queryParameters:Object;
-  @Input('lqip') lqip:any;
+  @Input('queryParameters') queryParameters:Dic;
+  @Input('lqip') lqip:{active?:boolean, quality?:number};
   url = '';
   lqipUrl = '';
-
+  
   observer: MutationObserver;
 
   constructor(private el: ElementRef, private imagekit: ImagekitService) {
@@ -29,7 +30,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     this.ngOnInit();
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     if(this.el.nativeElement.attributes.loading &&
       this.el.nativeElement.attributes.loading.nodeValue == 'lazy'){
       const that = this;
@@ -46,7 +47,10 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     }
   }
 
-  setUrl(src?, path?, transformation?, lqip?, urlEndpoint?, transformationPosition?, queryParameters?) {
+  setUrl(src?:string, path?:string, transformation?:Array<Dic>, 
+    lqip?:{active?:boolean, quality?:number}, urlEndpoint?:string, 
+    transformationPosition?:string, queryParameters?:Dic)
+    : void {
     const config = this.getConfigObject(src, path, transformation, transformationPosition, urlEndpoint, queryParameters)
     this.url = this.imagekit.getUrl(config);
     if (lqip && lqip.active === true) {
@@ -54,10 +58,13 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     }
   }
 
-  getConfigObject(src?, path?, transformation?, transformationPosition?, urlEndpoint?, queryParameters?) {
-    const config = {
-      transformation: transformation,
+  getConfigObject(src?:string, path?:string, transformation?:Array<Dic>, 
+    transformationPosition?:string, urlEndpoint?:string, queryParameters?:Dic)
+    : any {
+    const config: any  = {
+      transformation : transformation
     };
+    
     if (urlEndpoint) {
       config['urlEndpoint'] = urlEndpoint;
     }
@@ -78,7 +85,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     return config;
   }
 
-  loadImage(url:string) {
+  loadImage(url:string): void {
     const nativeElement = this.el.nativeElement;
     const attributes = nativeElement.attributes;
     const attrsToSet = this.namedNodeMapToObject(attributes);
@@ -87,7 +94,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     this.setElementAttributes(image, attrsToSet);
   }
 
-  namedNodeMapToObject(source: NamedNodeMap): any {
+  namedNodeMapToObject(source: NamedNodeMap): Dic {
     let target = {};
     Object.keys(source).forEach(index => {
       const name = source[index].name;
@@ -97,7 +104,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     return target;
   };
 
-  lqipload(quality, url, path) {
+  lqipload(quality:number, url:string, path:string): string {
     let lqip = "";
     if (path) {
       let newUrl = url.split("tr:");
@@ -113,7 +120,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     return lqip;
   }
 
-  setElementAttributes(element, attributesLiteral) {
+  setElementAttributes(element:any, attributesLiteral:Dic): void {
     Object.keys(attributesLiteral).forEach(attrName => {
         element.setAttribute(attrName, attributesLiteral[attrName]);
     });
