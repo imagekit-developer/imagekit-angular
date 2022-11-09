@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ImagekitService } from '../imagekit.service';
-import { Dic, HTMLInputEvent } from '../utility/ik-type-def-collection';
+import { Dict, HTMLInputEvent } from '../utility/ik-type-def-collection';
 
 @Component({
   selector: 'ik-upload',
@@ -47,8 +47,8 @@ export class IkUploadComponent implements OnInit {
 
   getUploadParams(file, fileName: string, useUniqueFileName?: boolean, tags?: string, 
     folder?: string, isPrivateFile?: boolean, customCoordinates?: string, responseFields?: string)
-    : Dic {
-    const params: Dic = {
+    : Dict {
+    const params: Dict = {
       file: file,
       fileName: fileName,
     }
