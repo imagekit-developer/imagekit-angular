@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ImagekitService } from '../imagekit.service';
-import { Dict, HTMLInputEvent } from '../utility/ik-type-def-collection';
+import { IkUploadComponentOptions, Dict, HTMLInputEvent } from '../utility/ik-type-def-collection';
 
 @Component({
   selector: 'ik-upload',
@@ -8,13 +8,13 @@ import { Dict, HTMLInputEvent } from '../utility/ik-type-def-collection';
   providers: [ImagekitService]
 })
 export class IkUploadComponent implements OnInit {
-  @Input('fileName') fileName:string; //required
-  @Input('useUniqueFileName') useUniqueFileName:boolean; //optional
-  @Input('tags') tags:string; //optional
-  @Input('folder') folder:string; //optional
-  @Input('isPrivateFile') isPrivateFile:boolean; //optional
-  @Input('customCoordinates') customCoordinates:string; //optional
-  @Input('responseFields') responseFields:string; //optional
+  @Input('fileName') fileName: string; //required
+  @Input('useUniqueFileName') useUniqueFileName: boolean; //optional
+  @Input('tags') tags: string; //optional
+  @Input('folder') folder: string; //optional
+  @Input('isPrivateFile') isPrivateFile: boolean; //optional
+  @Input('customCoordinates') customCoordinates: string; //optional
+  @Input('responseFields') responseFields: string; //optional
   @Output() onError: EventEmitter<any> = new EventEmitter();
   @Output() onSuccess: EventEmitter<any> = new EventEmitter();
   @Input() onFileInput: Function;
@@ -34,7 +34,19 @@ export class IkUploadComponent implements OnInit {
       this.onFileInput(e);
       return;
     }
-    const params = this.getUploadParams(this.fileToUpload, this.fileName, this.useUniqueFileName, this.tags, this.folder, this.isPrivateFile, this.customCoordinates, this.responseFields)
+    const options: IkUploadComponentOptions = {
+      file: this.fileToUpload,
+      fileName: this.fileName,
+      useUniqueFileName: this.useUniqueFileName,
+      tags: this.tags,
+      folder: this.folder,
+      isPrivateFile: this.isPrivateFile,
+      customCoordinates: this.customCoordinates,
+      responseFields: this.responseFields,
+      onError: onError,
+      onSuccess: onSuccess
+    }
+    const params = this.getUploadParams(options);
     const ik = this.imagekit.ikInstance;
     ik.upload(params, function (err, result) {
       if (err) {
@@ -45,35 +57,34 @@ export class IkUploadComponent implements OnInit {
     });
   }
 
-  getUploadParams(file, fileName: string, useUniqueFileName?: boolean, tags?: string, 
-    folder?: string, isPrivateFile?: boolean, customCoordinates?: string, responseFields?: string)
+  getUploadParams(options: IkUploadComponentOptions)
     : Dict {
     const params: Dict = {
-      file: file,
-      fileName: fileName,
+      file: options.file,
+      fileName: options.fileName,
     }
-    if (useUniqueFileName !== undefined) {
-      Object.assign(params, { useUniqueFileName: useUniqueFileName });
-    }
-
-    if (folder !== undefined) {
-      Object.assign(params, { folder: folder });
+    if (options.useUniqueFileName !== undefined) {
+      Object.assign(params, { useUniqueFileName: options.useUniqueFileName });
     }
 
-    if (isPrivateFile !== undefined) {
-      Object.assign(params, { isPrivateFile: isPrivateFile });
+    if (options.folder !== undefined) {
+      Object.assign(params, { folder: options.folder });
     }
 
-    if (tags !== undefined) {
-      Object.assign(params, { tags: tags });
+    if (options.isPrivateFile !== undefined) {
+      Object.assign(params, { isPrivateFile: options.isPrivateFile });
     }
 
-    if (customCoordinates !== undefined) {
-      Object.assign(params, { customCoordinates: customCoordinates });
+    if (options.tags !== undefined) {
+      Object.assign(params, { tags: options.tags });
     }
 
-    if (responseFields !== undefined) {
-      Object.assign(params, { responseFields: responseFields });
+    if (options.customCoordinates !== undefined) {
+      Object.assign(params, { customCoordinates: options.customCoordinates });
+    }
+
+    if (options.responseFields !== undefined) {
+      Object.assign(params, { responseFields: options.responseFields });
     }
     return params;
   }

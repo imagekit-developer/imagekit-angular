@@ -1,8 +1,7 @@
 import { Component, AfterViewInit, OnInit, ElementRef, Input, OnChanges } from '@angular/core';
 import { ImagekitService } from '../imagekit.service';
-import { Dict, QueryParameters } from '../utility/ik-type-def-collection'
-import { UrlOptions } from "imagekit-javascript/dist/src/interfaces";
-import { Transformation, TransformationPosition } from 'imagekit-javascript/dist/src/interfaces/Transformation';
+import { Dict, QueryParameters, IkImageComponentOptions, LqipOptions } from '../utility/ik-type-def-collection'
+import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transformation';
 
 @Component({
   selector: 'ik-image',
@@ -13,9 +12,10 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   @Input('path') path: string;
   @Input('urlEndpoint') urlEndpoint: string;
   @Input('transformation') transformation: Array<Transformation> = [];
-  @Input('transformationPosition') transformationPosition: TransformationPosition;
+  @Input('transformationPosition') transformationPosition: "path" | "query";
   @Input('queryParameters') queryParameters: QueryParameters;
-  @Input('lqip') lqip:{active?: boolean, quality?: number};
+  @Input('lqip') lqip: LqipOptions;
+  @Input('loading') loading: string;
   url = '';
   lqipUrl = '';
   
@@ -25,12 +25,14 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    const urlOptions: UrlOptions =  this.src ? {src: this.src} : {path: this.path};
-    urlOptions.transformation = this.transformation;
-    urlOptions.transformationPosition = this.transformationPosition;
-    urlOptions.urlEndpoint = this.urlEndpoint;
-    urlOptions.queryParameters = this.queryParameters;
-    this.setUrl(urlOptions, this.lqip);
+    const options: IkImageComponentOptions =  this.src ? {src: this.src} : {path: this.path};
+    options.transformation = this.transformation;
+    options.transformationPosition = this.transformationPosition;
+    options.urlEndpoint = this.urlEndpoint;
+    options.queryParameters = this.queryParameters;
+    options.lqip = this.lqip;
+    options.loading = this.loading;
+    this.setUrl(options);
   }
 
   ngOnChanges(): void {
@@ -38,8 +40,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   }
 
   ngAfterViewInit(): void {
-    if(this.el.nativeElement.attributes.loading &&
-      this.el.nativeElement.attributes.loading.nodeValue == 'lazy'){
+    if(this.loading == 'lazy'){
       const that = this;
       const imageObserver = new IntersectionObserver(function (entry:any, observer) {
         if (entry[0] && entry[0].isIntersecting) {
@@ -54,32 +55,32 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     }
   }
 
-  setUrl(urlOptions: UrlOptions, lqip?:{active?:boolean, quality?:number}): void {
-    const config = this.getConfigObject(urlOptions);
+  setUrl(options: IkImageComponentOptions): void {
+    const config = this.getConfigObject(options);
     this.url = this.imagekit.getUrl(config);
-    if (lqip && lqip.active === true) {
-      this.lqipUrl = this.lqipload(lqip.quality, this.url, this.path);
+    if (options.lqip && options.lqip.active === true) {
+      this.lqipUrl = this.lqipload(options.lqip.quality, this.url, this.path);
     }
   }
 
-  getConfigObject(urlOptions: UrlOptions): Dict {
-    const config: Dict  = {
-      transformation : urlOptions.transformation
+  getConfigObject(options: IkImageComponentOptions): any {
+    const config  = {
+      transformation : options.transformation
     };
     
-    if (urlOptions.urlEndpoint) {
-      config['urlEndpoint'] = urlOptions.urlEndpoint;
+    if (options.urlEndpoint) {
+      config['urlEndpoint'] = options.urlEndpoint;
     }
-    if (urlOptions.queryParameters) {
-      config['queryParameters'] = urlOptions.queryParameters;
+    if (options.queryParameters) {
+      config['queryParameters'] = options.queryParameters;
     }
-    if (urlOptions.src) {
-      config['src'] = urlOptions.src;
+    if (options.src) {
+      config['src'] = options.src;
       config['transformationPosition'] = 'query';
-    } else if (urlOptions.path) {
-      config['path'] = urlOptions.path;
-      if (urlOptions.transformationPosition) {
-        config['transformationPosition'] = urlOptions.transformationPosition;
+    } else if (options.path) {
+      config['path'] = options.path;
+      if (options.transformationPosition) {
+        config['transformationPosition'] = options.transformationPosition;
       }
     } else {
       throw new Error('Missing src / path during initialization!');
@@ -87,7 +88,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     return config;
   }
 
-  loadImage(url:string): void {
+  loadImage(url: string): void {
     const nativeElement = this.el.nativeElement;
     const attributes = nativeElement.attributes;
     const attrsToSet = this.namedNodeMapToObject(attributes);
@@ -97,7 +98,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   }
 
   namedNodeMapToObject(source: NamedNodeMap): Dict {
-    let target = {};
+    let target: Dict = {};
     Object.keys(source).forEach(index => {
       const name = source[index].name;
       const value = source[index].value;
@@ -106,7 +107,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     return target;
   };
 
-  lqipload(quality:number, url:string, path:string): string {
+  lqipload(quality: number, url: string, path: string): string {
     let lqip = "";
     if (path) {
       let newUrl = url.split("tr:");
@@ -122,7 +123,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     return lqip;
   }
 
-  setElementAttributes(element:any, attributesLiteral:Dict): void {
+  setElementAttributes(element: any, attributesLiteral: Dict): void {
     Object.keys(attributesLiteral).forEach(attrName => {
         element.setAttribute(attrName, attributesLiteral[attrName]);
     });
