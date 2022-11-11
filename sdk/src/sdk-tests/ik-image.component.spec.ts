@@ -1,4 +1,5 @@
 import { ElementRef } from "@angular/core";
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IkImageComponent } from "../../lib/src/imagekitio-angular/ik-image/ik-image.component";
 import { ImagekitService } from "../../lib/src/imagekitio-angular/imagekit.service";
 import { IkImageComponentOptions } from '../../lib/src/imagekitio-angular/utility/ik-type-def-collection'
@@ -6,6 +7,7 @@ import { IkImageComponentOptions } from '../../lib/src/imagekitio-angular/utilit
 describe("IkImageComponent", () => {
   let component: IkImageComponent;
   let imageKitService: ImagekitService;
+  let fixture: ComponentFixture<IkImageComponent>;
 
   beforeEach(() => {
     imageKitService = new ImagekitService({
@@ -13,8 +15,14 @@ describe("IkImageComponent", () => {
       publicKey: "abc",
       authenticationEndpoint: "http://example.com/auth"
     });
-    let elRef: ElementRef;
-    component = new IkImageComponent(elRef, imageKitService);
+    TestBed.configureTestingModule({
+      declarations: [IkImageComponent],
+      providers: [ {
+        provide: ImagekitService, useValue: imageKitService
+      }]
+    }).compileComponents();
+    fixture = TestBed.createComponent(IkImageComponent);
+    component = fixture.componentInstance;
   });
 
   it("urlEndpoint passed to component should be used over initialized value", () => {
@@ -191,5 +199,21 @@ describe("IkImageComponent", () => {
       null
     );
     expect(lqipURl).toContain("tr=q-10");
+  });
+
+  it("if lazy loading, img DOM src should be empty initially", () => {
+    component.src = "https://ik.imagekit.io/18ykd9wzp/default-image.jpg";
+    component.loading = "lazy";
+    fixture.detectChanges();
+    const ikImageElement: HTMLElement = fixture.nativeElement;
+    expect(ikImageElement.firstElementChild.attributes["src"]).toBeUndefined();
+  });
+
+  it("if not lazy loading, img DOM src should be set initially", () => {
+    component.src = "https://ik.imagekit.io/18ykd9wzp/default-image.jpg";
+    fixture.detectChanges();
+    const ikImageElement: HTMLElement = fixture.nativeElement;
+    expect(ikImageElement.firstElementChild.attributes["src"]).not.toBeUndefined();
+    expect(ikImageElement.firstElementChild.attributes["src"].value).toEqual(component.src);
   });
 });

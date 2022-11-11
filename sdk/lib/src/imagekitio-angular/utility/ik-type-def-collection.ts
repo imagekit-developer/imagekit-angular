@@ -27,7 +27,6 @@ export interface IkImageComponentOptions extends UrlOptionsBase {
     src?: string;
     path?: string;
     lqip?: LqipOptions;
-    loading?: string;
 }
 
 export interface IkVideoComponentOptions extends UrlOptionsBase {
