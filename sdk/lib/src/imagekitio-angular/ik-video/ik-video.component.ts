@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, Input } from '@angular/core';
 import { ImagekitService } from '../imagekit.service';
 import { IkVideoComponentOptions, QueryParameters, Dict } from '../utility/ik-type-def-collection'
-import { Transformation, TransformationPosition } from 'imagekit-javascript/dist/src/interfaces/Transformation';
+import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transformation';
 
 
 @Component({
