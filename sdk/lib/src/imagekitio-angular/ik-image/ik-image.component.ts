@@ -92,9 +92,6 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     const attributes = nativeElement.attributes;
     const attrsToSet = this.namedNodeMapToObject(attributes);
     attrsToSet['src'] = url;
-    if(this.loading) {
-      attrsToSet['loading'] = this.loading;
-    }
     const image = nativeElement.children[0];
     this.setElementAttributes(image, attrsToSet);
   }
