@@ -1,8 +1,7 @@
 import { ElementRef } from "@angular/core";
 import { IkVideoComponent } from "../../lib/src/imagekitio-angular/ik-video/ik-video.component";
 import { ImagekitService } from "../../lib/src/imagekitio-angular/imagekit.service";
-const pjson = require("../../lib/package.json");
-const version = `angular-${pjson.version}`;
+import { IkVideoComponentOptions } from '../../lib/src/imagekitio-angular/utility/ik-type-def-collection'
 
 describe("IkVideoComponent", () => {
   let component: IkVideoComponent;
@@ -19,7 +18,11 @@ describe("IkVideoComponent", () => {
   });
 
   it("urlEndpoint passed to component should be used over initialized value", () => {
-    component.setUrl(null, "def", null, 'https://example.com', null);
+    let options: IkVideoComponentOptions = {
+      path: "def",
+      urlEndpoint: "https://example.com"
+    };
+    component.setUrl(options);
     expect(component.url).toBe(`https://example.com/def`);
   });
 
@@ -33,67 +36,105 @@ describe("IkVideoComponent", () => {
     });
     let elRef: ElementRef;
     comp = new IkVideoComponent(elRef, iKService);
-    comp.setUrl(null, "/sample-video.mp4");
+    let options: IkVideoComponentOptions = {
+      path: "/sample-video.mp4"
+    };
+    comp.setUrl(options);
     expect(comp.url).toContain(
       `https://ik.imagekit.io/company/sample-video.mp4`
     );
-    comp.setUrl(null, "sample-video.mp4");
+    options.path = "sample-video-2.mp4";
+    comp.setUrl(options);
     expect(comp.url).toContain(
-      `https://ik.imagekit.io/company/sample-video.mp4`
+      `https://ik.imagekit.io/company/sample-video-2.mp4`
     );
   });
 
   it("new unsupported transformation parameter is passed then it should come in URL as it is", () => {
     const transformation = [{ foo: "200", bar: "200" }];
-    component.setUrl("https://abc.com/def", null, transformation);
+    let options: IkVideoComponentOptions = {
+      src: "https://abc.com/def",
+      transformation: transformation
+    };
+    component.setUrl(options);
     expect(component.url).toBe(`https://abc.com/def?tr=foo-200%2Cbar-200`);
   });
 
   it("supported transformation parameter is passed then it should come in query parameters after transformation", () => {
     const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
-    component.setUrl("https://abc.com/def", null, transformation);
+    let options: IkVideoComponentOptions = {
+      src: "https://abc.com/def",
+      transformation: transformation
+    };
+    component.setUrl(options);
     expect(component.url).toBe(`https://abc.com/def?tr=h-200%2Cw-200%3Art-90`);
   });
 
   it("if SRC is used to create URL, transformartioPosition should be query", () => {
-    // const config = component.getConfigObject('abc');
     const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
-    component.setUrl("https://abc.com/def", null, transformation);
-    // expect(config['transformationPosition']).toBe('query')
+    let options: IkVideoComponentOptions = {
+      src: "https://abc.com/def",
+      transformation: transformation
+    };
+    component.setUrl(options);
     expect(component.url).toContain('?tr=');
   });
 
-  it("if SRC is used to create URL, transformartioPosition should be query even if anything else is passed", () => {
+  it("if SRC is used to create URL, transformationPosition should be query even if anything else is passed", () => {
     const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
-    const config = component.getConfigObject('https://example.com/sample-video.mp4', null, transformation, 'path', null);
-    expect(config['transformationPosition']).toBe('query')
-    component.setUrl('https://example.com/sample-video.mp4', null, transformation, 'path', null)
+    let options: IkVideoComponentOptions = {
+      src: "https://example.com/sample-video.mp4",
+      transformation: transformation,
+      transformationPosition: "path"
+    };
+    component.setUrl(options);
+    const config = component.getConfigObject(options);
+    expect(config['transformationPosition']).toBe('query');
+    component.setUrl(options);
     expect(component.url).toContain('?tr=');
   });
 
   it("Parameters passed to queryParameters should be present in URL if src is used", () => {
-    component.setUrl('https://example.com/sample-video.mp4', null, null, null, null, {version:5, name: 'check'});
+    let options: IkVideoComponentOptions = {
+      src: "https://example.com/sample-video.mp4",
+      queryParameters: {version:5, name: 'check'}
+    };
+    component.setUrl(options);
     expect(component.url).toContain('?version=5&name=check');
   });
 
   it("Parameters passed to queryParameters should be present in URL if src with existing query is used", () => {
-    component.setUrl('https://example.com/sample-video.mp4?foo=bar&baz=nax', null, null, null, null, {version:5, name: 'check'});
+    let options: IkVideoComponentOptions = {
+      src: "https://example.com/sample-video.mp4?foo=bar&baz=nax",
+      queryParameters: {version:5, name: 'check'}
+    };
+    component.setUrl(options);
     expect(component.url).toContain('&version=5&name=check');
     expect(component.url).toBe(`https://example.com/sample-video.mp4?foo=bar&baz=nax&version=5&name=check`);
   });
 
   it("Parameters passed to queryParameters should be present in URL if path is used", () => {
-    component.setUrl(null, '/default.png', null, null, null, {version:6, name: 'bar'});
+    let options: IkVideoComponentOptions = {
+      path: "/default.png",
+      queryParameters: {version:6, name: 'bar'}
+    };
+    component.setUrl(options);
     expect(component.url).toContain('?version=6&name=bar');
   });
 
   it("setUrl should create correct URL when src is provided", () => {
-    component.setUrl("https://test-absolute-path.com/sample-video.mp4");
+    let options: IkVideoComponentOptions = {
+      src: "https://test-absolute-path.com/sample-video.mp4"
+    };
+    component.setUrl(options);
     expect(component.url).toContain(`https://test-absolute-path.com/sample-video.mp4`);
   });
 
   it("setUrl should create correct URL when path is provided", () => {
-    component.setUrl(null, "def", null, null);
+    let options: IkVideoComponentOptions = {
+      path: "def"
+    };
+    component.setUrl(options);
     expect(component.url).toContain(`https://ik.imagekit.io/company/def`);
   });
 });

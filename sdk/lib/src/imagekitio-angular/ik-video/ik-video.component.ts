@@ -1,5 +1,8 @@
-import { Component, AfterViewInit, OnInit, ElementRef, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, ElementRef, Input } from '@angular/core';
 import { ImagekitService } from '../imagekit.service';
+import { IkVideoComponentOptions, QueryParameters, Dict } from '../utility/ik-type-def-collection'
+import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transformation';
+
 
 @Component({
   selector: 'ik-video',
@@ -7,75 +10,80 @@ import { ImagekitService } from '../imagekit.service';
 })
 
 export class IkVideoComponent implements OnInit {
-    @Input('urlEndpoint') urlEndpoint:string;
-    @Input('path') path:string; //required
-    @Input('src') src:string; //required
-    @Input('transformation') transformation:Array<Object> = [];
-    @Input('transformationPosition') transformationPosition:string;
-    @Input('queryParameters') queryParameters:Object;
-    url = '';
+  @Input('urlEndpoint') urlEndpoint: string;
+  @Input('path') path: string; //required
+  @Input('src') src: string; //required
+  @Input('transformation') transformation: Array<Transformation> = [];
+  @Input('transformationPosition') transformationPosition: "path" | "query";
+  @Input('queryParameters') queryParameters: QueryParameters;
+  url = '';
 
-    constructor(private el: ElementRef, private imagekit: ImagekitService) { }
-  
-    ngOnInit(): void {
-        this.setUrl(this.src, this.path, this.transformation, this.urlEndpoint, this.transformationPosition, this.queryParameters);
-    }
+  constructor(private el: ElementRef, private imagekit: ImagekitService) { }
 
-    ngAfterViewInit() {
-        this.loadVideo(this.url);
-    }
+  ngOnInit(): void {
+    const options: IkVideoComponentOptions =  this.src ? {src: this.src} : {path: this.path};
+    options.transformation = this.transformation;
+    options.transformationPosition = this.transformationPosition;
+    options.urlEndpoint = this.urlEndpoint;
+    options.queryParameters = this.queryParameters;
+    this.setUrl(options);
+  }
 
-    loadVideo(url:string) {
-        const nativeElement = this.el.nativeElement;
-        const attributes = nativeElement.attributes;
-        const attrsToSet = this.namedNodeMapToObject(attributes);
-        attrsToSet['src'] = url;
-        const video = nativeElement.children[0];
-        this.setElementAttributes(video, attrsToSet);
-    }
+  ngAfterViewInit(): void {
+      this.loadVideo(this.url);
+  }
 
-    namedNodeMapToObject(source: NamedNodeMap): any {
-        let target = {};
-        Object.keys(source).forEach(index => {
-          const name = source[index].name;
-          const value = source[index].value;
-          target[name] = value;
-        });
-        return target;
+  loadVideo(url:string): void {
+      const nativeElement = this.el.nativeElement;
+      const attributes = nativeElement.attributes;
+      const attrsToSet = this.namedNodeMapToObject(attributes);
+      attrsToSet['src'] = url;
+      const video = nativeElement.children[0];
+      this.setElementAttributes(video, attrsToSet);
+  }
+
+  namedNodeMapToObject(source: NamedNodeMap): Dict {
+      let target: Dict = {};
+      Object.keys(source).forEach(index => {
+        const name = source[index].name;
+        const value = source[index].value;
+        target[name] = value;
+      });
+      return target;
+  };
+
+  setUrl(options: IkVideoComponentOptions): void {
+      const config = this.getConfigObject(options);
+      this.url = this.imagekit.getUrl(config);
+  }
+
+  getConfigObject(options: IkVideoComponentOptions): any {
+    const config = {
+      transformation: options.transformation,
     };
-
-    setUrl(src?, path?, transformation?, urlEndpoint?, transformationPosition?, queryParameters?) {
-        const config = this.getConfigObject(src, path, transformation, transformationPosition, urlEndpoint, queryParameters)
-        this.url = this.imagekit.getUrl(config);
+    if (options.urlEndpoint) {
+      config['urlEndpoint'] = options.urlEndpoint;
     }
-
-    getConfigObject(src?, path?, transformation?, transformationPosition?, urlEndpoint?, queryParameters?) {
-        const config = {
-          transformation: transformation,
-        };
-        if (urlEndpoint) {
-          config['urlEndpoint'] = urlEndpoint;
-        }
-        if (queryParameters) {
-          config['queryParameters'] = queryParameters;
-        }
-        if (src) {
-          config['src'] = src;
-          config['transformationPosition'] = 'query';
-        } else if (path) {
-          config['path'] = path;
-          if (transformationPosition) {
-            config['transformationPosition'] = transformationPosition;
-          }
-        } else {
-          throw new Error('Missing src / path during initialization!');
-        }
-        return config;
+    if (options.queryParameters) {
+      config['queryParameters'] = options.queryParameters;
+    }
+    if (options.src) {
+      config['src'] = options.src;
+      config['transformationPosition'] = 'query';
+    } else if (options.path) {
+      config['path'] = options.path;
+      if (options.transformationPosition) {
+        config['transformationPosition'] = options.transformationPosition;
       }
+    } else {
+      throw new Error('Missing src / path during initialization!');
+    }
+    return config;
+  }
 
-      setElementAttributes(element, attributesLiteral) {
-        Object.keys(attributesLiteral).forEach(attrName => {
-            element.setAttribute(attrName, attributesLiteral[attrName]);
-        });
-      }
+  setElementAttributes(element: any, attributesLiteral: Dict): void {
+    Object.keys(attributesLiteral).forEach(attrName => {
+        element.setAttribute(attrName, attributesLiteral[attrName]);
+    });
+  }
 }
