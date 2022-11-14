@@ -19,6 +19,8 @@ export class IkUploadComponent implements OnInit {
   @Output() onSuccess: EventEmitter<any> = new EventEmitter();
   @Input() onFileInput: (e: HTMLInputEvent) => void;
   @Input() validateFile: (file: File) => boolean;
+  @Input() onUploadStart: (e: HTMLInputEvent) => void;
+  @Input() onUploadProgress: (e: ProgressEvent) => void;
   fileToUpload: File = null;
 
   constructor(private imagekit: ImagekitService) { }
@@ -27,14 +29,15 @@ export class IkUploadComponent implements OnInit {
   }
 
   handleFileInput(e: HTMLInputEvent): void {
-    const onError = this.onError;
-    const onSuccess = this.onSuccess;
-    const files = e.target.files;
-    this.fileToUpload = files.item(0);
+    // Custom file uploader
     if (this.onFileInput) {
       this.onFileInput(e);
       return;
     }
+
+    // Using IK-upload
+    const files = e.target.files;
+    this.fileToUpload = files.item(0);
     const options: IkUploadComponentOptions = {
       file: this.fileToUpload,
       fileName: this.fileName,
@@ -44,21 +47,59 @@ export class IkUploadComponent implements OnInit {
       isPrivateFile: this.isPrivateFile,
       customCoordinates: this.customCoordinates,
       responseFields: this.responseFields,
-      onError: onError,
-      onSuccess: onSuccess
+      onError: this.onError,
+      onSuccess: this.onSuccess
     }
-    if (this.validateFile && !this.validateFile(options.file)) {
+
+    // Custom validation
+    if (!this.checkCustomFileValidation(options.file)) {
       return;
     }
+
+    this.startIkUpload(e, options);
+  }
+
+  checkCustomFileValidation = (file: File): boolean => {
+    if (this.validateFile && typeof this.validateFile === 'function') {
+     return this.validateFile(file);
+    }
+    return true;
+  }
+
+  startIkUpload = (e: HTMLInputEvent, options: IkUploadComponentOptions): void => {
+    // Custom upload-start tracker
+    if (this.onUploadStart && typeof this.onUploadStart === 'function') {
+      this.onUploadStart(e);
+    }
     const params = this.getUploadParams(options);
+
+    // Custom upload-progress tracker
+    const xhr = new XMLHttpRequest();
+    const progressCb = this.createUploadProgressMonitor(xhr, options.onUploadProgress);
     const ik = this.imagekit.ikInstance;
     ik.upload(params, function (err, result) {
       if (err) {
-        onError.emit(err);
+        if(options.onError instanceof EventEmitter) {
+          options.onError.emit(err);
+        }
       } else {
-        onSuccess.emit(result);
+        if(options.onSuccess instanceof EventEmitter) {
+          options.onSuccess.emit(result);
+        }
+        xhr.upload.removeEventListener('progress', progressCb);
       }
     });
+  }
+
+  createUploadProgressMonitor = (xhr: XMLHttpRequest, onUploadProgress: Function): any => {
+    const progressCb = (e: ProgressEvent<XMLHttpRequestEventTarget>) => {
+      if (onUploadProgress && typeof onUploadProgress === 'function') {
+        // Custom upload-progress tracker
+        onUploadProgress(e);
+      }
+    };
+    xhr.upload.addEventListener('progress', progressCb);
+    return progressCb;
   }
 
   getUploadParams(options: IkUploadComponentOptions)
