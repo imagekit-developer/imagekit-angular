@@ -17,7 +17,8 @@ export class IkUploadComponent implements OnInit {
   @Input('responseFields') responseFields: string; //optional
   @Output() onError: EventEmitter<any> = new EventEmitter();
   @Output() onSuccess: EventEmitter<any> = new EventEmitter();
-  @Input() onFileInput: Function;
+  @Input() onFileInput: (e: HTMLInputEvent) => void;
+  @Input() validateFile: (file: File) => boolean;
   fileToUpload: File = null;
 
   constructor(private imagekit: ImagekitService) { }
@@ -45,6 +46,9 @@ export class IkUploadComponent implements OnInit {
       responseFields: this.responseFields,
       onError: onError,
       onSuccess: onSuccess
+    }
+    if (this.validateFile && !this.validateFile(options.file)) {
+      return;
     }
     const params = this.getUploadParams(options);
     const ik = this.imagekit.ikInstance;
