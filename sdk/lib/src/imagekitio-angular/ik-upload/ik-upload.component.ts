@@ -92,7 +92,7 @@ export class IkUploadComponent implements OnInit {
   }
 
   createUploadProgressMonitor = (xhr: XMLHttpRequest, onUploadProgress: Function): any => {
-    const progressCb = (e: ProgressEvent<XMLHttpRequestEventTarget>) => {
+    const progressCb = (e: ProgressEvent) => {
       if (onUploadProgress && typeof onUploadProgress === 'function') {
         // Custom upload-progress tracker
         onUploadProgress(e);
