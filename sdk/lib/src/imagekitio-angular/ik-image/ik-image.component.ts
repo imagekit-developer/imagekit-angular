@@ -41,16 +41,23 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   ngAfterViewInit(): void {
     if(this.loading == 'lazy'){
       const that = this;
-      const imageObserver = new IntersectionObserver(function (entry:any, observer) {
-        if (entry[0] && entry[0].isIntersecting) {
-          let image = entry[0].target;
-          that.loadImage(that.lqip && that.lqip.active ? that.lqipUrl : that.url);
-          observer.unobserve(image);
+      const imageObserver = new IntersectionObserver(
+        (entry: any, observer: IntersectionObserver)=>{
+          that.handleIntersectionObserver(entry, observer, that.loadImage, that.lqip, that.lqipUrl, that.url);
         }
-      });
+      );
       imageObserver.observe(this.el.nativeElement);
     } else {
       this.loadImage(this.lqip && this.lqip.active ? this.lqipUrl : this.url);
+    }
+  }
+
+  handleIntersectionObserver (entry: any, observer: IntersectionObserver, 
+    loadImageFunc: Function, lqip: LqipOptions, lqipUrl: string, url: string): void {
+    if (entry[0] && entry[0].isIntersecting) {
+      let image = entry[0].target;
+      loadImageFunc(lqip && lqip.active ? lqipUrl : url);
+      observer.unobserve(image);
     }
   }
 

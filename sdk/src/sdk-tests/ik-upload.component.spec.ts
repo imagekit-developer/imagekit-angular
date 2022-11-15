@@ -1,18 +1,42 @@
-import { ImagekitService } from "../../lib/src/imagekitio-angular/imagekit.service";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ImageKitConfiguration, ImagekitService } from "../../lib/src/imagekitio-angular/imagekit.service";
 import { IkUploadComponent } from "../../lib/src/imagekitio-angular/ik-upload/ik-upload.component";
 import { IkUploadComponentOptions } from '../../lib/src/imagekitio-angular/utility/ik-type-def-collection'
 
 describe("IkUploadComponent", () => {
   let component: IkUploadComponent;
   let imageKitService: ImagekitService;
+  let imageKitConfiguration: ImageKitConfiguration;
+  let fixture: ComponentFixture<IkUploadComponent>;
 
-  beforeEach(() => {
-    imageKitService = new ImagekitService({
+  beforeEach(async() => {
+    imageKitConfiguration = {
       urlEndpoint: "url",
       publicKey: "pub",
       authenticationEndpoint: "auth"
-    });
+    };
+    TestBed.configureTestingModule({
+      declarations: [IkUploadComponent],
+      providers: [ 
+        {provide: ImagekitService, useValue: imageKitService},
+        {provide: ImageKitConfiguration, useValue: imageKitConfiguration}
+      ]
+    }).compileComponents();
+    fixture = TestBed.createComponent(IkUploadComponent);
+  });
+  
+  beforeEach(() => {
+    imageKitConfiguration = {
+      urlEndpoint: "url",
+      publicKey: "pub",
+      authenticationEndpoint: "auth"
+    };
+    imageKitService = new ImagekitService(imageKitConfiguration);
     component = new IkUploadComponent(imageKitService);
+  });
+
+  afterEach(() => {
+    document.body.removeChild(fixture.nativeElement);
   });
 
   it("getUploadParams returns only defined keys with mandatory params passed", () => {
@@ -280,5 +304,102 @@ describe("IkUploadComponent", () => {
       responseFields: "metadata"
     };
     expect(actual).toEqual(expected);
+  });
+
+  it("upload file should not commence if validate file fails", () => {
+    // Failed validation
+    const comp = fixture.componentInstance;
+    comp.validateFile = () => {
+      return false;
+    };
+    const startIkUploadFunction = spyOn(comp, 'startIkUpload');
+    const input = fixture.nativeElement.children[0];
+    input.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(startIkUploadFunction).not.toHaveBeenCalled();
+
+    // Passing validation
+    comp.validateFile = () => {
+      return true;
+    };
+    input.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(startIkUploadFunction).toHaveBeenCalled();
+
+    // No validation passed
+    comp.validateFile = undefined;
+    input.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(startIkUploadFunction).toHaveBeenCalled();
+  });
+
+  it("onError event emitter called when upload fails", () => {
+    const comp = fixture.componentInstance;
+    const onErrorEventEmitter = spyOn(comp.onError, 'emit');
+    const input = fixture.nativeElement.children[0];
+    input.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(onErrorEventEmitter).toHaveBeenCalled();
+  });
+
+  it("onSuccess event emitter called when when upload succeeds", () => {
+    const comp = fixture.componentInstance;
+    let dummyFile: File = new File([""], "dummy-file-name");
+    const onSuccessEventEmitter = spyOn(comp.onSuccess, 'emit');
+    const xhr = new XMLHttpRequest();
+    const progressCb = comp.createUploadProgressMonitor(xhr);
+    const options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: 'dummyFile',
+      onSuccess: comp.onSuccess
+    }
+    comp.handleUploadResponse(undefined, 'success', options, xhr, progressCb);
+    expect(onSuccessEventEmitter).toHaveBeenCalled();
+  });
+
+  it("onUploadStart function called when when upload commences", () => {
+    const comp = fixture.componentInstance;
+    let hasUploadStarted = false;
+    comp.onUploadStart = () => { hasUploadStarted = true; }
+    const input = fixture.nativeElement.children[0];
+    input.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(hasUploadStarted).toBeTruthy();
+  });
+
+  it("only onFileInput function called if set, nothing else", () => {
+    const comp = fixture.componentInstance;
+    let hasOnFileInputCalled = false;
+    comp.onFileInput = (e) => { 
+      hasOnFileInputCalled = true; 
+    }
+    const startIkUploadFunction = spyOn(comp, 'startIkUpload');
+    const input = fixture.nativeElement.children[0];
+    input.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(hasOnFileInputCalled).toBeTruthy();
+    expect(startIkUploadFunction).not.toHaveBeenCalled();
+  });
+
+  it("onUploadProgress callback should be called if is define", () => {
+    const comp = fixture.componentInstance;
+    let dummyFile: File = new File([""], "dummy-file-name");
+    let hasTrackedProgress = false;
+    comp.onUploadProgress = () => {
+      hasTrackedProgress = true;
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.upload.addEventListener = jasmine.createSpy('addEventListener').and.callFake((e, callback)=>{
+      callback();
+    });
+
+    const progressCb = comp.createUploadProgressMonitor(xhr);
+    const options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: 'dummyFile',
+      onSuccess: comp.onSuccess
+    }
+    comp.handleUploadResponse(undefined, 'success', options, xhr, progressCb);
+    expect(hasTrackedProgress).toBeTruthy();
   });
 });
