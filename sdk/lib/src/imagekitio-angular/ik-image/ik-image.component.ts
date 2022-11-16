@@ -26,9 +26,9 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
 
   ngOnInit(): void {
     const options: IkImageComponentOptions =  this.src ? {src: this.src} : {path: this.path};
+    options.urlEndpoint = this.urlEndpoint ? this.urlEndpoint : this.imagekit._ikInstance.options.urlEndpoint;
     options.transformation = this.transformation;
     options.transformationPosition = this.transformationPosition;
-    options.urlEndpoint = this.urlEndpoint;
     options.queryParameters = this.queryParameters;
     options.lqip = this.lqip;
     this.setUrl(options);
@@ -65,7 +65,29 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     const config = this.getConfigObject(options);
     this.url = this.imagekit.getUrl(config);
     if (options.lqip && options.lqip.active === true) {
-      this.lqipUrl = this.lqipload(options.lqip.quality, this.url, this.path);
+      this.lqipUrl = this.constructLqipUrl(options, options.lqip);
+    }
+  }
+
+  constructLqipUrl(options:IkImageComponentOptions, lqip: LqipOptions): any {
+    if (lqip && lqip.active) {
+      var quality = Math.round(lqip.quality || lqip.threshold || 20);
+      var blur = Math.round(lqip.blur || 6);
+      var newTransformation = options.transformation ? [...options.transformation] : [];
+      if (lqip.raw && typeof lqip.raw === "string" && lqip.raw.trim() != "") {
+        newTransformation.push({
+          raw: lqip.raw.trim()
+        });
+      } else {
+        newTransformation.push({
+          quality: String(quality),
+          blur: String(blur),
+        })
+      }
+      return this.imagekit.ikInstance.url({
+        ...options,
+        transformation: newTransformation
+      });
     }
   }
 
@@ -112,22 +134,6 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     });
     return target;
   };
-
-  lqipload(quality: number, url: string, path: string): string {
-    let lqip = "";
-    if (path) {
-      let newUrl = url.split("tr:");
-      if (newUrl[0] === url) {
-        let temp = url.split("/");
-        lqip = `${temp[0]}//${temp[2]}/${temp[3]}/tr:q-${quality}/${temp[4]}`;
-      } else {
-        lqip = `${newUrl[0]}tr:q-${quality}${newUrl[1]}`;
-      }
-    } else {
-      lqip = `${url}?tr=q-${quality}`;
-    }
-    return lqip;
-  }
 
   setElementAttributes(element: any, attributesLiteral: Dict): void {
     Object.keys(attributesLiteral).forEach(attrName => {

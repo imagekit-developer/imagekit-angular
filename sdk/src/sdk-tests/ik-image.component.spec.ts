@@ -198,29 +198,59 @@ describe("IkImageComponent", () => {
     expect(component.lqipUrl).toContain("tr=q-1");
   });
 
-  it("lqipload should create correct query parameters if path is provided", () => {
-    const lqipURl = component.lqipload(
-      10,
-      "/abc",
-      "/xyz"
+  it("constructLqipUrl should create correct query parameters if path is provided", () => {
+    let lqipOptions: LqipOptions = {
+      active: true,
+      quality: 10
+    }
+    let options: IkImageComponentOptions = {
+      path: 'xyz'
+    }
+    const lqipURl = component.constructLqipUrl(
+      options,
+      lqipOptions
     );
-    expect(lqipURl).toContain("tr:q-10");
-
-    const lqipURl2 = component.lqipload(
-      10,
-      "/abc/tr:/def",
-      "/xyz"
+    expect(lqipURl).toContain("tr:q-10,bl-6");
+    
+    lqipOptions = {
+      active: true,
+      quality: 20,
+      blur: 9
+    }
+    options = {
+      path: '/abc/def'
+    }
+    const lqipURl2 = component.constructLqipUrl(
+      options,
+      lqipOptions
     );
-    expect(lqipURl2).toContain("tr:q-10/def");
+    expect(lqipURl2).toContain("tr:q-20,bl-9/abc/def");
   });
 
-  it("lqipload should create correct query parameters if path is not provided", () => {
-    const lqipURl = component.lqipload(
-      10,
-      "/abc",
-      null
+  it("constructLqipUrl should create correct query parameters if path is not provided", () => {
+    let lqipOptions: LqipOptions = {
+      active: true,
+      quality: 10
+    }
+    let options: IkImageComponentOptions = {
+      src: 'https://example.com'
+    }
+    const lqipURl = component.constructLqipUrl(
+      options,
+      lqipOptions
     );
-    expect(lqipURl).toContain("tr=q-10");
+    expect(lqipURl).toContain("tr=q-10%2Cbl-6");
+
+    lqipOptions = {
+      active: true,
+      quality: 10,
+      raw: 'n-lqip'
+    }
+    const lqipURl2 = component.constructLqipUrl(
+      options,
+      lqipOptions
+    );
+    expect(lqipURl2).toContain("tr=n-lqip");
   });
 
   it("if SRC and PATH not set, expect errors to be thrown", () => {
