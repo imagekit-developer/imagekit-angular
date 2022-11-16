@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ImageKitConfiguration, ImagekitService } from "../../lib/src/imagekitio-angular/imagekit.service";
 import { IkUploadComponent } from "../../lib/src/imagekitio-angular/ik-upload/ik-upload.component";
-import { IkUploadComponentOptions } from '../../lib/src/imagekitio-angular/utility/ik-type-def-collection'
+import { IkUploadComponentOptions } from '../../lib/src/imagekitio-angular/utility/ik-type-def-collection';
 
 describe("IkUploadComponent", () => {
   let component: IkUploadComponent;

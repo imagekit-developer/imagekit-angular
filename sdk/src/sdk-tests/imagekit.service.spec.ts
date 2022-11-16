@@ -1,6 +1,5 @@
 import { ImagekitService } from "../../lib/src/imagekitio-angular/imagekit.service";
 const pjson = require("../../lib/package.json");
-const version = `angular-${pjson.version}`;
 
 describe("ImagekitService", () => {
   let imagekitService: ImagekitService;
