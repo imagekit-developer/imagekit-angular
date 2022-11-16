@@ -55,55 +55,58 @@ export class IkUploadComponent implements OnInit {
     if (!this.checkCustomFileValidation(options.file)) {
       return;
     }
-
+    
     this.startIkUpload(e, options);
   }
-
-  checkCustomFileValidation = (file: File): boolean => {
+  
+  checkCustomFileValidation(file: File): boolean {
     if (this.validateFile && typeof this.validateFile === 'function') {
      return this.validateFile(file);
     }
     return true;
   }
 
-  startIkUpload = (e: HTMLInputEvent, options: IkUploadComponentOptions): void => {
+  startIkUpload(e: HTMLInputEvent, options: IkUploadComponentOptions): void {
     // Custom upload-start tracker
     if (this.onUploadStart && typeof this.onUploadStart === 'function') {
       this.onUploadStart(e);
     }
-    const params = this.getUploadParams(options);
 
     // Custom upload-progress tracker
-    const xhr = new XMLHttpRequest();
-    const progressCb = this.createUploadProgressMonitor(xhr, options.onUploadProgress);
+    options.xhr = new XMLHttpRequest();
+    const params = this.getUploadParams(options);
+    const progressCb = this.createUploadProgressMonitor(options.xhr);
     const ik = this.imagekit.ikInstance;
-    ik.upload(params, function (err, result) {
-      if (err) {
-        if(options.onError instanceof EventEmitter) {
-          options.onError.emit(err);
-        }
-      } else {
-        if(options.onSuccess instanceof EventEmitter) {
-          options.onSuccess.emit(result);
-        }
-        xhr.upload.removeEventListener('progress', progressCb);
-      }
+    ik.upload(params, (err, result) => {
+      this.handleUploadResponse(err, result, options, options.xhr, progressCb)
     });
   }
 
-  createUploadProgressMonitor = (xhr: XMLHttpRequest, onUploadProgress: Function): any => {
+  handleUploadResponse(err, result, options, xhr, progressCb): void {
+    if (err) {
+      if(options.onError instanceof EventEmitter) {
+        options.onError.emit(err);
+      }
+    } else {
+      if(options.onSuccess instanceof EventEmitter) {
+        options.onSuccess.emit(result);
+      }
+      xhr.upload.removeEventListener('progress', progressCb);
+    }
+  }
+
+  createUploadProgressMonitor(xhr: XMLHttpRequest): any {
     const progressCb = (e: ProgressEvent) => {
-      if (onUploadProgress && typeof onUploadProgress === 'function') {
+      if (this.onUploadProgress && typeof this.onUploadProgress === 'function') {
         // Custom upload-progress tracker
-        onUploadProgress(e);
+        this.onUploadProgress(e);
       }
     };
     xhr.upload.addEventListener('progress', progressCb);
     return progressCb;
   }
 
-  getUploadParams(options: IkUploadComponentOptions)
-    : Dict {
+  getUploadParams(options: IkUploadComponentOptions): Dict {
     const params: Dict = {
       file: options.file,
       fileName: options.fileName,
@@ -130,6 +133,9 @@ export class IkUploadComponent implements OnInit {
 
     if (options.responseFields !== undefined) {
       Object.assign(params, { responseFields: options.responseFields });
+    }
+    if (options.xhr !== undefined) {
+      Object.assign(params, { xhr: options.xhr });
     }
     return params;
   }

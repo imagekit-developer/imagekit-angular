@@ -52,8 +52,7 @@ export interface IkUploadComponentOptions {
     customMetadata?: string | Record<string, string | number | boolean | Array<string | number | boolean>>;
     onError?: EventEmitter<any>;
     onSuccess?: EventEmitter<any>;
-    onUploadStart?: Function;
-    onUploadProgress?: Function;
     inputRef?: any;
     validateFile?: Function;
+    xhr?: XMLHttpRequest;
 }
