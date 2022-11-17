@@ -5,7 +5,7 @@ import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transfor
 
 @Component({
   selector: 'ik-image',
-  template: `<img>`,
+  template: `<img src=''>`,
 })
 export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   @Input('src') src: string;
@@ -41,22 +41,27 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   ngAfterViewInit(): void {
     if(this.loading == 'lazy'){
       const that = this;
+      if(this.lqipUrl){
+        // If given LQIP, use that first
+        this.loadImage(this, this.lqipUrl);
+      }
       const imageObserver = new IntersectionObserver(
         (entry: any, observer: IntersectionObserver)=>{
-          that.handleIntersectionObserver(entry, observer, that.loadImage, that.lqip, that.lqipUrl, that.url);
+          // Always load the original image when intersecting
+          that.handleIntersectionObserver(entry, observer, that.loadImage, that, that.url);
         }
       );
       imageObserver.observe(this.el.nativeElement);
     } else {
-      this.loadImage(this.lqip && this.lqip.active ? this.lqipUrl : this.url);
+      this.loadImage(this, this.url);
     }
   }
 
   handleIntersectionObserver (entry: any, observer: IntersectionObserver, 
-    loadImageFunc: Function, lqip: LqipOptions, lqipUrl: string, url: string): void {
+    loadImageFunc: Function, context: IkImageComponent, url: string): void {
     if (entry[0] && entry[0].isIntersecting) {
       let image = entry[0].target;
-      loadImageFunc(lqip && lqip.active ? lqipUrl : url);
+      loadImageFunc(context, url);
       observer.unobserve(image);
     }
   }
@@ -116,13 +121,13 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     return config;
   }
 
-  loadImage(url: string): void {
-    const nativeElement = this.el.nativeElement;
+  loadImage(context: IkImageComponent, url: string): void {
+    const nativeElement = context.el.nativeElement;
     const attributes = nativeElement.attributes;
-    const attrsToSet = this.namedNodeMapToObject(attributes);
+    const attrsToSet = context.namedNodeMapToObject(attributes);
     attrsToSet['src'] = url;
     const image = nativeElement.children[0];
-    this.setElementAttributes(image, attrsToSet);
+    context.setElementAttributes(image, attrsToSet);
   }
 
   namedNodeMapToObject(source: NamedNodeMap): Dict {
