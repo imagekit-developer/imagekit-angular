@@ -267,7 +267,17 @@ describe("IkImageComponent", () => {
     component.loading = "lazy";
     fixture.detectChanges();
     const ikImageElement: HTMLElement = fixture.nativeElement;
-    expect(ikImageElement.firstElementChild.attributes["src"]).toBeUndefined();
+    expect(ikImageElement.firstElementChild.attributes["src"].value).toBe('');
+  });
+
+  it("if lazy loading and LQIP active, img DOM src should be set to LQIP URL initially", () => {
+    component.src = "https://ik.imagekit.io/18ykd9wzp/default-image.jpg";
+    component.lqip = {active: true, quality: 10};
+    component.loading = "lazy";
+    fixture.detectChanges();
+    const ikImageElement: HTMLElement = fixture.nativeElement;
+    expect(ikImageElement.firstElementChild.attributes["src"].value).not.toBe('');
+    expect(ikImageElement.firstElementChild.attributes["src"].value).toContain('tr=q-10');
   });
 
   it("if not lazy loading, img DOM src should be set initially", () => {
@@ -297,7 +307,7 @@ describe("IkImageComponent", () => {
     mockIkImageComponent.loadImage.and.callFake(function() {
       isImageLoaded = true;
     });
-    component.handleIntersectionObserver(entry, mockObserver, mockIkImageComponent.loadImage, lqip, lqipUrl, '');
+    component.handleIntersectionObserver(entry, mockObserver, mockIkImageComponent.loadImage, component, '');
     expect(isObserving).toBeFalsy();
     expect(isImageLoaded).toBeTruthy();
   });
