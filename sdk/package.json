@@ -7,6 +7,7 @@
         "start": "ng serve",
         "build:app": "ng build",
         "test": "ng test",
+        "test:e2e": "cypress open",
         "lint": "ng lint",
         "build": "rimraf dist && ng-packagr -p lib/package.json && npm run assets",
         "assets": "node ./scripts/copy-assets.js"
@@ -35,6 +36,9 @@
         "@types/jasminewd2": "~2.0.2",
         "@types/node": "^6.0.118",
         "codelyzer": "~3.2.0",
+        "cypress": "^10.4.0",
+        "cypress-file-upload": "^5.0.8",
+        "cypress-log-to-output": "^1.1.2",
         "execa": "^4.0.0",
         "jasmine-core": "~2.6.2",
         "jasmine-spec-reporter": "~4.1.0",
