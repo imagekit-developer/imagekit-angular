@@ -19,9 +19,11 @@ Use the components in your code:
 
 ## Usage
 
-The library includes 2 Components: 
+The library includes 3 Components: 
 
 * [ik-image](#ik-image)
+
+* [ik-video](#ik-video)
 
 * [ik-upload](#ik-upload)
 
@@ -85,52 +87,7 @@ The ik-image component defines an ImageKit Image tag. example usage:
 
 #### List of supported transformations
 
-The complete list of transformations supported and their usage in ImageKit can be found [here](https://docs.imagekit.io/imagekit-docs/image-transformations). The SDK gives a name to each transformation parameter, making the code simpler and readable. If a transformation is supported in ImageKit, but a name for it cannot be found in the table below, then use the transformation code from ImageKit docs as the name when using in the `url` function.
-
-| Supported Transformation Name | Translates to parameter |
-| ----------------------------- | ----------------------- |
-| height                        | h                       |
-| width                         | w                       |
-| aspectRatio                   | ar                      |
-| quality                       | q                       |
-| crop                          | c                       |
-| cropMode                      | cm                      |
-| x                             | x                       |
-| y                             | y                       |
-| focus                         | fo                      |
-| format                        | f                       |
-| radius                        | r                       |
-| background                    | bg                      |
-| border                        | bo                      |
-| rotation                      | rt                      |
-| blur                          | bl                      |
-| named                         | n                       |
-| overlayImage                  | oi                      |
-| overlayX                      | ox                      |
-| overlayY                      | oy                      |
-| overlayFocus                  | ofo                     |
-| overlayHeight                 | oh                      |
-| overlayWidth                  | ow                      |
-| overlayText                   | ot                      |
-| overlayTextFontSize           | ots                     |
-| overlayTextFontFamily         | otf                     |
-| overlayTextColor              | otc                     |
-| overlayAlpha                  | oa                      |
-| overlayTextTypography         | ott                     |
-| overlayBackground             | obg                     |
-| overlayImageTrim              | oit                     |
-| progressive                   | pr                      |
-| lossless                      | lo                      |
-| trim                          | t                       |
-| metadata                      | md                      |
-| colorProfile                  | cp                      |
-| defaultImage                  | di                      |
-| dpr                           | dpr                     |
-| effectSharpen                 | e-sharpen               |
-| effectUSM                     | e-usm                   |
-| effectContrast                | e-contrast              |
-| effectGray                    | e-grayscale             |
-| original                      | orig                    |
+The complete list of transformations supported and their usage in ImageKit can be found [here](https://docs.imagekit.io/features/image-transformations). The SDK gives a name to each transformation parameter, making the code simpler and readable. If a transformation is supported in ImageKit, but a name for it cannot be found in the table below, then use the transformation code from ImageKit docs as the name when using in the `url` function.
 
 #### Applying Transforms
 ```js
@@ -141,7 +98,7 @@ const transformations = [{
 
 <ik-image style="" src="<full_image_url_from_db>" transformations = {transformations}></ik-image>
 ```
-The above image will apply transformation of width = 90 and height = 180 on the image. Since some transformatinos are destructive you might want to control the order in which the transforms are applied.
+The above image will apply transformation of width = 90 and height = 180 on the image. Since some transformations are destructive you might want to control the order in which the transforms are applied.
 
 ##### Chained Transforms
 Chained transformations provide a simple way to control the sequence in which transformations are applied.
@@ -170,6 +127,66 @@ The SDK supports automatic support for LQIP for your images, if you set lqip to 
 
 ##### How does the lqip work?
 The component tries to keep it simple. It loads a lower quality image using the quality parameter to load a lower quality image, which is then replaced with the actual quality image later.
+
+### ik-video
+
+The ik-video component defines an ImageKit video tag. example usage:
+
+#### Using video path and video hostname or endpoint
+
+```js
+<ik-video path="/sample-video.mp4" transformation={[{
+  "height": "300",
+  "width": "400"
+}]}></ik-video>
+```
+
+#### Using full video URL  
+
+```js
+<ik-video 
+    src="<full_video_url_from_db>" 
+    transformation={[{
+    "height": "300",
+    "width": "400"
+  }]}
+  ></ik-video>
+```
+  
+`src` is the complete URL that is already mapped to ImageKit.
+`path` is the location of the video in the ImageKit cloud. `urlEndpoint` + `path` makes the complete url.
+`transformations` is optional. The transformations to be applied to a given video. It is declared in the form of an array of objects, where each object specifies the transformation you need. The values are mentioned below.
+
+#### List of supported transformations
+
+The complete list of transformations supported and their usage in ImageKit can be found [here](https://docs.imagekit.io/features/video-transformation/). The SDK gives a name to each transformation parameter, making the code simpler and readable. If a transformation is supported in ImageKit, but a name for it cannot be found in the table below, then use the transformation code from ImageKit docs as the name when using in the `url` function.
+
+#### Applying Transforms
+```js
+const transformations = [{
+  width: 90,
+  height: 180
+}]
+
+<ik-video style="" src="<full_video_url_from_db>" transformations = {transformations}></ik-video>
+```
+The above video will apply transformation of width = 90 and height = 180 on the video. Since some transformations are destructive you might want to control the order in which the transforms are applied.
+
+##### Chained Transforms
+Chained transformations provide a simple way to control the sequence in which transformations are applied.
+
+```js
+const transformations = [
+  {
+    rotate: 90
+  },
+  {
+    width: 100,
+    aspectRatio: "16-9"
+  }
+];
+```
+In the above case, the rotation will be performed first, and resizing according to width and aspect ratio will be performed afterward.
 
 ## File Upload
 #### ik-upload
