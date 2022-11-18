@@ -1,25 +1,111 @@
 <div className="App">
   <h1>Hi! This is an ImageKit Angular SDK Demo!</h1>
-  <ik-video src="https://ik.imagekit.io/demo/sample-video.mp4"></ik-video>
-  <p></p>
-  <ik-video src="https://ik.imagekit.io/demo/sample-video.mp4" [transformation]="transformationOne"></ik-video>
-  <p></p>
-  <ik-video src="https://ik.imagekit.io/demo/sample-video.mp4" [transformation]="transformationTwo"></ik-video>
-  <p>Let's add an Image</p>
-  <ik-image src="https://ik.imagekit.io/18ykd9wzp/default-image.jpg" alt="This is an alt">
+  <p>Video Element</p>
+  <ik-video
+    urlEndpoint="https://ik.imagekit.io/demo/"
+    class='ikvideo-default'
+    [path]='videoPath'
+    [transformation]='transformation'
+    controls=true>
+  </ik-video>
+
+  <p>Video with some advance transformation</p>
+  <ik-video
+    urlEndpoint="https://ik.imagekit.io/demo/"
+    class='ikvideo-with-tr'
+    [path]='videoPath'
+    [transformation]='videoAdvanceTransformation'
+    controls=true>
+  </ik-video>
+  <p>Dynamic transformation update directly using IKImage</p>
+  <ik-image
+        id="img-transformation-direct"
+        class="img-transformation-direct"
+        path={{path}}
+        urlEndpoint="https://ik.imagekit.io/demo/"
+        [transformation]="flexibleTransformationOne"
+        [loading]="lazyload">
   </ik-image>
-  <p>Let's transform this once</p>
-  <ik-image src="https://ik.imagekit.io/18ykd9wzp/default-image.jpg" [transformation]="transformationOne"></ik-image>
-  <p>Let's transform this more than once</p>
-  <ik-image path="{{path}}" [transformation]="transformationTwo"></ik-image>
-  <p>LQIP</p>
-  <ik-image path="{{path}}" [lqip]="lqip" alt="this is alt"></ik-image>
+  <div>
+    <p>Click here to apply transformations on the above image</p>
+    <button
+      class="btn-to-change-tr-direct"
+      (click)="applyImgTransformationOne($event)">
+      Click to apply transformations
+    </button>
+  </div>
+  <br />
+  <p>Lazy loading image</p>
+  <ik-image
+        class='lazyload'
+        path={{path}}
+        urlEndpoint="https://ik.imagekit.io/demo/"
+        [transformation]="transformation"
+        [loading]="lazyload">
+  </ik-image>
+  <p>Transformation - height and width manipulation</p>
+  <ik-image 
+    urlEndpoint="https://ik.imagekit.io/demo/"
+    class='img-transformation' 
+    [path]=path
+    [transformation]='flexibleTransformationTwo'>
+  </ik-image>
+  <div>
+    <p>Click here to apply max radius on above image </p>
+    <button
+      class='btn-to-change-tr'
+      (click)='applyImgTransformationTwo($event)'>
+      Click to apply radius
+    </button>
+  </div>
+  <br />
+  <p>Progressive image loading without lazy loading</p>
+  <ik-image
+        class='lqip'
+        path={{path}}
+        urlEndpoint="https://ik.imagekit.io/demo/"
+        [transformation]="transformation"
+        [lqip]="lqipOne">
+  </ik-image>
+  <p>Progressive image loading with lazy loading</p>
+  <ik-image
+        class='lazyload-lqip'
+        path={{path}}
+        urlEndpoint="https://ik.imagekit.io/demo/"
+        [transformation]="transformation"
+        [loading]="lazyload"
+        [lqip]="lqipTwo">
+  </ik-image>
   <p>Upload</p>
   <p>To use this funtionality please remember to setup the server</p>
-  <p>Provide custom upload method</p>
-  <ik-upload fileName="test_new" [useUniqueFileName]="false" [isPrivateFile]="false"
-    (onSuccess)="handleUploadSuccess($event)" (onError)="handleUploadError($event)" [onFileInput]="handleFileInput"></ik-upload>
-  <p>Use imagekit upload method</p>
-  <ik-upload fileName="test_new" [useUniqueFileName]="false" [isPrivateFile]="false"
-      (onSuccess)="handleUploadSuccess($event)" (onError)="handleUploadError($event)"></ik-upload>
+  <ik-upload 
+    fileName="test.jpg" 
+    tags='["sample-tag1", "sample-tag2"]'
+    customCoordinates="10,10,10,10"
+    [isPrivateFile]="false"
+    [useUniqueFileName]="true" 
+    responseFields='["tags"]'
+    folder="/sample-folder"
+    (onError)="handleUploadError($event)"
+    (onSuccess)="handleUploadSuccess($event)" 
+    class="file-upload-ik">
+  </ik-upload>
+  <p>Your above uploaded file will appear here </p>
+  <ik-image 
+    [src]="uploadedImageSource"
+    class="uploaded-img-ik">
+  </ik-image>
+
+  <p>Upload invalid file</p>
+  <ik-upload
+    class="file-upload-error"
+    fileName="test-fail.jpg"
+    folder="/sample-folder"
+    (onError)="handleUploadError($event)"
+    (onSuccess)="handleUploadSuccess($event)">
+  </ik-upload>
+
+  <p style="color:red" class="upload-error-ik">
+    {{uploadErrorMessage}}
+  </p>
 </div>

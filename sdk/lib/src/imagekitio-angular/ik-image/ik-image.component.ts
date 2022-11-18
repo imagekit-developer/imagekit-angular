@@ -36,6 +36,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
 
   ngOnChanges(): void {
     this.ngOnInit();
+    this.ngAfterViewInit();
   }
 
   ngAfterViewInit(): void {
