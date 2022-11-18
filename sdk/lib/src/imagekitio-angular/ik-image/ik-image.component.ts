@@ -5,7 +5,7 @@ import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transfor
 
 @Component({
   selector: 'ik-image',
-  template: `<img>`,
+  template: `<img src=''>`,
 })
 export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   @Input('src') src: string;
@@ -26,9 +26,9 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
 
   ngOnInit(): void {
     const options: IkImageComponentOptions =  this.src ? {src: this.src} : {path: this.path};
+    options.urlEndpoint = this.urlEndpoint ? this.urlEndpoint : this.imagekit._ikInstance.options.urlEndpoint;
     options.transformation = this.transformation;
     options.transformationPosition = this.transformationPosition;
-    options.urlEndpoint = this.urlEndpoint;
     options.queryParameters = this.queryParameters;
     options.lqip = this.lqip;
     this.setUrl(options);
@@ -41,22 +41,27 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   ngAfterViewInit(): void {
     if(this.loading == 'lazy'){
       const that = this;
+      if(this.lqipUrl){
+        // If given LQIP, use that first
+        this.loadImage(this, this.lqipUrl);
+      }
       const imageObserver = new IntersectionObserver(
         (entry: any, observer: IntersectionObserver)=>{
-          that.handleIntersectionObserver(entry, observer, that.loadImage, that.lqip, that.lqipUrl, that.url);
+          // Always load the original image when intersecting
+          that.handleIntersectionObserver(entry, observer, that.loadImage, that, that.url);
         }
       );
       imageObserver.observe(this.el.nativeElement);
     } else {
-      this.loadImage(this.lqip && this.lqip.active ? this.lqipUrl : this.url);
+      this.loadImage(this, this.url);
     }
   }
 
   handleIntersectionObserver (entry: any, observer: IntersectionObserver, 
-    loadImageFunc: Function, lqip: LqipOptions, lqipUrl: string, url: string): void {
+    loadImageFunc: Function, context: IkImageComponent, url: string): void {
     if (entry[0] && entry[0].isIntersecting) {
       let image = entry[0].target;
-      loadImageFunc(lqip && lqip.active ? lqipUrl : url);
+      loadImageFunc(context, url);
       observer.unobserve(image);
     }
   }
@@ -65,7 +70,29 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     const config = this.getConfigObject(options);
     this.url = this.imagekit.getUrl(config);
     if (options.lqip && options.lqip.active === true) {
-      this.lqipUrl = this.lqipload(options.lqip.quality, this.url, this.path);
+      this.lqipUrl = this.constructLqipUrl(options, options.lqip);
+    }
+  }
+
+  constructLqipUrl(options:IkImageComponentOptions, lqip: LqipOptions): any {
+    if (lqip && lqip.active) {
+      var quality = Math.round(lqip.quality || lqip.threshold || 20);
+      var blur = Math.round(lqip.blur || 6);
+      var newTransformation = options.transformation ? [...options.transformation] : [];
+      if (lqip.raw && typeof lqip.raw === "string" && lqip.raw.trim() != "") {
+        newTransformation.push({
+          raw: lqip.raw.trim()
+        });
+      } else {
+        newTransformation.push({
+          quality: String(quality),
+          blur: String(blur),
+        })
+      }
+      return this.imagekit.ikInstance.url({
+        ...options,
+        transformation: newTransformation
+      });
     }
   }
 
@@ -94,13 +121,13 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     return config;
   }
 
-  loadImage(url: string): void {
-    const nativeElement = this.el.nativeElement;
+  loadImage(context: IkImageComponent, url: string): void {
+    const nativeElement = context.el.nativeElement;
     const attributes = nativeElement.attributes;
-    const attrsToSet = this.namedNodeMapToObject(attributes);
+    const attrsToSet = context.namedNodeMapToObject(attributes);
     attrsToSet['src'] = url;
     const image = nativeElement.children[0];
-    this.setElementAttributes(image, attrsToSet);
+    context.setElementAttributes(image, attrsToSet);
   }
 
   namedNodeMapToObject(source: NamedNodeMap): Dict {
@@ -112,22 +139,6 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     });
     return target;
   };
-
-  lqipload(quality: number, url: string, path: string): string {
-    let lqip = "";
-    if (path) {
-      let newUrl = url.split("tr:");
-      if (newUrl[0] === url) {
-        let temp = url.split("/");
-        lqip = `${temp[0]}//${temp[2]}/${temp[3]}/tr:q-${quality}/${temp[4]}`;
-      } else {
-        lqip = `${newUrl[0]}tr:q-${quality}${newUrl[1]}`;
-      }
-    } else {
-      lqip = `${url}?tr=q-${quality}`;
-    }
-    return lqip;
-  }
 
   setElementAttributes(element: any, attributesLiteral: Dict): void {
     Object.keys(attributesLiteral).forEach(attrName => {

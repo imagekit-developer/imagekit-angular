@@ -20,6 +20,8 @@ export class AppComponent {
 
   handleUploadSuccess(res) {
     console.log('File upload success with response: ', res);
+    console.log(res.$ResponseMetadata.statusCode); // 200
+    console.log(res.$ResponseMetadata.headers); // headers
   }
 
   handleUploadError(err) {
