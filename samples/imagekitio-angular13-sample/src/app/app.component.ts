@@ -7,7 +7,7 @@ import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transfor
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular9app';
+  title = 'imagekitio-angular13-sample';
   path = "default-image.jpg";
   videoPath = "sample-video.mp4";
 
@@ -24,7 +24,7 @@ export class AppComponent {
   flexibleTransformationTwo: Array<Transformation> = [{
     height: "200",
     width: "200"
-  }];
+ }];
 
   videoAdvanceTransformation: Array<Transformation> = [{
     height: "200",
