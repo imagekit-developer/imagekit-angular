@@ -7,7 +7,7 @@ import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transfor
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular9app';
+  title = 'imagekitio-angular12-sample';
   path = "default-image.jpg";
   videoPath = "sample-video.mp4";
 
