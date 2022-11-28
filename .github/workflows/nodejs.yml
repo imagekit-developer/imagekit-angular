@@ -1,6 +1,6 @@
 name: Node CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
         npm install -g @angular/cli@1.4.10
         cd sdk
         npm install
-        npm run test
+        npm run test:ci
       env:
         CI: true
         PUBLIC_KEY: ${{ secrets.ik_public_key }}
