@@ -1,4 +1,4 @@
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { IkImageComponent } from './ik-image/ik-image.component';
 import { IkUploadComponent } from './ik-upload/ik-upload.component';
 import { IkVideoComponent } from './ik-video/ik-video.component';
