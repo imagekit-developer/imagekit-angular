@@ -57,32 +57,6 @@ The library includes 3 Components:
 
 Note: In this SDK, the imagekit core service can be accessed for generating URL. [See here for details](#imagekit-javascript-core-instance)
 
-### imagekit-javascript-core-instance
-
-Sample usage
-
-```js
-import { ImagekitService } from 'imagekitio-angular';
-...
-// Initializing the service with configuration
-service = new ImagekitService({
-  urlEndpoint: "your_endpoint",
-    publicKey: "your_public_key",
-    authenticationEndpoint: "your_authentication_endpoint"
-});
-
-// Generating URL
-const url = this.service.ikInstance.url({
-  path: "/default-image.jpg",
-  urlEndpoint: "https://ik.imagekit.io/your_imagekit_id/endpoint/",
-  transformation: [{
-      "height": "300",
-      "width": "400"
-  }]
-});
-
-```
-
 ### Module Import
 
 In order to use the SDK, you need to provide it with a few configuration parameters. The configuration parameters must be passed to the `ImagekitioAngularModule` module in your `app.module.ts` file. example:
@@ -552,6 +526,31 @@ const handleUploadSuccess = (event) => {
     (onSuccess)="handleUploadSuccess($event)"
     >
   </ik-upload>
+```
+### imagekit-javascript-core-instance
+
+Sample usage
+
+```js
+import { ImagekitService } from 'imagekitio-angular';
+...
+// Initializing the service with configuration
+service = new ImagekitService({
+  urlEndpoint: "your_endpoint",
+    publicKey: "your_public_key",
+    authenticationEndpoint: "your_authentication_endpoint"
+});
+
+// Generating URL
+const url = this.service.ikInstance.url({
+  path: "/default-image.jpg",
+  urlEndpoint: "https://ik.imagekit.io/your_imagekit_id/endpoint/",
+  transformation: [{
+      "height": "300",
+      "width": "400"
+  }]
+});
+
 ```
 
 ## Sample application
