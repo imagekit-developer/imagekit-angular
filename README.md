@@ -55,9 +55,11 @@ The library includes 3 Components:
 
 * [ik-upload](#ik-upload)
 
+Important: For using this library, base module import has be to done. [See here for details](#Module-import)
+
 Note: In this SDK, the imagekit core service can be accessed for generating URL. [See here for details](#imagekit-javascript-core-instance)
 
-### Module Import
+### Module-import
 
 In order to use the SDK, you need to provide it with a few configuration parameters. The configuration parameters must be passed to the `ImagekitioAngularModule` module in your `app.module.ts` file. example:
 
