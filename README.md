@@ -55,9 +55,9 @@ The library includes 3 Components:
 
 * [ik-upload](#ik-upload)
 
-Note: In this SDK, the imagekit core service can be accessed for generating URL.
+Note: In this SDK, the imagekit core service can be accessed for generating URL. [See here for details](#imagekit-javascript-core-instance)
 
-## Exposing imagekit-javascript instance
+### imagekit-javascript-core-instance
 
 Sample usage
 
