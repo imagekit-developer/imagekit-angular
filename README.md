@@ -55,6 +55,34 @@ The library includes 3 Components:
 
 * [ik-upload](#ik-upload)
 
+Note: In this SDK, the imagekit core service can be accessed for generating URL.
+
+## Exposing imagekit-javascript instance
+
+Sample usage
+
+```js
+import { ImagekitService } from 'imagekitio-angular';
+...
+// Initializing the service with configuration
+service = new ImagekitService({
+  urlEndpoint: "your_endpoint",
+    publicKey: "your_public_key",
+    authenticationEndpoint: "your_authentication_endpoint"
+});
+
+// Generating URL
+const url = this.service.ikInstance.url({
+  path: "/default-image.jpg",
+  urlEndpoint: "https://ik.imagekit.io/your_imagekit_id/endpoint/",
+  transformation: [{
+      "height": "300",
+      "width": "400"
+  }]
+});
+
+```
+
 ### Module Import
 
 In order to use the SDK, you need to provide it with a few configuration parameters. The configuration parameters must be passed to the `ImagekitioAngularModule` module in your `app.module.ts` file. example:
@@ -83,34 +111,6 @@ In order to use the SDK, you need to provide it with a few configuration paramet
 `transformationPosition` is optional. The default value for the parameter is `path`. Acceptable values are `path` & `query`
 
 _Note: Do not include your Private Key in any client-side code, including this SDK or its initialization. If you pass the `privateKey` parameter while initializing this SDK, it throws an error_
-
-## Exposing imagekit-javascript instance
-
-In this SDK, the imagekit core service can be accessed for generating URL.
-
-Sample usage
-
-```js
-import { ImagekitService } from 'imagekitio-angular';
-...
-// Initializing the service with configuration
-service = new ImagekitService({
-  urlEndpoint: "your_endpoint",
-    publicKey: "your_public_key",
-    authenticationEndpoint: "your_authentication_endpoint"
-});
-
-// Generating URL
-const url = this.service.ikInstance.url({
-  path: "/default-image.jpg",
-  urlEndpoint: "https://ik.imagekit.io/your_imagekit_id/endpoint/",
-  transformation: [{
-      "height": "300",
-      "width": "400"
-  }]
-});
-
-```
 
 ### ik-image
 
