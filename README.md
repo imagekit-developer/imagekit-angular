@@ -309,18 +309,6 @@ You have the option to lazy-load the original image only when the user scrolls n
 ##### How does the lqip work?
 The component tries to keep it simple. It loads a lower quality image using the quality parameter to load a lower quality image, which is then replaced with the actual quality image later.
 
-### Overriding-urlEndpoint
-You can use `urlEndpoint` prop in an individual `ik-image` to change url for that image. For example:
-
-```js
-<ik-image
-        class='lazyload-lqip'
-        path="/path-to-my-image"
-        urlEndpoint="<enter new URL endpoint>"
-        >
-  </ik-image>
-```
-
 ## ik-video
 
 The ik-video component defines an ImageKit video tag. example usage:
@@ -556,6 +544,20 @@ const url = this.service.ikInstance.url({
   }]
 });
 
+```
+
+### Overriding-urlEndpoint
+You can use `urlEndpoint` property in a component to change url for it. 
+
+Here is an example where `ik-image` component's URL endpoint can be explicitly set:
+
+```js
+<ik-image
+        class='lazyload-lqip'
+        path="/path-to-my-image"
+        urlEndpoint="<enter new URL endpoint>"
+        >
+  </ik-image>
 ```
 
 ## Sample application
