@@ -520,7 +520,8 @@ const handleUploadSuccess = (event) => {
     >
   </ik-upload>
 ```
-### imagekit-javascript-core-instance
+
+## imagekit-javascript-core-instance
 
 Sample usage
 
@@ -546,7 +547,7 @@ const url = this.service.ikInstance.url({
 
 ```
 
-### Overriding-urlEndpoint
+## Overriding-urlEndpoint
 You can use `urlEndpoint` property in a component to change url for it. 
 
 Here is an example where `ik-image` component's URL endpoint can be explicitly set:
