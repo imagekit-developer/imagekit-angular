@@ -44,17 +44,6 @@ In order to use the SDK, you need to provide it with a few configuration paramet
 
 _Note: Do not include your Private Key in any client-side code, including this SDK or its initialization. If you pass the `privateKey` parameter while initializing this SDK, it throws an error_
 
-The library includes 3 Components: 
-
-* [ik-image](#ik-image)
-
-* [ik-video](#ik-video)
-
-* [ik-upload](#ik-upload)
-
-
-Note: In this SDK, the imagekit core service can be accessed for generating URL. [See here for details](#imagekit-javascript-core-instance)
-
 ### Quick examples
 
 ```js
@@ -93,7 +82,9 @@ Note: In this SDK, the imagekit core service can be accessed for generating URL.
 The library includes 3 Components and the ability to access the core component:
 
 [ik-image](#ik-image) for image resizing. This renders a `<img>` tag.
+
 [ik-video](#ik-video) for video resizing. This renders a `<video>` tag.
+
 [ik-upload](#ik-upload)for client-side file uploading. This renders a `<input type="file">` tag.
 
 Accessing the underlying [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript). See 
