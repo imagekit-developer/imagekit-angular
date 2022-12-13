@@ -13,6 +13,48 @@ ImageKit is a complete image optimization and transformation solution that comes
 
   `npm install --save imagekitio-angular`
 
+## Usage
+
+### Initialization
+
+In order to use the SDK, you need to provide it with a few configuration parameters. The configuration parameters must be passed to the `ImagekitioAngularModule` module in your `app.module.ts` file. example:
+
+```js
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ImagekitioAngularModule.forRoot({
+      publicKey: environment.publicKey,
+      urlEndpoint: environment.urlEndpoint,
+      authenticationEndpoint: environment.authenticationEndpoint
+    })
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+```
+
+`publicKey` and `urlEndpoint` are mandatory parameters for SDK initialization.
+`authenticationEndpoint` is essential if you want to use the SDK for client-side uploads.
+`transformationPosition` is optional. The default value for the parameter is `path`. Acceptable values are `path` & `query`
+
+_Note: Do not include your Private Key in any client-side code, including this SDK or its initialization. If you pass the `privateKey` parameter while initializing this SDK, it throws an error_
+
+The library includes 3 Components: 
+
+* [ik-image](#ik-image)
+
+* [ik-video](#ik-video)
+
+* [ik-upload](#ik-upload)
+
+
+Note: In this SDK, the imagekit core service can be accessed for generating URL. [See here for details](#imagekit-javascript-core-instance)
+
 ### Quick examples
 
 ```js
@@ -45,48 +87,18 @@ ImageKit is a complete image optimization and transformation solution that comes
   >
 </ik-upload>
 ```
-## Usage
 
-The library includes 3 Components: 
+## Components
 
-* [ik-image](#ik-image)
+The library includes 3 Components and the ability to access the core component:
 
-* [ik-video](#ik-video)
+[ik-image](#ik-image) for image resizing. This renders a `<img>` tag.
+[ik-video](#ik-video) for video resizing. This renders a `<video>` tag.
+[ik-upload](#ik-upload)for client-side file uploading. This renders a `<input type="file">` tag.
 
-* [ik-upload](#ik-upload)
+Accessing the underlying [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript). See 
+[here](#imagekit-javascript-core-instance) for more details.
 
-Important: For using this library, base module import has be to done. [See here for details](#Module-import)
-
-Note: In this SDK, the imagekit core service can be accessed for generating URL. [See here for details](#imagekit-javascript-core-instance)
-
-### Module-import
-
-In order to use the SDK, you need to provide it with a few configuration parameters. The configuration parameters must be passed to the `ImagekitioAngularModule` module in your `app.module.ts` file. example:
-
-```js
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ImagekitioAngularModule.forRoot({
-      publicKey: environment.publicKey,
-      urlEndpoint: environment.urlEndpoint,
-      authenticationEndpoint: environment.authenticationEndpoint
-    })
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-```
-
-`publicKey` and `urlEndpoint` are mandatory parameters for SDK initialization.
-`authenticationEndpoint` is essential if you want to use the SDK for client-side uploads.
-`transformationPosition` is optional. The default value for the parameter is `path`. Acceptable values are `path` & `query`
-
-_Note: Do not include your Private Key in any client-side code, including this SDK or its initialization. If you pass the `privateKey` parameter while initializing this SDK, it throws an error_
 
 ### ik-image
 
