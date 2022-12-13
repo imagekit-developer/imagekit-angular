@@ -85,7 +85,7 @@ The library includes 3 Components and the ability to access the core component:
 
 [ik-video](#ik-video) for video resizing. This renders a `<video>` tag.
 
-[ik-upload](#ik-upload)for client-side file uploading. This renders a `<input type="file">` tag.
+[ik-upload](#ik-upload) for client-side file uploading. This renders a `<input type="file">` tag.
 
 Accessing the underlying [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript). See 
 [here](#imagekit-javascript-core-instance) for more details.
