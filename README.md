@@ -90,8 +90,9 @@ The library includes 3 Components and the ability to access the core component:
 Accessing the underlying [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript). See 
 [here](#imagekit-javascript-core-instance) for more details.
 
+Note: URL endpoints of each component can be overridden explicitly. [See here for more details](#overriding-urlendpoint)
 
-### ik-image
+## ik-image
 
 The ik-image component defines an ImageKit Image tag. example usage:
 
@@ -120,7 +121,7 @@ The ik-image component defines an ImageKit Image tag. example usage:
 `path` is the location of the image in the ImageKit cloud. `urlEndpoint` + `path` makes the complete url.
 `transformations` is optional. The transformations to be applied to a given image. It is declared in the form of an array of objects, where each object specifies the transformation you need. The values are mentioned below.
 
-## Image resizing
+### Image resizing
 
 The `IKImage` component renders an `img` tag. It is used for rendering and manipulating images in real time. `IKImage` component accepts the following props:
 
@@ -308,7 +309,7 @@ You have the option to lazy-load the original image only when the user scrolls n
 ##### How does the lqip work?
 The component tries to keep it simple. It loads a lower quality image using the quality parameter to load a lower quality image, which is then replaced with the actual quality image later.
 
-### Overriding urlEndpoint for a particular image
+### Overriding-urlEndpoint
 You can use `urlEndpoint` prop in an individual `ik-image` to change url for that image. For example:
 
 ```js
@@ -320,7 +321,7 @@ You can use `urlEndpoint` prop in an individual `ik-image` to change url for tha
   </ik-image>
 ```
 
-### ik-video
+## ik-video
 
 The ik-video component defines an ImageKit video tag. example usage:
 
@@ -445,8 +446,7 @@ const transformations = [
 ```
 In the above case, the rotation will be performed first, and resizing according to width and aspect ratio will be performed afterward.
 
-## File Upload
-#### ik-upload
+## ik-upload
 The SDK provides a simple Component to upload files to the ImageKit Media Library. It has an attribute called `fileName` which is used by SDK for `fileName` parameter required to upload. The `file` parameter is provided as an input from the user. 
 
 Also, make sure that you have specified `authenticationEndpoint` during SDK initialization. The SDK makes an HTTP GET request to this endpoint and expects a JSON response with three fields, i.e. `signature`, `token`, and `expire`.  
