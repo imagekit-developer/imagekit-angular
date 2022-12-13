@@ -570,7 +570,7 @@ Please refer to `app.component.html` for sample usage for the components.
 
 For any feedback or to report any issues or general implementation support, please reach out to [support@imagekit.io](mailto:support@imagekit.io)
 
-Please note that this SDK version supports Angular version 9 onwards.
+Please note that this SDK version supports `Angular version 9 onwards`.
 
 ## Links
 
