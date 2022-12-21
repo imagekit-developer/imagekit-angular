@@ -148,7 +148,7 @@ The library includes 3 Components and the ability to access the core component:
 [ik-upload](#ik-upload) for client-side file uploading. This renders a `<input type="file">` tag.
 
 Accessing the underlying [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript). See 
-[here](#imagekit-javascript-core-instance) for more details.
+[here](#accessing-imagekit-core-component) for more details.
 
 Note: URL endpoints of each component can be overridden explicitly. [See here for more details](#overriding-urlendpoint)
 
@@ -536,7 +536,7 @@ const handleUploadSuccess = (event) => {
   </ik-upload>
 ```
 
-## imagekit-javascript-core-instance
+## Accessing Imagekit Core Component
 
 Sample usage
 
@@ -562,7 +562,7 @@ const url = this.service.ikInstance.url({
 
 ```
 
-## Overriding-urlEndpoint
+## Overriding urlEndpoint
 You can use `urlEndpoint` property in a component to change url for it. 
 
 Here is an example where `ik-image` component's URL endpoint can be explicitly set:
