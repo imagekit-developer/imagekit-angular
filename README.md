@@ -46,6 +46,8 @@ _Note: Do not include your Private Key in any client-side code, including this S
 
 ### Quick examples
 
+Note: If `urlEndpoint` field is not set in the HTML component, it will use the default value set in the initialization as shown [here](#initialization). In the below examples, if `urlEndpoint` is not set, it is assumed to be using URL endpoint: `https://ik.imagekit.io/demo/`.
+
 ```js
 // Rendering an image using relative path
 <ik-image path="/default-image.jpg"></ik-image>
@@ -54,28 +56,86 @@ _Note: Do not include your Private Key in any client-side code, including this S
 <ik-image path="/default-image.jpg" loading="lazy">
 </ik-image>
 
-// Rendering video using absolute path and applies a transformation to the video size
-<ik-video 
-    src="<full_video_url_from_db>" 
-    transformation={[{
-    "height": "300",
-    "width": "400"
+//  Overriding URL endpoint
+<ik-image
+  path="/default-image.jpg"
+  urlEndpoint="<url-to-override-with>"
+  >
+</ik-image>
+
+// Height and width manipulation - https://ik.imagekit.io/demo/tr:h-200,w-200/default-image.jpg
+<ik-image 
+  transformation={[{
+  "height": "200",
+  "width": "200"
   }]}
-  ></ik-video>
+  >
+</ik-image>
+
+// Chained transformation. The following example does a sequenced transformation, firstly height and width manipulation followed by a rotation.
+<ik-image 
+  src="<full_image_url>" 
+  transformation={[{
+  "height": "300",
+  "width": "400"
+  },
+  {
+    "rotation": "90"
+  }]}
+  >
+</ik-image>
+
+// Lazy loading images
+<ik-image
+  path="default-image.jpg" 
+  loading="lazy"
+  >
+</ik-image>
+
+/*
+  Low-quality image placeholder
+  Will first load https://ik.imagekit.io/demo/tr:h-200,w-200:q-20,bl-6/default-image.jpg, while the original image, i.e., https://ik.imagekit.io/demo/tr:h-200,w-200/default-image.jpg is being loaded in the background.
+*/
+<ik-image 
+  path="default-image.jpg" 
+  transformation={[{
+    "height": "200",
+    "width": "200"
+    }]}
+  lqip={{active:true, quality: 20, blur: 6}}
+  >
+</ik-image>
+
+// Low-quality image placeholder and lazy loading original image in the background
+<ik-image 
+  path="default-image.jpg" 
+  lqip={{active:true}}
+  loading="lazy"
+  >
+</ik-image>
+
+// Rendering video using absolute path and applies a transformation to the video size
+<ik-video
+  src="<full_video_url>" 
+  transformation={[{
+  "height": "300",
+  "width": "400"
+  }]}>
+</ik-video>
 
 // File upload with optional custom event handling
 // See section "ik-upload" in README for more info
 <ik-upload 
   fileName="test.jpg" 
   (onFileInput)="onFileInput($event)"
-  (validateFile)="validateFileFunction()"
-  (onUploadStart)="handleOnUploadStart($event)"
-  (onUploadProgress)="handleOnUploadProgress($event)"
   (onError)="handleUploadError($event)"
   (onSuccess)="handleUploadSuccess($event)"
   >
 </ik-upload>
 ```
+
+## Demo application
+* The official step-by-step Angular quick start guide - https://docs.imagekit.io/getting-started/quickstart-guides/angular
 
 ## Components
 
@@ -109,12 +169,12 @@ The ik-image component defines an ImageKit Image tag. example usage:
 
 ```js
 <ik-image 
-    src="<full_image_url_from_db>" 
-    transformation={[{
-    "height": "300",
-    "width": "400"
-  }]}
-  ></ik-image>
+  src="<full_image_url>" 
+  transformation={[{
+  "height": "300",
+  "width": "400"
+}]}
+></ik-image>
 ```
   
 `src` is the complete URL that is already mapped to ImageKit.
@@ -152,17 +212,17 @@ Sample usage of ik-image component:
 ```js
 // Loading image with no transformation
 <ik-image
-      path="/default-image.jpg"
-      urlEndpoint="https://ik.imagekit.io/demo/"
-      >
+  path="/default-image.jpg"
+  urlEndpoint="https://ik.imagekit.io/demo/"
+  >
 </ik-image>
 
 // Loading image with transformation
 <ik-image
-      path="/default-image.jpg"
-      urlEndpoint="https://ik.imagekit.io/demo/"
-      [transformation]="flexibleTransformationOne"
-      >
+  path="/default-image.jpg"
+  urlEndpoint="https://ik.imagekit.io/demo/"
+  [transformation]="flexibleTransformationOne"
+  >
 </ik-image>
 ```
 
@@ -242,7 +302,7 @@ const transformations = [{
   height: 180
 }]
 
-<ik-image style="" src="<full_image_url_from_db>" transformations = {transformations}></ik-image>
+<ik-image style="" src="<full_image_url>" transformations = {transformations}></ik-image>
 ```
 The above image will apply transformation of width = 90 and height = 180 on the image. Since some transformations are destructive you might want to control the order in which the transforms are applied.
 
@@ -288,10 +348,24 @@ Example usage:
 The SDK supports automatic support for LQIP for your images, if you set lqip to true in the image component. example:
 
   ```js 
-  <ik-image style="" src="<full_image_url_from_db>" lqip={{active:true, quality: 20}}></ik-image>
+  <ik-image 
+    src="<full_image_url>" 
+    lqip={{active:true, quality: 20}}
+    >
+  </ik-image>
   ```
 `active` tells the status for lqip, it can be either, `true` or `false`
 `quality` decided the quaility of placeholder image. It can be any numeric value, a low number means low quality, and high number means high quality.
+
+You can also specify a `raw` transformation if you want more control over the URL of the low-quality image placeholder. In this case, the SDK ignores `quality` and `blur` parameters.
+
+```js
+<ik-image
+  path="/default-image.jpg"
+  lqip={{active:true, raw: "n-lqip_named_transformation"}}
+  >
+</ik-image>
+```
 
 ### Combining lazy loading with low-quality placeholders
 You have the option to lazy-load the original image only when the user scrolls near them. Until then, only a low-quality placeholder is loaded. This saves a lot of network bandwidth if the user never scrolls further down.
@@ -299,7 +373,7 @@ You have the option to lazy-load the original image only when the user scrolls n
 ```js
 // Loading a blurred low quality image placeholder and lazy-loading original when the user scrolls near them
 <ik-image
-        src="<full_image_url_from_db>"
+        src="<full_image_url>"
         loading="lazy"
         lqip={{ active: true, quality: 20, blur: 30 }}
       >
@@ -326,7 +400,7 @@ The ik-video component defines an ImageKit video tag. example usage:
 
 ```js
 <ik-video 
-    src="<full_video_url_from_db>" 
+    src="<full_video_url>" 
     transformation={[{
     "height": "300",
     "width": "400"
@@ -354,7 +428,7 @@ const transformations = [{
   height: 180
 }]
 
-<ik-video style="" src="<full_video_url_from_db>" transformations = {transformations}></ik-video>
+<ik-video style="" src="<full_video_url>" transformations = {transformations}></ik-video>
 ```
 The above video will apply transformation of width = 90 and height = 180 on the video. Since some transformations are destructive you might want to control the order in which the transforms are applied.
 
@@ -401,7 +475,7 @@ Sample Usage
 Input function which triggers when file has been selected to upload
 
 - `validateFile`
-Input function which will determine whether file can upload can proceed
+Input function which will determine whether file can upload can proceed (can be used to set file size validation)
 
 - `onUploadStart`
 Input function which triggers when file upload starts
@@ -422,22 +496,21 @@ const handleOnFileInput = (event) => {
   console.log('File input');
 };
 
-const validateFileFunction = () => {
-  console.log('Validating file');
-  return true;
-};
+validateFileFunction(res: any) {
+  console.log('validating')
+  if(res.size < 1000000){ // Less than 1mb file size
+    return true;
+  }
+  return false;
+}
 
-const handleOnUploadStart = (event) => {
-  console.log('Upload Started');
-};
+onUploadStartFunction(res: any) {
+  console.log('onUploadStart')
+}
 
-const handleOnUploadStart = (event) => {
-  console.log('Upload Started');
-};
-
-const handleOnUploadProgress = (event) => {
-  console.log('Upload on Progress: ');
-};
+onUploadProgressFunction(res: any) {
+  console.log('progressing')
+}
 
 const handleUploadError = (event) => {
   console.log('Error');
@@ -446,17 +519,19 @@ const handleUploadError = (event) => {
 
 const handleUploadSuccess = (event) => {
   console.log('Success');
+  console.log(event.$ResponseMetadata.statusCode); // 200
+  console.log(event.$ResponseMetadata.headers); // headers
   console.log(event);
 };
 
 <ik-upload 
     fileName="test.jpg" 
     (onFileInput)="onFileInput($event)"
-    (validateFile)="validateFileFunction()"
-    (onUploadStart)="handleOnUploadStart($event)"
-    (onUploadProgress)="handleOnUploadProgress($event)"
     (onError)="handleUploadError($event)"
     (onSuccess)="handleUploadSuccess($event)"
+    [validateFile]="validateFileFunction"
+    [onUploadStart]="onUploadStartFunction"
+    [onUploadProgress]="onUploadProgressFunction"
     >
   </ik-upload>
 ```
@@ -502,9 +577,9 @@ Here is an example where `ik-image` component's URL endpoint can be explicitly s
 ```
 
 ## Sample application
-The `samples` folder contains a fully a working sample angular application for angular versions 15. The application has a README.md file with full instructions on how to run it locally.
+The `./samples` folder contains a fully a working sample angular application for angular versions 15. The application has a README.md file with full instructions on how to run it locally.
 
-Please refer to `app.component.html` for sample usage for the components.
+Please refer to `./sdk/src/app/app.component.html` for sample usage for the components.
 
 ## Support
 
