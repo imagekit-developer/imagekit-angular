@@ -66,6 +66,22 @@ export class AppComponent {
     }];
   }
 
+  validateFileFunction(res: any) {
+    console.log('validating')
+    if(res.size < 1000000){ // Less than 1mb
+      return true;
+    }
+    return false;
+  }
+
+  onUploadStartFunction(res: any) {
+    console.log('onUploadStart')
+  }
+
+  onUploadProgressFunction(res: any) {
+    console.log('progressing')
+  }
+
   handleUploadSuccess(res) {
     console.log('File upload success with response: ', res);
     console.log(res.$ResponseMetadata.statusCode); // 200

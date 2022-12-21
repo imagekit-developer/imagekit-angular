@@ -18,9 +18,9 @@ export class IkUploadComponent implements OnInit {
   @Output() onError: EventEmitter<any> = new EventEmitter();
   @Output() onSuccess: EventEmitter<any> = new EventEmitter();
   @Input() onFileInput: (e: HTMLInputEvent) => void;
-  @Input() validateFile: (file: File) => boolean;
-  @Input() onUploadStart: (e: HTMLInputEvent) => void;
-  @Input() onUploadProgress: (e: ProgressEvent) => void;
+  @Input('validateFile') validateFile: (file: File) => boolean;
+  @Input('onUploadStart') onUploadStart: (e: HTMLInputEvent) => void;
+  @Input('onUploadProgress') onUploadProgress: (e: ProgressEvent) => void;
   fileToUpload: File = null;
 
   constructor(private imagekit: ImagekitService) { }
