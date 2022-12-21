@@ -65,6 +65,7 @@ Note: If `urlEndpoint` field is not set in the HTML component, it will use the d
 
 // Height and width manipulation - https://ik.imagekit.io/demo/tr:h-200,w-200/default-image.jpg
 <ik-image 
+  path="/default-image.jpg"
   transformation={[{
   "height": "200",
   "width": "200"
