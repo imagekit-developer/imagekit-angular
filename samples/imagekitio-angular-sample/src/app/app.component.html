@@ -88,6 +88,9 @@
     folder="/sample-folder"
     (onError)="handleUploadError($event)"
     (onSuccess)="handleUploadSuccess($event)" 
+    [validateFile]="validateFileFunction"
+    [onUploadStart]="onUploadStartFunction"
+    [onUploadProgress]="onUploadProgressFunction"
     class="file-upload-ik">
   </ik-upload>
   <p>Your above uploaded file will appear here </p>
