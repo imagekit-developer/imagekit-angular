@@ -484,11 +484,12 @@ Input function which triggers when file upload starts
 - `onUploadProgress`
 Input function which triggers when file upload is in progress (can be used to track file upload progress)
 
-- `handleUploadError`
+- `onError`
 Input function which triggers when upload fails
 
-- `handleUploadSuccess`
-Input function which triggers when upload successfully completed
+- `onSuccess`
+Input function which triggers when upload successfully completed. The ResponseMetadata is available in the event param object. It can be accessed as such `event.$ResponseMetadata.statusCode`.
+
 
 Sample usage
 
