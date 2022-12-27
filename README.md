@@ -157,8 +157,8 @@ Approach one - direct HTML binding:
 </ik-image>
 ```
 
-Apprach two - via app.component.ts:
-For this approach, we first setup our app.component.ts as such.
+Approach two - via app.component.ts.
+For this approach, we first setup our app.component.ts:
 ```js
 import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transformation';
 ...
@@ -171,7 +171,7 @@ export class AppComponent {
   ..
 ```
 
-Then we use it in our html file as such:
+Then we use it in our html file:
 ```js
 <ik-image 
   path="/default-image.jpg"
