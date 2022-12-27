@@ -66,23 +66,23 @@ Note: If `urlEndpoint` field is not set in the HTML component, it will use the d
 // Height and width manipulation - https://ik.imagekit.io/demo/tr:h-200,w-200/default-image.jpg
 <ik-image 
   path="/default-image.jpg"
-  transformation={[{
-  "height": "200",
-  "width": "200"
-  }]}
+  [transformation]='[{
+    "height": "200",
+    "width": "200"
+  }]'
   >
 </ik-image>
 
 // Chained transformation. The following example does a sequenced transformation, firstly height and width manipulation followed by a rotation.
 <ik-image 
   src="<full_image_url>" 
-  transformation={[{
-  "height": "300",
-  "width": "400"
-  },
-  {
-    "rotation": "90"
-  }]}
+  [transformation]='[{
+    "height": "300",
+    "width": "400"
+    },
+    {
+      "rotation": "90"
+    }]'
   >
 </ik-image>
 
@@ -99,18 +99,18 @@ Note: If `urlEndpoint` field is not set in the HTML component, it will use the d
 */
 <ik-image 
   path="default-image.jpg" 
-  transformation={[{
+  [transformation]='[{
     "height": "200",
     "width": "200"
-    }]}
-  lqip={{active:true, quality: 20, blur: 6}}
+    }]'
+  [lqip]="{active:true, quality: 20, blur: 6}"
   >
 </ik-image>
 
 // Low-quality image placeholder and lazy loading original image in the background
 <ik-image 
   path="default-image.jpg" 
-  lqip={{active:true}}
+  [lqip]="{active:true}"
   loading="lazy"
   >
 </ik-image>
@@ -118,10 +118,11 @@ Note: If `urlEndpoint` field is not set in the HTML component, it will use the d
 // Rendering video using absolute path and applies a transformation to the video size
 <ik-video
   src="<full_video_url>" 
-  transformation={[{
+  [transformation]='[{
   "height": "300",
   "width": "400"
-  }]}>
+  }]'
+  >
 </ik-video>
 
 // File upload with optional custom event handling
@@ -137,6 +138,51 @@ Note: If `urlEndpoint` field is not set in the HTML component, it will use the d
 
 ## Demo application
 * The official step-by-step Angular quick start guide - https://docs.imagekit.io/getting-started/quickstart-guides/angular
+
+## Tips before starting
+There are two ways to assign object values to a HTML attribute.
+Let's use our <ik-image> for example and try to apply a transformation to it.
+
+Note: Regardless of which approach, whenever an attribute has to be binded to an object, the square brackets have to be used to encapsulate that attribute; eg. `[transformation]`.
+
+Approach one - direct HTML binding:
+```js
+<ik-image 
+  path="/default-image.jpg"
+  [transformation]='[{
+    "height": "200",
+    "width": "200"
+  }]'
+  >
+</ik-image>
+```
+
+Apprach two - via app.component.ts:
+For this approach, we first setup our app.component.ts as such.
+```js
+import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transformation';
+...
+export class AppComponent {
+  ...
+  myTransformation: Array<Transformation> = [{
+     height: "200",
+     width: "200"
+  }];
+  ..
+```
+
+Then we use it in our html file as such:
+```js
+<ik-image 
+  path="/default-image.jpg"
+  [transformation]='myTransformation'
+  >
+</ik-image>
+```
+
+Both approaches yield the same result; applying a height and width of 200px to the image. 
+
+Now that you have learnt the two ways to bind objects to HTML attributes, let's continue exploring the Imagekit library.
 
 ## Components
 
@@ -160,10 +206,13 @@ The ik-image component defines an ImageKit Image tag. example usage:
 #### Using image path and image hostname or endpoint
 
 ```js
-<ik-image path="/default-image.jpg" transformation={[{
-  "height": "300",
-  "width": "400"
-}]}></ik-image>
+<ik-image path="/default-image.jpg" 
+  [transformation]='[{
+    "height": "300",
+    "width": "400"
+  }]'
+  >
+</ik-image>
 ```
 
 #### Using full image URL  
@@ -171,11 +220,12 @@ The ik-image component defines an ImageKit Image tag. example usage:
 ```js
 <ik-image 
   src="<full_image_url>" 
-  transformation={[{
-  "height": "300",
-  "width": "400"
-}]}
-></ik-image>
+  [transformation]='[{
+    "height": "300",
+    "width": "400"
+  }]'
+  >
+</ik-image>
 ```
   
 `src` is the complete URL that is already mapped to ImageKit.
@@ -303,7 +353,9 @@ const transformations = [{
   height: 180
 }]
 
-<ik-image style="" src="<full_image_url>" transformations = {transformations}></ik-image>
+<ik-image style="" src="<full_image_url>" 
+[transformation] = "transformations">
+</ik-image>
 ```
 The above image will apply transformation of width = 90 and height = 180 on the image. Since some transformations are destructive you might want to control the order in which the transforms are applied.
 
@@ -351,7 +403,7 @@ The SDK supports automatic support for LQIP for your images, if you set lqip to 
   ```js 
   <ik-image 
     src="<full_image_url>" 
-    lqip={{active:true, quality: 20}}
+    [lqip]="{active:true, quality: 20}"
     >
   </ik-image>
   ```
@@ -363,7 +415,7 @@ You can also specify a `raw` transformation if you want more control over the UR
 ```js
 <ik-image
   path="/default-image.jpg"
-  lqip={{active:true, raw: "n-lqip_named_transformation"}}
+  [lqip]='{active:true, raw: "n-lqip_named_transformation"}'
   >
 </ik-image>
 ```
@@ -376,7 +428,7 @@ You have the option to lazy-load the original image only when the user scrolls n
 <ik-image
         src="<full_image_url>"
         loading="lazy"
-        lqip={{ active: true, quality: 20, blur: 30 }}
+        [lqip]="{ active: true, quality: 20, blur: 30 }"
       >
 </ik-image>
 ```
@@ -391,10 +443,13 @@ The ik-video component defines an ImageKit video tag. example usage:
 #### Using video path and video hostname or endpoint
 
 ```js
-<ik-video path="/sample-video.mp4" transformation={[{
-  "height": "300",
-  "width": "400"
-}]}></ik-video>
+<ik-video path="/sample-video.mp4" 
+  [transformation]='[{
+    "height": "300",
+    "width": "400"
+  }]'
+>
+</ik-video>
 ```
 
 #### Using full video URL  
@@ -402,10 +457,10 @@ The ik-video component defines an ImageKit video tag. example usage:
 ```js
 <ik-video 
     src="<full_video_url>" 
-    transformation={[{
-    "height": "300",
-    "width": "400"
-  }]}
+    [transformation]='[{
+      "height": "300",
+      "width": "400"
+    }]'
   ></ik-video>
 ```
   
@@ -429,7 +484,9 @@ const transformations = [{
   height: 180
 }]
 
-<ik-video style="" src="<full_video_url>" transformations = {transformations}></ik-video>
+<ik-video style="" src="<full_video_url>" 
+  [transformations] = "transformations"
+></ik-video>
 ```
 The above video will apply transformation of width = 90 and height = 180 on the video. Since some transformations are destructive you might want to control the order in which the transforms are applied.
 
