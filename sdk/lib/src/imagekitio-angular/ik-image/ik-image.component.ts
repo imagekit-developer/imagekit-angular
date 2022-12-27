@@ -15,7 +15,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   @Input('transformationPosition') transformationPosition: "path" | "query";
   @Input('queryParameters') queryParameters: QueryParameters;
   @Input('lqip') lqip: LqipOptions;
-  @Input('loading') loading: "lazy";
+  @Input('loading') loading: string;
   url = '';
   lqipUrl = '';
   
@@ -54,7 +54,8 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
       );
       imageObserver.observe(this.el.nativeElement);
     } else {
-      this.loadImage(this, this.url);
+      // If given LQIP, use that first
+      this.loadImage(this, this.lqipUrl ? this.lqipUrl : this.url);
     }
   }
 
