@@ -5,7 +5,7 @@ import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transfor
 
 @Component({
   selector: 'ik-image',
-  template: `<img src=''>`,
+  template: `<img src='' (load)="onImageLoaded($event)">`,
 })
 export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   @Input('src') src: string;
@@ -58,6 +58,12 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
       this.loadImage(this, this.lqipUrl ? this.lqipUrl : this.url);
     }
   }
+
+  onImageLoaded = (event) => {
+    if(this.loading != 'lazy' && event.srcElement.src === this.lqipUrl){
+      this.loadImage(this, this.url);
+    }
+  };
 
   handleIntersectionObserver (entry: any, observer: IntersectionObserver, 
     loadImageFunc: Function, context: IkImageComponent, url: string): void {
