@@ -527,25 +527,25 @@ Sample Usage
 
 `ik-upload` component accepts all the parameters supported by the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/client-side-file-upload#request-structure-multipart-form-data) as attributes e.g. `tags`, `useUniqueFileName`, `folder`, `isPrivateFile`, `customCoordinates` etc.
 
-`ik-upload` component also supports the following functions:
+`ik-upload` component also supports the following optional functions:
 
 - `onFileInput`
 Input function which triggers when file has been selected to upload
 
 - `validateFile`
-Input function which will determine whether file can upload can proceed (can be used to set file size validation)
+Input function which will determine whether file can upload can proceed (can be used to set file size validation). The first and only argument is the file selected for upload. If the callback returns `true`, the upload is allowed to continue. But, if it returns `false`, the upload is not done.
 
 - `onUploadStart`
-Input function which triggers when file upload starts
+Input function which triggers when file upload starts. The first and only argument is the HTML input's change event.
 
 - `onUploadProgress`
-Input function which triggers when file upload is in progress (can be used to track file upload progress)
+Input function which triggers when file upload is in progress (can be used to track file upload progress). The first and only argument is the ProgressEvent.
 
 - `onError`
-Input function which triggers when upload fails
+Input function which triggers when upload fails. The first and only argument is the error received from the upload API.
 
 - `onSuccess`
-Input function which triggers when upload successfully completed. The ResponseMetadata is available in the event param object. It can be accessed as such `event.$ResponseMetadata.statusCode`.
+Input function which triggers when upload successfully completed. The first and only argument is the response JSON from the upload API. The request-id, response headers, and HTTP status code are also accessible using the $ResponseMetadata key that is exposed from the [javascript sdk](https://github.com/imagekit-developer/imagekit-javascript#access-request-id-other-response-headers-and-http-status-code)
 
 
 Sample usage
