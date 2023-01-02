@@ -4,7 +4,7 @@ import { IkUploadComponentOptions, Dict, HTMLInputEvent } from '../utility/ik-ty
 
 @Component({
   selector: 'ik-upload',
-  template: `<input type="file" (change)="handleFileInput($event)" />`,
+  template: `<input type="file" ref="{{inputRef}}" (change)="handleFileInput($event)" />`,
   providers: [ImagekitService]
 })
 export class IkUploadComponent implements OnInit {
