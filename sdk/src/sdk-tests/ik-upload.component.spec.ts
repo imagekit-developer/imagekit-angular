@@ -480,6 +480,72 @@ describe("IkUploadComponent", () => {
     expect(actual).toEqual(expected);
   });
 
+  it("getUploadParams removes publicKey if not defined", () => {
+    let newFileName: string = "new-file-name";
+    let dummyFile: File = new File([""], "dummy-file-name");
+    let options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: newFileName,
+      publicKey: undefined
+    }
+    const actual = component.getUploadParams(options);
+    const expected = {
+      file: dummyFile,
+      fileName: newFileName,
+    };
+    expect(actual).toEqual(expected);
+  });
+
+  it("getUploadParams adds publicKey if defined", () => {
+    let newFileName: string = "new-file-name";
+    let dummyFile: File = new File([""], "dummy-file-name");
+    let options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: newFileName,
+      publicKey: '1234'
+    }
+    const actual = component.getUploadParams(options);
+    const expected = {
+      file: dummyFile,
+      fileName: newFileName,
+      publicKey: '1234'
+    };
+    expect(actual).toEqual(expected);
+  });
+
+  it("getUploadParams removes authenticationEndpoint if not defined", () => {
+    let newFileName: string = "new-file-name";
+    let dummyFile: File = new File([""], "dummy-file-name");
+    let options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: newFileName,
+      authenticationEndpoint: undefined
+    }
+    const actual = component.getUploadParams(options);
+    const expected = {
+      file: dummyFile,
+      fileName: newFileName,
+    };
+    expect(actual).toEqual(expected);
+  });
+
+  it("getUploadParams adds authenticationEndpoint if defined", () => {
+    let newFileName: string = "new-file-name";
+    let dummyFile: File = new File([""], "dummy-file-name");
+    let options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: newFileName,
+      authenticationEndpoint: 'my-authenticationEndpoint'
+    }
+    const actual = component.getUploadParams(options);
+    const expected = {
+      file: dummyFile,
+      fileName: newFileName,
+      authenticationEndpoint: 'my-authenticationEndpoint'
+    };
+    expect(actual).toEqual(expected);
+  });
+
   it("upload file should not commence if validate file fails", () => {
     const comp = fixture.componentInstance;
     comp.fileName = 'dummy-file-name';

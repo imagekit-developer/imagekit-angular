@@ -12,6 +12,8 @@ export class IkUploadComponent implements OnInit {
   @Input('useUniqueFileName') useUniqueFileName: boolean; //optional
   @Input('tags') tags: Array<string>; //optional
   @Input('folder') folder: string; //optional
+  @Input('publicKey') publicKey: string; //optional
+  @Input('authenticationEndpoint') authenticationEndpoint: string; //optional
   @Input('isPrivateFile') isPrivateFile: boolean; //optional
   @Input('overwriteFile') overwriteFile: boolean; //optional
   @Input('overwriteAITags') overwriteAITags: boolean; //optional
@@ -44,6 +46,8 @@ export class IkUploadComponent implements OnInit {
       useUniqueFileName: this.useUniqueFileName,
       tags: this.tags,
       folder: this.folder,
+      publicKey: this.publicKey,
+      authenticationEndpoint: this.authenticationEndpoint,
       customMetadata: this.customMetadata,
       isPrivateFile: this.isPrivateFile,
       overwriteFile: this.overwriteFile,
@@ -153,6 +157,14 @@ export class IkUploadComponent implements OnInit {
 
     if (options.overwriteCustomMetadata !== undefined) {
       Object.assign(params, { overwriteCustomMetadata: options.overwriteCustomMetadata });
+    }
+
+    if (options.publicKey !== undefined) {
+      Object.assign(params, { publicKey: options.publicKey });
+    }
+
+    if (options.authenticationEndpoint !== undefined) {
+      Object.assign(params, { authenticationEndpoint: options.authenticationEndpoint });
     }
 
     if (options.tags !== undefined) {
