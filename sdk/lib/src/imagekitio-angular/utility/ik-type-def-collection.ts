@@ -55,5 +55,4 @@ export interface IkUploadComponentOptions {
     validateFile?: Function;
     xhr?: XMLHttpRequest;
     publicKey?: string;
-    authenticationEndpoint?: string;
 }
