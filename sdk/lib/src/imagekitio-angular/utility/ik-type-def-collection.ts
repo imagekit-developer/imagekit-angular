@@ -37,7 +37,7 @@ export interface IkVideoComponentOptions extends UrlOptionsBase {
 export interface IkUploadComponentOptions {
     file: File;
     fileName: string;
-    tags?: string; // is it not array string?
+    tags?: Array<string>;
     useUniqueFileName?: boolean;
     responseFields?: string; // is it not array string?
     isPrivateFile?: boolean;

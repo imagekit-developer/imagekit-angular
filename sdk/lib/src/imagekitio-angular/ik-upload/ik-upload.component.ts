@@ -10,7 +10,7 @@ import { IkUploadComponentOptions, Dict, HTMLInputEvent } from '../utility/ik-ty
 export class IkUploadComponent implements OnInit {
   @Input('fileName') fileName: string; //optional
   @Input('useUniqueFileName') useUniqueFileName: boolean; //optional
-  @Input('tags') tags: string; //optional
+  @Input('tags') tags: Array<string>; //optional
   @Input('folder') folder: string; //optional
   @Input('isPrivateFile') isPrivateFile: boolean; //optional
   @Input('customCoordinates') customCoordinates: string; //optional
