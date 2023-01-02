@@ -42,6 +42,8 @@ export class IkUploadComponent implements OnInit {
       isPrivateFile: this.isPrivateFile,
       customCoordinates: this.customCoordinates,
       responseFields: this.responseFields,
+      extensions: this.extensions,
+      webhookUrl: this.webhookUrl,
       onError: this.onError,
       onSuccess: this.onSuccess
     }
