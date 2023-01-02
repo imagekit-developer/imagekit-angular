@@ -13,10 +13,15 @@ export class IkUploadComponent implements OnInit {
   @Input('tags') tags: Array<string>; //optional
   @Input('folder') folder: string; //optional
   @Input('isPrivateFile') isPrivateFile: boolean; //optional
+  @Input('overwriteFile') overwriteFile: boolean; //optional
+  @Input('overwriteAITags') overwriteAITags: boolean; //optional
+  @Input('overwriteTags') overwriteTags: boolean; //optional
+  @Input('overwriteCustomMetadata') overwriteCustomMetadata: boolean; //optional
   @Input('customCoordinates') customCoordinates: string; //optional
   @Input('webhookUrl') webhookUrl: string; //optional
   @Input('responseFields') responseFields: Array<string>; //optional
   @Input('extensions') extensions: Array<Object>; //optional
+  @Input('customMetadata') customMetadata: Object; //optional
   @Output() onError: EventEmitter<any> = new EventEmitter();
   @Output() onSuccess: EventEmitter<any> = new EventEmitter();
   @Input('validateFile') validateFile: (file: File) => boolean;
@@ -39,7 +44,12 @@ export class IkUploadComponent implements OnInit {
       useUniqueFileName: this.useUniqueFileName,
       tags: this.tags,
       folder: this.folder,
+      customMetadata: this.customMetadata,
       isPrivateFile: this.isPrivateFile,
+      overwriteFile: this.overwriteFile,
+      overwriteAITags: this.overwriteAITags,
+      overwriteTags: this.overwriteTags,
+      overwriteCustomMetadata: this.overwriteCustomMetadata,
       customCoordinates: this.customCoordinates,
       responseFields: this.responseFields,
       extensions: this.extensions,
@@ -117,12 +127,32 @@ export class IkUploadComponent implements OnInit {
       Object.assign(params, { folder: options.folder });
     }
 
+    if (options.customMetadata !== undefined) {
+      Object.assign(params, { customMetadata: options.customMetadata });
+    }
+
     if (options.webhookUrl !== undefined) {
       Object.assign(params, { webhookUrl: options.webhookUrl });
     }
 
     if (options.isPrivateFile !== undefined) {
       Object.assign(params, { isPrivateFile: options.isPrivateFile });
+    }
+
+    if (options.overwriteFile !== undefined) {
+      Object.assign(params, { overwriteFile: options.overwriteFile });
+    }
+
+    if (options.overwriteAITags !== undefined) {
+      Object.assign(params, { overwriteAITags: options.overwriteAITags });
+    }
+
+    if (options.overwriteTags !== undefined) {
+      Object.assign(params, { overwriteTags: options.overwriteTags });
+    }
+
+    if (options.overwriteCustomMetadata !== undefined) {
+      Object.assign(params, { overwriteCustomMetadata: options.overwriteCustomMetadata });
     }
 
     if (options.tags !== undefined) {

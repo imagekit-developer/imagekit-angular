@@ -249,6 +249,39 @@ describe("IkUploadComponent", () => {
     expect(JSON.stringify(actual.responseFields)).toEqual(JSON.stringify(expected.responseFields));
   });
 
+  it("getUploadParams removes customMetadata if not defined", () => {
+    let newFileName: string = "new-file-name";
+    let dummyFile: File = new File([""], "dummy-file-name");
+    let options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: newFileName,
+      customMetadata: undefined
+    }
+    const actual = component.getUploadParams(options);
+    const expected = {
+      file: dummyFile,
+      fileName: newFileName,
+    };
+    expect(actual).toEqual(expected);
+  });
+
+  it("getUploadParams adds customMetadata if defined", () => {
+    let newFileName: string = "new-file-name";
+    let dummyFile: File = new File([""], "dummy-file-name");
+    let options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: newFileName,
+      customMetadata: {"name": "remove-bg","options": {"add_shadow": true}}
+    }
+    const actual = component.getUploadParams(options);
+    const expected = {
+      file: dummyFile,
+      fileName: newFileName,
+      customMetadata: {"name": "remove-bg","options": {"add_shadow": true}}
+    };
+    expect(JSON.stringify(actual.customMetadata)).toEqual(JSON.stringify(expected.customMetadata));
+  });
+
   it("getUploadParams removes extensions if not defined", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
@@ -311,6 +344,138 @@ describe("IkUploadComponent", () => {
       file: dummyFile,
       fileName: newFileName,
       webhookUrl: 'mywebhookurl'
+    };
+    expect(actual).toEqual(expected);
+  });
+
+  it("getUploadParams removes overwriteFile if not defined", () => {
+    let newFileName: string = "new-file-name";
+    let dummyFile: File = new File([""], "dummy-file-name");
+    let options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: newFileName,
+      overwriteFile: undefined
+    }
+    const actual = component.getUploadParams(options);
+    const expected = {
+      file: dummyFile,
+      fileName: newFileName,
+    };
+    expect(actual).toEqual(expected);
+  });
+
+  it("getUploadParams adds overwriteFile if defined", () => {
+    let newFileName: string = "new-file-name";
+    let dummyFile: File = new File([""], "dummy-file-name");
+    let options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: newFileName,
+      overwriteFile: false
+    }
+    const actual = component.getUploadParams(options);
+    const expected = {
+      file: dummyFile,
+      fileName: newFileName,
+      overwriteFile: false
+    };
+    expect(actual).toEqual(expected);
+  });
+
+  it("getUploadParams removes overwriteAITags if not defined", () => {
+    let newFileName: string = "new-file-name";
+    let dummyFile: File = new File([""], "dummy-file-name");
+    let options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: newFileName,
+      overwriteAITags: undefined
+    }
+    const actual = component.getUploadParams(options);
+    const expected = {
+      file: dummyFile,
+      fileName: newFileName,
+    };
+    expect(actual).toEqual(expected);
+  });
+
+  it("getUploadParams adds overwriteAITags if defined", () => {
+    let newFileName: string = "new-file-name";
+    let dummyFile: File = new File([""], "dummy-file-name");
+    let options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: newFileName,
+      overwriteAITags: false
+    }
+    const actual = component.getUploadParams(options);
+    const expected = {
+      file: dummyFile,
+      fileName: newFileName,
+      overwriteAITags: false
+    };
+    expect(actual).toEqual(expected);
+  });
+
+  it("getUploadParams removes overwriteTags if not defined", () => {
+    let newFileName: string = "new-file-name";
+    let dummyFile: File = new File([""], "dummy-file-name");
+    let options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: newFileName,
+      overwriteTags: undefined
+    }
+    const actual = component.getUploadParams(options);
+    const expected = {
+      file: dummyFile,
+      fileName: newFileName,
+    };
+    expect(actual).toEqual(expected);
+  });
+
+  it("getUploadParams adds overwriteTags if defined", () => {
+    let newFileName: string = "new-file-name";
+    let dummyFile: File = new File([""], "dummy-file-name");
+    let options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: newFileName,
+      overwriteTags: false
+    }
+    const actual = component.getUploadParams(options);
+    const expected = {
+      file: dummyFile,
+      fileName: newFileName,
+      overwriteTags: false
+    };
+    expect(actual).toEqual(expected);
+  });
+
+  it("getUploadParams removes overwriteCustomMetadata if not defined", () => {
+    let newFileName: string = "new-file-name";
+    let dummyFile: File = new File([""], "dummy-file-name");
+    let options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: newFileName,
+      overwriteCustomMetadata: undefined
+    }
+    const actual = component.getUploadParams(options);
+    const expected = {
+      file: dummyFile,
+      fileName: newFileName,
+    };
+    expect(actual).toEqual(expected);
+  });
+
+  it("getUploadParams adds overwriteCustomMetadata if defined", () => {
+    let newFileName: string = "new-file-name";
+    let dummyFile: File = new File([""], "dummy-file-name");
+    let options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: newFileName,
+      overwriteCustomMetadata: false
+    }
+    const actual = component.getUploadParams(options);
+    const expected = {
+      file: dummyFile,
+      fileName: newFileName,
+      overwriteCustomMetadata: false
     };
     expect(actual).toEqual(expected);
   });

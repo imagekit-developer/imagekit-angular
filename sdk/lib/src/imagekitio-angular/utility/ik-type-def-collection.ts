@@ -49,7 +49,7 @@ export interface IkUploadComponentOptions {
     overwriteAITags?: boolean;
     overwriteTags?: boolean;
     overwriteCustomMetadata?: boolean;
-    customMetadata?: string | Record<string, string | number | boolean | Array<string | number | boolean>>;
+    customMetadata?: Object;
     onError?: EventEmitter<any>;
     onSuccess?: EventEmitter<any>;
     inputRef?: any;
