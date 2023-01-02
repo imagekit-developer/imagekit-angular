@@ -149,7 +149,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   };
 
   setElementAttributes(element: any, attributesLiteral: Dict): void {
-    Object.keys(attributesLiteral).forEach(attrName => {
+    Object.keys(attributesLiteral).filter(attrName => attrName !== 'loading').forEach(attrName => {
         element.setAttribute(attrName, attributesLiteral[attrName]);
     });
   }
