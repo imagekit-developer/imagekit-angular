@@ -541,7 +541,6 @@ Sample Usage
 | overwriteAITags   | Boolean | Optional. Default is true. If set to true and a file already exists at the exact location, its AITags will be removed. Set overwriteAITags to false to preserve AITags. |
 | overwriteCustomMetadata   | Boolean | Optional. Default is true. If the request does not have customMetadata , overwriteCustomMetadata is set to true and a file already exists at the exact location, exiting customMetadata will be removed. In case the request body has customMetadata, setting overwriteCustomMetadata to false has no effect and request's customMetadata is set on the asset. |
 | customMetadata   | Object | Optional. JSON key-value data to be associated with the asset. |
-| inputRef   | Reference | Optional. Forward reference to the core HTMLInputElement.|
 | onUploadStart | Function callback | Optional. Called before the upload is started. The first and only argument is the HTML input's change event |
 | onUploadProgress | Function callback | Optional. Called while an upload is in progress. The first and only argument is the ProgressEvent |
 | validateFile | Function callback | Optional. Called before the upload is started to run custom validation. The first and only argument is the file selected for upload. If the callback returns `true`, the upload is allowed to continue. But, if it returns `false`, the upload is not done |
