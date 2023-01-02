@@ -52,7 +52,6 @@ export interface IkUploadComponentOptions {
     customMetadata?: Object;
     onError?: EventEmitter<any>;
     onSuccess?: EventEmitter<any>;
-    inputRef?: any;
     validateFile?: Function;
     xhr?: XMLHttpRequest;
 }
