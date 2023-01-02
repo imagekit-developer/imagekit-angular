@@ -39,7 +39,7 @@ export interface IkUploadComponentOptions {
     fileName: string;
     tags?: Array<string>;
     useUniqueFileName?: boolean;
-    responseFields?: string; // is it not array string?
+    responseFields?: Array<string>;
     isPrivateFile?: boolean;
     folder?: string;
     customCoordinates?: string;

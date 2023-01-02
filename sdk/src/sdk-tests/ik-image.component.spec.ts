@@ -293,10 +293,6 @@ describe("IkImageComponent", () => {
       target: fixture.nativeElement,
       isIntersecting: true
     }]
-    const lqip: LqipOptions = {
-      active: true
-    }
-    const lqipUrl = 'https://ik.imagekit.io/18ykd9wzp/default-image.jpg';
     let isObserving = true;
     const mockObserver = jasmine.createSpyObj('IntersectionObserver', ['unobserve']);
     mockObserver.unobserve.and.callFake(function() {

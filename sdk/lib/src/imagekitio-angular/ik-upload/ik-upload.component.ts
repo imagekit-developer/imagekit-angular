@@ -14,7 +14,9 @@ export class IkUploadComponent implements OnInit {
   @Input('folder') folder: string; //optional
   @Input('isPrivateFile') isPrivateFile: boolean; //optional
   @Input('customCoordinates') customCoordinates: string; //optional
-  @Input('responseFields') responseFields: string; //optional
+  @Input('webhookUrl') webhookUrl: string; //optional
+  @Input('responseFields') responseFields: Array<string>; //optional
+  @Input('extensions') extensions: Array<Object>; //optional
   @Output() onError: EventEmitter<any> = new EventEmitter();
   @Output() onSuccess: EventEmitter<any> = new EventEmitter();
   @Input('validateFile') validateFile: (file: File) => boolean;
@@ -102,14 +104,19 @@ export class IkUploadComponent implements OnInit {
   getUploadParams(options: IkUploadComponentOptions): Dict {
     const params: Dict = {
       file: options.file,
-      fileName: options.fileName,
+      fileName: options.fileName
     }
+
     if (options.useUniqueFileName !== undefined) {
       Object.assign(params, { useUniqueFileName: options.useUniqueFileName });
     }
 
     if (options.folder !== undefined) {
       Object.assign(params, { folder: options.folder });
+    }
+
+    if (options.webhookUrl !== undefined) {
+      Object.assign(params, { webhookUrl: options.webhookUrl });
     }
 
     if (options.isPrivateFile !== undefined) {
@@ -127,6 +134,11 @@ export class IkUploadComponent implements OnInit {
     if (options.responseFields !== undefined) {
       Object.assign(params, { responseFields: options.responseFields });
     }
+
+    if (options.extensions !== undefined) {
+      Object.assign(params, { extensions: options.extensions });
+    }
+
     if (options.xhr !== undefined) {
       Object.assign(params, { xhr: options.xhr });
     }
