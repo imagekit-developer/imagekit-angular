@@ -129,7 +129,6 @@ Note: If `urlEndpoint` field is not set in the HTML component, it will use the d
 // See section "ik-upload" in README for more info
 <ik-upload 
   fileName="test.jpg" 
-  (onFileInput)="onFileInput($event)"
   (onError)="handleUploadError($event)"
   (onSuccess)="handleUploadSuccess($event)"
   >
@@ -527,10 +526,32 @@ Sample Usage
 
 `ik-upload` component accepts all the parameters supported by the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/client-side-file-upload#request-structure-multipart-form-data) as attributes e.g. `tags`, `useUniqueFileName`, `folder`, `isPrivateFile`, `customCoordinates` etc.
 
-`ik-upload` component also supports the following optional functions:
+| Prop             | Type | Description                    |
+| :----------------| :----|:----------------------------- |
+| fileName | String | Optional. If not specified, the file system name is picked. 
+| useUniqueFileName  | Boolean | Optional. Accepts `true` of `false`. The default value is `true`. Specify whether to use a unique filename for this file or not. |
+| tags     | Array of string | Optional. Set the tags while uploading the file e.g. ["tag1","tag2"] |
+| folder        | String | Optional. The folder path (e.g. `/images/folder/`) in which the file has to be uploaded. If the folder doesn't exist before, a new folder is created.|
+| isPrivateFile | Boolean | Optional. Accepts `true` of `false`. The default value is `false`. Specify whether to mark the file as private or not. This is only relevant for image type files|
+| customCoordinates   | String | Optional. Define an important area in the image. This is only relevant for image-type files. To be passed as a string with the `x` and `y` coordinates of the top-left corner and `width` and `height` of the area of interest in the format `x,y,width,height`. For example - `10,10,100,100` |
+| responseFields   | Array of string | Optional. Values of the fields that you want upload API to return in the response. For example, set the value of this field to `["tags", "customCoordinates", "isPrivateFile"]` to get value of `tags`, `customCoordinates`, and `isPrivateFile` in the response. |
+| extensions   | Array of object | Optional. Array of object for [applying extensions](https://docs.imagekit.io/extensions/overview) on the image. |
+| webhookUrl   | String | Optional. Final status of pending extensions will be sent to this URL. |
+| overwriteFile   | Boolean | Optional. Default is true. If overwriteFile is set to false and useUniqueFileName is also false, and a file already exists at the exact location, upload API will return an error immediately. |
+| overwriteAITags   | Boolean | Optional. Default is true. If set to true and a file already exists at the exact location, its AITags will be removed. Set overwriteAITags to false to preserve AITags. |
+| overwriteCustomMetadata   | Boolean | Optional. Default is true. If the request does not have customMetadata , overwriteCustomMetadata is set to true and a file already exists at the exact location, exiting customMetadata will be removed. In case the request body has customMetadata, setting overwriteCustomMetadata to false has no effect and request's customMetadata is set on the asset. |
+| customMetadata   | Object | Optional. JSON key-value data to be associated with the asset. |
+| inputRef   | Reference | Optional. Forward reference to the core HTMLInputElement.|
+| onUploadStart | Function callback | Optional. Called before the upload is started. The first and only argument is the HTML input's change event |
+| onUploadProgress | Function callback | Optional. Called while an upload is in progress. The first and only argument is the ProgressEvent |
+| validateFile | Function callback | Optional. Called before the upload is started to run custom validation. The first and only argument is the file selected for upload. If the callback returns `true`, the upload is allowed to continue. But, if it returns `false`, the upload is not done |
+| onSuccess   | Function callback | Optional. Called if the upload is successful. The first and only argument is the response JSON from the upload API. The request-id, response headers, and HTTP status code are also accessible using the $ResponseMetadata key that is exposed from the [javascript sdk](https://github.com/imagekit-developer/imagekit-javascript#access-request-id-other-response-headers-and-http-status-code) |
+| onError   | Function callback | Optional. Called if upload results in an error. The first and only argument is the error received from the upload API |
+| urlEndpoint      | String | Optional. If not specified, the URL-endpoint specified in the `app.module.ts` is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/ |
+| publicKey      | String | Optional. If not specified, the `publicKey` specified in the `app.module.ts` is used.|
+| authenticationEndpoint      | String | Optional. If not specified, the `authenticationEndpoint` specified in the `app.module.ts` is used. |
 
-- `onFileInput`
-Input function which triggers when file has been selected to upload
+`ik-upload` component also supports the following optional functions:
 
 - `validateFile`
 Input function which will determine whether file can upload can proceed (can be used to set file size validation). The first and only argument is the file selected for upload. If the callback returns `true`, the upload is allowed to continue. But, if it returns `false`, the upload is not done.
@@ -551,10 +572,6 @@ Input function which triggers when upload successfully completed. The first and 
 Sample usage
 
 ```js
-const handleOnFileInput = (event) => {
-  console.log('File input');
-};
-
 validateFileFunction(res: any) {
   console.log('validating')
   if(res.size < 1000000){ // Less than 1mb file size
@@ -585,7 +602,6 @@ const handleUploadSuccess = (event) => {
 
 <ik-upload 
     fileName="test.jpg" 
-    (onFileInput)="onFileInput($event)"
     (onError)="handleUploadError($event)"
     (onSuccess)="handleUploadSuccess($event)"
     [validateFile]="validateFileFunction"

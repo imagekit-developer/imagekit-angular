@@ -8,7 +8,7 @@ import { IkUploadComponentOptions, Dict, HTMLInputEvent } from '../utility/ik-ty
   providers: [ImagekitService]
 })
 export class IkUploadComponent implements OnInit {
-  @Input('fileName') fileName: string; //required
+  @Input('fileName') fileName: string; //optional
   @Input('useUniqueFileName') useUniqueFileName: boolean; //optional
   @Input('tags') tags: string; //optional
   @Input('folder') folder: string; //optional
@@ -17,7 +17,6 @@ export class IkUploadComponent implements OnInit {
   @Input('responseFields') responseFields: string; //optional
   @Output() onError: EventEmitter<any> = new EventEmitter();
   @Output() onSuccess: EventEmitter<any> = new EventEmitter();
-  @Input() onFileInput: (e: HTMLInputEvent) => void;
   @Input('validateFile') validateFile: (file: File) => boolean;
   @Input('onUploadStart') onUploadStart: (e: HTMLInputEvent) => void;
   @Input('onUploadProgress') onUploadProgress: (e: ProgressEvent) => void;
@@ -29,18 +28,12 @@ export class IkUploadComponent implements OnInit {
   }
 
   handleFileInput(e: HTMLInputEvent): void {
-    // Custom file uploader
-    if (this.onFileInput) {
-      this.onFileInput(e);
-      return;
-    }
-
     // Using IK-upload
     const files = e.target.files;
     this.fileToUpload = files.item(0);
     const options: IkUploadComponentOptions = {
       file: this.fileToUpload,
-      fileName: this.fileName,
+      fileName: this.fileName || this.fileToUpload.name,
       useUniqueFileName: this.useUniqueFileName,
       tags: this.tags,
       folder: this.folder,
