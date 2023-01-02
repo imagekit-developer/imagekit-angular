@@ -548,7 +548,6 @@ Sample Usage
 | onError   | Function callback | Optional. Called if upload results in an error. The first and only argument is the error received from the upload API |
 | urlEndpoint      | String | Optional. If not specified, the URL-endpoint specified in the `app.module.ts` is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/ |
 | publicKey      | String | Optional. If not specified, the `publicKey` specified in the `app.module.ts` is used.|
-| authenticationEndpoint      | String | Optional. If not specified, the `authenticationEndpoint` specified in the `app.module.ts` is used. |
 
 `ik-upload` component also supports the following optional functions:
 
