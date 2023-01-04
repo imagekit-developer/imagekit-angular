@@ -292,7 +292,7 @@ describe("IkImageComponent", () => {
     const entry = [{
       target: fixture.nativeElement,
       isIntersecting: true
-    }]
+    }];
     let isObserving = true;
     const mockObserver = jasmine.createSpyObj('IntersectionObserver', ['unobserve']);
     mockObserver.unobserve.and.callFake(function() {

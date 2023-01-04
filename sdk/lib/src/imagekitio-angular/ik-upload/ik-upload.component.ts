@@ -119,7 +119,7 @@ export class IkUploadComponent implements OnInit {
     const params: Dict = {
       file: options.file,
       fileName: options.fileName
-    }
+    };
 
     if (options.useUniqueFileName !== undefined) {
       Object.assign(params, { useUniqueFileName: options.useUniqueFileName });
