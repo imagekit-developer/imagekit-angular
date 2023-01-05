@@ -517,11 +517,13 @@ An example of this server is provided in the sample-server folder of the SDK.
 Sample Usage
 ```js
 // Simple upload
-<ik-upload fileName="my-upload" /></ik-upload>
+<ik-upload fileName="my-upload"></ik-upload>
 
 // Using callbacks and other parameters of upload API
 <ik-upload fileName="test_new" [useUniqueFileName]="false" [isPrivateFile]="true"
-    (onSuccess)="handleUploadSuccess($event)" (onError)="handleUploadError($event)"></ik-upload>
+    (onSuccess)="handleUploadSuccess($event)" (onError)="handleUploadError($event)"
+    >
+</ik-upload>
 ```
 
 `ik-upload` component accepts all the parameters supported by the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/client-side-file-upload#request-structure-multipart-form-data) as attributes e.g. `tags`, `useUniqueFileName`, `folder`, `isPrivateFile`, `customCoordinates` etc.
@@ -544,60 +546,44 @@ Sample Usage
 | onUploadStart | Function callback | Optional. Called before the upload is started. The first and only argument is the HTML input's change event |
 | onUploadProgress | Function callback | Optional. Called while an upload is in progress. The first and only argument is the ProgressEvent |
 | validateFile | Function callback | Optional. Called before the upload is started to run custom validation. The first and only argument is the file selected for upload. If the callback returns `true`, the upload is allowed to continue. But, if it returns `false`, the upload is not done |
-| onSuccess   | Function callback | Optional. Called if the upload is successful. The first and only argument is the response JSON from the upload API. The request-id, response headers, and HTTP status code are also accessible using the $ResponseMetadata key that is exposed from the [javascript sdk](https://github.com/imagekit-developer/imagekit-javascript#access-request-id-other-response-headers-and-http-status-code) |
-| onError   | Function callback | Optional. Called if upload results in an error. The first and only argument is the error received from the upload API |
+| onSuccess   | Function callback | Optional. EventEmitter. Called if the upload is successful. The first and only argument is the response JSON from the upload API. The request-id, response headers, and HTTP status code are also accessible using the `$ResponseMetadata` key that is exposed from the [javascript sdk](https://github.com/imagekit-developer/imagekit-javascript#access-request-id-other-response-headers-and-http-status-code) |
+| onError   | Function callback | Optional. EventEmitter. Called if upload results in an error. The first and only argument is the error received from the upload API |
 | urlEndpoint      | String | Optional. If not specified, the URL-endpoint specified in the `app.module.ts` is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/ |
 | publicKey      | String | Optional. If not specified, the `publicKey` specified in the `app.module.ts` is used.|
-
-`ik-upload` component also supports the following optional functions:
-
-- `validateFile`
-Input function which will determine whether file can upload can proceed (can be used to set file size validation). The first and only argument is the file selected for upload. If the callback returns `true`, the upload is allowed to continue. But, if it returns `false`, the upload is not done.
-
-- `onUploadStart`
-Input function which triggers when file upload starts. The first and only argument is the HTML input's change event.
-
-- `onUploadProgress`
-Input function which triggers when file upload is in progress (can be used to track file upload progress). The first and only argument is the ProgressEvent.
-
-- `onError`
-Input function which triggers when upload fails. The first and only argument is the error received from the upload API.
-
-- `onSuccess`
-Input function which triggers when upload successfully completed. The first and only argument is the response JSON from the upload API. The request-id, response headers, and HTTP status code are also accessible using the $ResponseMetadata key that is exposed from the [javascript sdk](https://github.com/imagekit-developer/imagekit-javascript#access-request-id-other-response-headers-and-http-status-code)
-
 
 Sample usage
 
 ```js
-validateFileFunction(res: any) {
-  console.log('validating')
-  if(res.size < 1000000){ // Less than 1mb file size
-    return true;
+// Added to app.component.ts
+validateFileFunction(res: File) {
+    console.log('validating')
+    if(res.size < 1000000){ // Less than 1mb file size
+      return true;
+    }
+    return false;
   }
-  return false;
-}
+  
+  onUploadStartFunction(res: Event) {
+    console.log('onUploadStart')
+  }
+  
+  onUploadProgressFunction(res: ProgressEvent) {
+    console.log('progressing')
+  }
+  
+  handleUploadError = (event: any) => {
+    console.log('Error');
+    console.log(event);
+  };
+  
+  handleUploadSuccess = (event: any) => {
+    console.log('Success');
+    console.log(event.$ResponseMetadata.statusCode); // 200
+    console.log(event.$ResponseMetadata.headers); // headers
+    console.log(event);
+  };
 
-onUploadStartFunction(res: any) {
-  console.log('onUploadStart')
-}
-
-onUploadProgressFunction(res: any) {
-  console.log('progressing')
-}
-
-const handleUploadError = (event) => {
-  console.log('Error');
-  console.log(event);
-};
-
-const handleUploadSuccess = (event) => {
-  console.log('Success');
-  console.log(event.$ResponseMetadata.statusCode); // 200
-  console.log(event.$ResponseMetadata.headers); // headers
-  console.log(event);
-};
-
+// Added to app.component.html
 <ik-upload 
     fileName="test.jpg" 
     (onError)="handleUploadError($event)"
@@ -618,19 +604,18 @@ import { ImagekitService } from 'imagekitio-angular';
 ...
 // Initializing the service with configuration
 service = new ImagekitService({
-  urlEndpoint: "your_endpoint",
+  urlEndpoint: "https://ik.imagekit.io/your_imagekit_id/endpoint/",
     publicKey: "your_public_key",
     authenticationEndpoint: "your_authentication_endpoint"
 });
 
 // Generating URL
+// Note: You can choose to override the publicKey and authenticationEndpoint if necessary
 const url = this.service.ikInstance.url({
   path: "/default-image.jpg",
   urlEndpoint: "https://ik.imagekit.io/your_imagekit_id/endpoint/",
-  transformation: [{
-      "height": "300",
-      "width": "400"
-  }]
+  publicKey: "your_overriding_public_key_if_needed",
+  authenticationEndpoint: "your_overriding_authentication_endpoint_if_needed"
 });
 
 ```
