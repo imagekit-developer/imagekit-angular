@@ -4,7 +4,14 @@ import { IkUploadComponentOptions, Dict, HTMLInputEvent } from '../utility/ik-ty
 
 @Component({
   selector: 'ik-upload',
-  template: `<input type="file" (change)="handleFileInput($event)" />`,
+  template: `
+  <button *ngIf="inputRef; else elseBlock" type="button" (click)="inputRef.click()">
+    <span>Upload</span>
+  </button>
+  <ng-template #elseBlock>
+    <input type="file" (change)="handleFileInput($event)" />
+  </ng-template>
+  `,
   providers: [ImagekitService]
 })
 export class IkUploadComponent implements OnInit {
@@ -23,6 +30,7 @@ export class IkUploadComponent implements OnInit {
   @Input('responseFields') responseFields: Array<string>; //optional
   @Input('extensions') extensions: Array<Object>; //optional
   @Input('customMetadata') customMetadata: Object; //optional
+  @Input('inputRef') inputRef: HTMLInputEvent; //optional
   @Output() onError: EventEmitter<any> = new EventEmitter();
   @Output() onSuccess: EventEmitter<any> = new EventEmitter();
   @Input('validateFile') validateFile: (file: File) => boolean;
