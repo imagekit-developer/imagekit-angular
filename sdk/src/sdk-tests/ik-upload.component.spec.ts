@@ -1,4 +1,3 @@
-import { ElementRef } from "@angular/core";
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ImageKitConfiguration, ImagekitService } from "../../lib/src/imagekitio-angular/imagekit.service";
 import { IkUploadComponent } from "../../lib/src/imagekitio-angular/ik-upload/ik-upload.component";
