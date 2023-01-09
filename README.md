@@ -237,7 +237,7 @@ The `IKImage` component renders an `img` tag. It is used for rendering and manip
 
 | Prop             | Type | Description                    |
 | :----------------| :----|:----------------------------- |
-| urlEndpoint      | String | Optional. The base URL to be appended before the path of the image. If not specified, the URL-endpoint specified in the parent `IKContext` component is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/ |
+| urlEndpoint      | String | Optional. The base URL to be appended before the path of the image. If not specified, the URL-endpoint specified in `app.component.ts` is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/ |
 | path             | String |Conditional. This is the path at which the image exists. For example, `/path/to/image.jpg`. Either the `path` or `src` parameter needs to be specified for URL generation. |
 | src              | String |Conditional. This is the complete URL of an image already mapped to ImageKit. For example, `https://ik.imagekit.io/your_imagekit_id/endpoint/path/to/image.jpg`. Either the `path` or `src` parameter needs to be specified for URL generation. |
 | transformation   | Array of objects |Optional. An array of objects specifying the transformation to be applied in the URL. The transformation name and the value should be specified as a key-value pair in the object. See list of [different tranformations](#list-of-supported-transformations). Different steps of a [chained transformation](https://docs.imagekit.io/features/image-transformations/chained-transformations) can be specified as the Array's different objects. The complete list of supported transformations in the SDK and some examples of using them are given later. If you use a transformation name that is not specified in the SDK, it is applied in the URL as it is. |
@@ -469,7 +469,7 @@ The ik-video component defines an ImageKit video tag. example usage:
 
 | Prop             | Type | Description                    |
 | :----------------| :----|:----------------------------- |
-| urlEndpoint      | String | Optional. The base URL to be appended before the path of the image. If not specified, the URL-endpoint specified in the parent `IKContext` component is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/ |
+| urlEndpoint      | String | Optional. The base URL to be appended before the path of the image. If not specified, the URL-endpoint specified in `app.component.ts` is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/ |
 | path             | String |Conditional. This is the path at which the image exists. For example, `/path/to/image.jpg`. Either the `path` or `src` parameter needs to be specified for URL generation. |
 | src              | String |Conditional. This is the complete URL of an image already mapped to ImageKit. For example, `https://ik.imagekit.io/your_imagekit_id/endpoint/path/to/video.mov`. Either the `path` or `src` parameter needs to be specified for URL generation. |
 | transformation   | Array of objects |Optional. An array of objects specifying the transformation to be applied in the URL. The transformation name and the value should be specified as a key-value pair in the object. See list of [different tranformations](#list-of-supported-transformations). Different steps of a [chained transformation](https://docs.imagekit.io/features/image-transformations/chained-transformations) can be specified as the Array's different objects. The complete list of supported transformations in the SDK and some examples of using them are given later. If you use a transformation name that is not specified in the SDK, it is applied in the URL as it is. |
@@ -543,6 +543,7 @@ Sample Usage
 | overwriteAITags   | Boolean | Optional. Default is true. If set to true and a file already exists at the exact location, its AITags will be removed. Set `overwriteAITags` to false to preserve AITags. |
 | overwriteCustomMetadata   | Boolean | Optional. Default is true. If the request does not have `customMetadata`, `overwriteCustomMetadata` is set to true and a file already exists at the exact location, exiting `customMetadata` will be removed. In case the request body has `customMetadata`, setting `overwriteCustomMetadata` to false has no effect and request's `customMetadata` is set on the asset. |
 | customMetadata   | Object | Optional. JSON key-value data to be associated with the asset. |
+| buttonRef   | Reference | Optional. Forward reference to the core HTMLButtonElement. This allows users to customize the button design. |
 | onUploadStart | Function callback | Optional. Called before the upload is started. The first and only argument is the HTML input's change event |
 | onUploadProgress | Function callback | Optional. Called while an upload is in progress. The first and only argument is the ProgressEvent |
 | validateFile | Function callback | Optional. Called before the upload is started to run custom validation. The first and only argument is the file selected for upload. If the callback returns `true`, the upload is allowed to continue. But, if it returns `false`, the upload is not done |
@@ -595,6 +596,26 @@ validateFileFunction(res: File) {
   </ik-upload>
 ```
 
+Custom button example, using buttonRef
+```js
+// Set the [buttonRef] attribute
+<ik-upload 
+    fileName="test.jpg" 
+    (onError)="handleUploadError($event)"
+    (onSuccess)="handleUploadSuccess($event)"
+    [validateFile]="validateFileFunction"
+    [onUploadStart]="onUploadStartFunction"
+    [onUploadProgress]="onUploadProgressFunction"
+    [buttonRef]="myBtn"
+    >
+  </ik-upload>
+
+// Make sure to add the reference name using #
+<button #myBtn type="button" style="color:blue">
+  <span>Upload</span>
+</button>
+```
+
 ## Accessing Imagekit Core Component
 
 Sample usage
@@ -627,7 +648,6 @@ Here is an example where `ik-image` component's URL endpoint can be explicitly s
 
 ```js
 <ik-image
-        class='lazyload-lqip'
         path="/path-to-my-image"
         urlEndpoint="<enter new URL endpoint>"
         >
