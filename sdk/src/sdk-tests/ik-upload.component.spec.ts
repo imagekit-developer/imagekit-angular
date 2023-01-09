@@ -1,3 +1,4 @@
+import { ElementRef } from "@angular/core";
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ImageKitConfiguration, ImagekitService } from "../../lib/src/imagekitio-angular/imagekit.service";
 import { IkUploadComponent } from "../../lib/src/imagekitio-angular/ik-upload/ik-upload.component";
@@ -23,16 +24,7 @@ describe("IkUploadComponent", () => {
       ]
     }).compileComponents();
     fixture = TestBed.createComponent(IkUploadComponent);
-  });
-  
-  beforeEach(() => {
-    imageKitConfiguration = {
-      urlEndpoint: "url",
-      publicKey: "pub",
-      authenticationEndpoint: "auth"
-    };
-    imageKitService = new ImagekitService(imageKitConfiguration);
-    component = new IkUploadComponent(imageKitService);
+    component = fixture.componentInstance;
   });
 
   afterEach(() => {
@@ -514,19 +506,19 @@ describe("IkUploadComponent", () => {
   });
 
   it("upload file should not commence if validate file fails", () => {
-    const comp = fixture.componentInstance;
-    comp.fileName = 'dummy-file-name';
+    component.fileName = 'dummy-file-name';
     // Failed validation
-    comp.validateFile = () => {
+    component.validateFile = () => {
       return false;
     };
-    const startIkUploadFunction = spyOn(comp, 'startIkUpload');
+    fixture.detectChanges();
+    const startIkUploadFunction = spyOn(component, 'startIkUpload');
     const input = fixture.nativeElement.children[0];
     input.dispatchEvent(new Event('change'));
     fixture.detectChanges();
     expect(startIkUploadFunction).not.toHaveBeenCalled();
     // Passing validation
-    comp.validateFile = () => {
+    component.validateFile = () => {
       return true;
     };
     
@@ -535,16 +527,16 @@ describe("IkUploadComponent", () => {
     expect(startIkUploadFunction).toHaveBeenCalled();
 
     // No validation passed
-    comp.validateFile = undefined;
+    component.validateFile = undefined;
     input.dispatchEvent(new Event('change'));
     fixture.detectChanges();
     expect(startIkUploadFunction).toHaveBeenCalled();
   });
 
   it("onError event emitter called when upload fails", () => {
-    const comp = fixture.componentInstance;
-    comp.fileName = 'dummy-file-name';
-    const onErrorEventEmitter = spyOn(comp.onError, 'emit');
+    component.fileName = 'dummy-file-name';
+    fixture.detectChanges();
+    const onErrorEventEmitter = spyOn(component.onError, 'emit');
     const input = fixture.nativeElement.children[0];
     input.dispatchEvent(new Event('change'));
     fixture.detectChanges();
@@ -552,26 +544,26 @@ describe("IkUploadComponent", () => {
   });
 
   it("onSuccess event emitter called when when upload succeeds", () => {
-    const comp = fixture.componentInstance;
     let dummyFile: File = new File([""], "dummy-file-name");
-    comp.fileName = dummyFile.name;
-    const onSuccessEventEmitter = spyOn(comp.onSuccess, 'emit');
+    component.fileName = dummyFile.name;
+    fixture.detectChanges();
+    const onSuccessEventEmitter = spyOn(component.onSuccess, 'emit');
     const xhr = new XMLHttpRequest();
-    const progressCb = comp.createUploadProgressMonitor(xhr);
+    const progressCb = component.createUploadProgressMonitor(xhr);
     const options: IkUploadComponentOptions = {
       file: dummyFile,
       fileName: 'dummyFile',
-      onSuccess: comp.onSuccess
+      onSuccess: component.onSuccess
     }
-    comp.handleUploadResponse(undefined, 'success', options, xhr, progressCb);
+    component.handleUploadResponse(undefined, 'success', options, xhr, progressCb);
     expect(onSuccessEventEmitter).toHaveBeenCalled();
   });
 
   it("onUploadStart function called when when upload commences", () => {
-    const comp = fixture.componentInstance;
-    comp.fileName = 'dummy-file-name';
+    component.fileName = 'dummy-file-name';
     let hasUploadStarted = false;
-    comp.onUploadStart = () => { hasUploadStarted = true; }
+    component.onUploadStart = () => { hasUploadStarted = true; }
+    fixture.detectChanges();
     const input = fixture.nativeElement.children[0];
     input.dispatchEvent(new Event('change'));
     fixture.detectChanges();

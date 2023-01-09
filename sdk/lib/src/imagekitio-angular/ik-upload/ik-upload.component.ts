@@ -1,20 +1,18 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { AfterViewInit, ElementRef, Component, Input, Output, EventEmitter } from '@angular/core';
 import { ImagekitService } from '../imagekit.service';
 import { IkUploadComponentOptions, Dict, HTMLInputEvent } from '../utility/ik-type-def-collection';
 
 @Component({
   selector: 'ik-upload',
   template: `
-  <button *ngIf="inputRef; else elseBlock" type="button" (click)="inputRef.click()">
-    <span>Upload</span>
-  </button>
+  <input *ngIf="buttonRef; else elseBlock" type="file" (change)="handleFileInput($event)" style="display:none"/>
   <ng-template #elseBlock>
     <input type="file" (change)="handleFileInput($event)" />
   </ng-template>
   `,
   providers: [ImagekitService]
 })
-export class IkUploadComponent implements OnInit {
+export class IkUploadComponent implements AfterViewInit {
   @Input('fileName') fileName: string; //optional
   @Input('useUniqueFileName') useUniqueFileName: boolean; //optional
   @Input('tags') tags: Array<string>; //optional
@@ -30,7 +28,7 @@ export class IkUploadComponent implements OnInit {
   @Input('responseFields') responseFields: Array<string>; //optional
   @Input('extensions') extensions: Array<Object>; //optional
   @Input('customMetadata') customMetadata: Object; //optional
-  @Input('inputRef') inputRef: HTMLInputEvent; //optional
+  @Input('buttonRef') buttonRef: HTMLButtonElement; //optional
   @Output() onError: EventEmitter<any> = new EventEmitter();
   @Output() onSuccess: EventEmitter<any> = new EventEmitter();
   @Input('validateFile') validateFile: (file: File) => boolean;
@@ -38,9 +36,11 @@ export class IkUploadComponent implements OnInit {
   @Input('onUploadProgress') onUploadProgress: (e: ProgressEvent) => void;
   fileToUpload: File = null;
 
-  constructor(private imagekit: ImagekitService) { }
-
-  ngOnInit(): void {
+  constructor(private el: ElementRef, private imagekit: ImagekitService) { 
+  }
+  
+  ngAfterViewInit():void {
+    this.buttonRef && this.buttonRef.addEventListener('click', ()=>{this.el.nativeElement.children[0].click()});
   }
 
   handleFileInput(e: HTMLInputEvent): void {
