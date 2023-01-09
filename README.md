@@ -233,7 +233,7 @@ The ik-image component defines an ImageKit Image tag. example usage:
 
 ### Image resizing
 
-The `IKImage` component renders an `img` tag. It is used for rendering and manipulating images in real time. `IKImage` component accepts the following props:
+The `ik-image` component renders an `img` tag. It is used for rendering and manipulating images in real time. `ik-image` component accepts the following props:
 
 | Prop             | Type | Description                    |
 | :----------------| :----|:----------------------------- |
