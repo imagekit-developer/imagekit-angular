@@ -18,6 +18,8 @@ export class IkUploadComponent implements AfterViewInit {
   @Input('tags') tags: Array<string>; //optional
   @Input('folder') folder: string; //optional
   @Input('publicKey') publicKey: string; //optional
+  @Input('urlEndpoint') urlEndpoint: string; //optional
+  @Input('authenticationEndpoint') authenticationEndpoint: string; //optional
   @Input('isPrivateFile') isPrivateFile: boolean; //optional
   @Input('overwriteFile') overwriteFile: boolean; //optional
   @Input('overwriteAITags') overwriteAITags: boolean; //optional
@@ -53,7 +55,6 @@ export class IkUploadComponent implements AfterViewInit {
       useUniqueFileName: this.useUniqueFileName,
       tags: this.tags,
       folder: this.folder,
-      publicKey: this.publicKey,
       customMetadata: this.customMetadata,
       isPrivateFile: this.isPrivateFile,
       overwriteFile: this.overwriteFile,
@@ -93,10 +94,25 @@ export class IkUploadComponent implements AfterViewInit {
     options.xhr = new XMLHttpRequest();
     const params = this.getUploadParams(options);
     const progressCb = this.createUploadProgressMonitor(options.xhr);
-    const ik = this.imagekit.ikInstance;
+    const ik = this.getIkInstance();
+      
     ik.upload(params, (err, result) => {
       this.handleUploadResponse(err, result, options, options.xhr, progressCb)
     });
+  }
+
+  getIkInstance(): any {
+    if(this.publicKey === undefined || 
+      this.urlEndpoint === undefined || 
+      this.authenticationEndpoint === undefined){
+        return this.imagekit.ikInstance;
+    }
+    let service = new ImagekitService({
+        urlEndpoint: this.urlEndpoint,
+        publicKey: this.publicKey,
+        authenticationEndpoint: this.authenticationEndpoint
+      });
+    return service.ikInstance;
   }
 
   handleUploadResponse(err, result, options, xhr, progressCb): void {
@@ -163,10 +179,6 @@ export class IkUploadComponent implements AfterViewInit {
 
     if (options.overwriteCustomMetadata !== undefined) {
       Object.assign(params, { overwriteCustomMetadata: options.overwriteCustomMetadata });
-    }
-
-    if (options.publicKey !== undefined) {
-      Object.assign(params, { publicKey: options.publicKey });
     }
 
     if (options.tags !== undefined) {

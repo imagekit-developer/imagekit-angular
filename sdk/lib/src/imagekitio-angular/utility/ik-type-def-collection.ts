@@ -54,5 +54,4 @@ export interface IkUploadComponentOptions {
     onSuccess?: EventEmitter<any>;
     validateFile?: Function;
     xhr?: XMLHttpRequest;
-    publicKey?: string;
 }
