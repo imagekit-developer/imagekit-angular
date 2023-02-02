@@ -1,4 +1,4 @@
-describe('IKVideo Element', () => {
+describe('ik-video component', () => {
     const APP_HOST = Cypress.env().APP_HOST;
 
     describe('Video transformation', () => {

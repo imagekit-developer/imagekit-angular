@@ -1,4 +1,4 @@
-describe('IKUpload Element', () => {
+describe('ik-upload component', () => {
     const APP_HOST = Cypress.env().APP_HOST;
 
     describe('Image Upload', () => {

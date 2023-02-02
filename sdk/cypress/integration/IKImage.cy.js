@@ -1,4 +1,4 @@
-describe('ImageKit React SDK', () => {
+describe('ik-image component', () => {
   const APP_HOST = Cypress.env().APP_HOST;
 
   describe('Lazyload', () => {
