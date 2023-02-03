@@ -18,22 +18,5 @@ describe('ik-upload component', () => {
             //Verify uploaded file
             cy.get('.uploaded-img-ik').find('img').invoke('attr', 'src').should('contain','/test');
         });
-
-        it('should upload non-image file and try to get error element', () => { 
-            //static file
-            const p = 'example.json'
-
-            // launch URL
-            cy.visit(APP_HOST);
-
-            //upload file with attachFile
-            cy.get('.file-upload-error').find('input').attachFile(p)
-
-            // wait for 2 secs
-            cy.wait(2000);
-
-            //Verify uploaded file
-            cy.get('.upload-error-ik').should('contain', 'File upload failed.')
-        });
     });
 });

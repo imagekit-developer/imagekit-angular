@@ -12,9 +12,6 @@
     "lib": {
       "entryFile": "src/public_api.ts"
     },
-    "whitelistedNonPeerDependencies": [
-      "imagekit-javascript"
-    ],
     "dest": "./dist/imagekitio-angular"
   }
 }

@@ -12,7 +12,8 @@
         "lint": "ng lint",
         "postinstall": "./scripts/postinstall.sh",
         "build": "rimraf dist && ng-packagr -p lib/package.json && npm run assets",
-        "assets": "node ./scripts/copy-assets.js"
+        "assets": "node ./scripts/copy-assets.js",
+        "serve:test-app": "export SKIP_PREFLIGHT_CHECK=true;ng serve & cd ../samples/sample-server && npm run server"
     },
     "private": false,
     "dependencies": {

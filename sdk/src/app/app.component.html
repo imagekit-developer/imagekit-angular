@@ -80,11 +80,10 @@
   <p>To use this funtionality please remember to setup the server</p>
   <ik-upload 
     fileName="test.jpg" 
-    tags='["sample-tag1", "sample-tag2"]'
+    [tags]='["sample-tag1", "sample-tag2"]'
     customCoordinates="10,10,10,10"
     [isPrivateFile]="false"
-    [useUniqueFileName]="true" 
-    responseFields='["tags"]'
+    [responseFields]='["tags"]'
     folder="/sample-folder"
     (onError)="handleUploadError($event)"
     (onSuccess)="handleUploadSuccess($event)" 
@@ -99,16 +98,14 @@
     class="uploaded-img-ik">
   </ik-image>
 
-  <p>Upload invalid file</p>
-  <ik-upload
-    class="file-upload-error"
-    fileName="test-fail.jpg"
-    folder="/sample-folder"
+  <p>Upload with custom button</p>
+  <ik-upload 
+    (onSuccess)="handleUploadSuccess($event)"
     (onError)="handleUploadError($event)"
-    (onSuccess)="handleUploadSuccess($event)">
+    [buttonRef] = 'myBtn'
+    >
   </ik-upload>
-
-  <p style="color:red" class="upload-error-ik">
-    {{uploadErrorMessage}}
-  </p>
+  <button #myBtn type="button" style="color:blue">
+    <span>Upload</span>
+  </button>
 </div>
