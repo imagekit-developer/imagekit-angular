@@ -658,7 +658,7 @@ Here is an example where `ik-image` component's URL endpoint can be explicitly s
 ```
 
 ## Sample application
-The `./samples` folder contains a fully a working sample angular application for angular versions 15. The application has a README.md file with full instructions on how to run it locally.
+Repository link for sample applications: https://github.com/imagekit-samples/quickstart.
 
 Please refer to `./sdk/src/app/app.component.html` for sample usage for the components.
 
