@@ -53,11 +53,6 @@ describe("IkImageComponent", () => {
     expect(comp.url).toBe(
       `https://ik.imagekit.io/company/abc.png`
     );
-    iKService = new ImagekitService({
-      urlEndpoint: "https://ik.imagekit.io/company/",
-      publicKey: "abc",
-      authenticationEndpoint: "http://example.com/auth"
-    });
     options.path = "/def.png";
     comp.setUrl(options);
     expect(comp.url).toBe(
