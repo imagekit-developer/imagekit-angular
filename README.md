@@ -549,11 +549,6 @@ Sample Usage
 | validateFile | Function callback | Optional. Called before the upload is started to run custom validation. The first and only argument is the file selected for upload. If the callback returns `true`, the upload is allowed to continue. But, if it returns `false`, the upload is not done |
 | onSuccess   | Function callback | Optional. EventEmitter. Called if the upload is successful. The first and only argument is the response JSON from the upload API. The request-id, response headers, and HTTP status code are also accessible using the `$ResponseMetadata` key that is exposed from the [javascript sdk](https://github.com/imagekit-developer/imagekit-javascript#access-request-id-other-response-headers-and-http-status-code) |
 | onError   | Function callback | Optional. EventEmitter. Called if upload results in an error. The first and only argument is the error received from the upload API |
-| urlEndpoint      | String | Optional. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/ |
-| publicKey      | String | Optional |
-| authenticationEndpoint      | String | Optional |
-
-Note: All three `urlEndpoint`, `publicKey` and `authenticationEndpoint` must be present in the attribute for them to take effect. Otherwise, the SDK will fall back to the values specified in `app.module.ts`.
 
 Sample usage
 
