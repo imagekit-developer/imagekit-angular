@@ -60,7 +60,7 @@ jobs:
         npm start &
     - name: Start auth server
       run: |
-        cd samples/sample-server
+        cd tests/test-apps/sample-server
         echo PRIVATE_KEY=${{ secrets.ik_private_key }} >> .env;
         npm install
         npm run server &
