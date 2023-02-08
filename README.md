@@ -140,7 +140,7 @@ Note: If `urlEndpoint` field is not set in the HTML component, it will use the d
 
 ## Tips before starting
 There are two ways to assign object values to a HTML attribute.
-Let's use our <ik-image> for example and try to apply a transformation to it.
+Let's use our `<ik-image>` for example and try to apply a transformation to it.
 
 Note: Regardless of which approach, whenever an attribute has to be binded to an object, the square brackets have to be used to encapsulate that attribute; eg. `[transformation]`.
 
