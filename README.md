@@ -1,3 +1,5 @@
+[<img width="250" alt="ImageKit.io" src="https://raw.githubusercontent.com/imagekit-developer/imagekit-javascript/master/assets/imagekit-light-logo.svg"/>](https://imagekit.io)
+
 # ImageKit.io Angular SDK
 
 [![Node CI](https://github.com/imagekit-developer/imagekit-angular/workflows/Node%20CI/badge.svg)](https://github.com/imagekit-developer/imagekit-angular/)
@@ -5,13 +7,21 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Twitter Follow](https://img.shields.io/twitter/follow/imagekitio?label=Follow&style=social)](https://twitter.com/ImagekitIo)
 
-Angular SDK for [ImageKit.io](https://imagekit.io), which implements client-side upload and URL generation for use inside an angular application.
+ImageKit Angular SDK allows you to resize, optimize, deliver and upload images and videos in your react application.
 
-ImageKit is a complete image optimization and transformation solution that comes with an [image CDN](https://imagekit.io/features/imagekit-infrastructure) and media storage. It can be integrated with your existing infrastructure - storages like AWS S3, web servers, your CDN, and custom domain names, allowing you to deliver optimized images in minutes with minimal code changes.
+ImageKit is complete media storage, optimization, and transformation solution that comes with an image and video CDN. It can be integrated with your existing infrastructure - storage like AWS S3, web servers, your CDN, and custom domain names, allowing you to deliver optimized images in minutes with minimal code changes.
 
 ## Installation
 
-  `npm install --save imagekitio-angular`
+```shell
+npm install --save imagekitio-angular
+```
+
+or
+
+```shell
+yarn add imagekitio-angular
+```
 
 ## Usage
 
@@ -38,11 +48,11 @@ In order to use the SDK, you need to provide it with a few configuration paramet
 })
 ```
 
-`publicKey` and `urlEndpoint` are mandatory parameters for SDK initialization.
-`authenticationEndpoint` is essential if you want to use the SDK for client-side uploads.
-`transformationPosition` is optional. The default value for the parameter is `path`. Acceptable values are `path` & `query`
+* `urlEndpoint` is required to use the SDK. You can get URL-endpoint from your ImageKit dashboard - https://imagekit.io/dashboard/url-endpoints.
+* `publicKey` and `authenticationEndpoint` parameters are required if you want to use the SDK for client-side file upload. You can get `publicKey` from the developer section in your ImageKit dashboard - https://imagekit.io/dashboard/developer/api-keys.
+* `transformationPosition` is optional. The default value for the parameter is `path`. Acceptable values are `path` & `query`
 
-_Note: Do not include your Private Key in any client-side code, including this SDK or its initialization. If you pass the `privateKey` parameter while initializing this SDK, it throws an error_
+> Note: Do not include your [private key](https://docs.imagekit.io/api-reference/api-introduction/api-keys#private-key) in any client-side code.
 
 ### Quick examples
 
