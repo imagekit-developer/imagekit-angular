@@ -47,6 +47,7 @@ describe("IkImageComponent", () => {
     let elRef: ElementRef;
     comp = new IkImageComponent(elRef, iKService);
     let options: IkImageComponentOptions = {
+      urlEndpoint: "https://ik.imagekit.io/company",
       path: "/abc.png"
     };
     comp.setUrl(options);
@@ -71,6 +72,7 @@ describe("IkImageComponent", () => {
     let elRef: ElementRef;
     comp = new IkImageComponent(elRef, iKService);
     let options: IkImageComponentOptions = {
+      urlEndpoint: "https://ik.imagekit.io/company/",
       path: "/abc.png"
     };
     comp.setUrl(options);
@@ -86,6 +88,7 @@ describe("IkImageComponent", () => {
   it("new unsupported transformation parameter is passed then it should come in URL as it is", () => {
     const transformation = [{ foo: "200", bar: "200" }];
     let options: IkImageComponentOptions = {
+      urlEndpoint: "https://ik.imagekit.io/company/",
       src: "https://abc.com/def",
       transformation: transformation
     };
@@ -96,6 +99,7 @@ describe("IkImageComponent", () => {
   it("supported transformation parameter is passed then it should come in query parameters after transformation", () => {
     const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
     let options: IkImageComponentOptions = {
+      urlEndpoint: "https://ik.imagekit.io/company/",
       src: "https://abc.com/def",
       transformation: transformation
     }
@@ -106,6 +110,7 @@ describe("IkImageComponent", () => {
   it("if SRC is used to create URL, transformartionPosition should be query", () => {
     const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
     let options: IkImageComponentOptions = {
+      urlEndpoint: "https://ik.imagekit.io/company/",
       src: "https://abc.com/def",
       transformation: transformation
     };
@@ -116,6 +121,7 @@ describe("IkImageComponent", () => {
   it("if SRC is used to create URL, transformartionPosition should be query even if anything else is passed", () => {
     const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
     let options: IkImageComponentOptions = {
+      urlEndpoint: "https://ik.imagekit.io/company/",
       src: "https://example.com/ab.png",
       transformation: transformation,
       transformationPosition: "path"
@@ -129,6 +135,7 @@ describe("IkImageComponent", () => {
   it("if PATH is used to create URL, transformartionPosition should be kept as is", () => {
     const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
     let options: IkImageComponentOptions = {
+      urlEndpoint: "https://ik.imagekit.io/company/",
       path: "ab.png",
       transformation: transformation,
       transformationPosition: "query"
@@ -141,6 +148,7 @@ describe("IkImageComponent", () => {
 
   it("Parameters passed to queryParameters should be present in URL if src is used", () => {
     let options: IkImageComponentOptions = {
+      urlEndpoint: "https://ik.imagekit.io/company/",
       src: "https://example.com/ab.png",
       queryParameters: {version:5, name: "check"}
     };
@@ -150,6 +158,7 @@ describe("IkImageComponent", () => {
 
   it("Parameters passed to queryParameters should be present in URL if src with existing query is used", () => {
     let options: IkImageComponentOptions = {
+      urlEndpoint: "https://ik.imagekit.io/company/",
       src: "https://example.com/ab.png?foo=bar&baz=nax",
       queryParameters: {version:5, name: "check"}
     };
@@ -160,6 +169,7 @@ describe("IkImageComponent", () => {
 
   it("Parameters passed to queryParameters should be present in URL if path is used", () => {
     let options: IkImageComponentOptions = {
+      urlEndpoint: "https://ik.imagekit.io/company/",
       path: "/default.png",
       queryParameters: {version:6, name: "bar"}
     };
@@ -169,6 +179,7 @@ describe("IkImageComponent", () => {
 
   it("setUrl should create correct URL when src is provided", () => {
     let options: IkImageComponentOptions = {
+      urlEndpoint: "https://ik.imagekit.io/company/",
       src: "https://test-absolute-path.com/image.jpg"
     };
     component.setUrl(options);
@@ -177,6 +188,7 @@ describe("IkImageComponent", () => {
 
   it("setUrl should create correct URL when path is provided", () => {
     let options: IkImageComponentOptions = {
+      urlEndpoint: "https://ik.imagekit.io/company/",
       path: "def"
     };
     component.setUrl(options);
@@ -185,6 +197,7 @@ describe("IkImageComponent", () => {
 
   it("setUrl should create correct lqipURL in addition to URL when lqip is provided", () => {
     let options: IkImageComponentOptions = {
+      urlEndpoint: "https://ik.imagekit.io/company/",
       src: "https://example.com/abc",
       lqip: { active: true, quality: 1 }
     };
@@ -247,10 +260,20 @@ describe("IkImageComponent", () => {
     );
     expect(lqipURl2).toContain("tr=n-lqip");
   });
+  
+  it("if urlEndpoint not set, expect errors to be thrown", () => {
+    const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
+    let options: IkImageComponentOptions = {
+      transformation: transformation,
+      transformationPosition: "query"
+    };
+    expect(()=>component.getConfigObject(options)).toThrow(new Error('Missing urlEndpoint initialization!'));
+  });
 
   it("if SRC and PATH not set, expect errors to be thrown", () => {
     const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
     let options: IkImageComponentOptions = {
+      urlEndpoint: 'https://ik.imagekit.io/example',
       transformation: transformation,
       transformationPosition: "query"
     };
