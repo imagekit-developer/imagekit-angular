@@ -23,6 +23,11 @@ or
 yarn add imagekitio-angular
 ```
 
+## Support
+
+For any feedback or to report any issues or general implementation support, please reach out to [support@imagekit.io](mailto:support@imagekit.io)
+
+Please note that this SDK version supports `Angular version 9 and onwards`. For older Angular versions, use v1.x.x.
 ## Usage
 
 ### Initialization
@@ -536,12 +541,6 @@ Here is an example where the `ik-image` component's URL endpoint can be explicit
   urlEndpoint="https://images.custom-domain.com"
 ></ik-image>
 ```
-
-## Support
-
-For any feedback or to report any issues or general implementation support, please reach out to [support@imagekit.io](mailto:support@imagekit.io)
-
-Please note that this SDK version supports `Angular version 9 and onwards`.
 
 ## Links
 
