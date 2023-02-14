@@ -31,8 +31,8 @@ describe("IkVideoComponent", () => {
 
   it("urlEndpoint passed to component should be used over initialized value", () => {
     let options: IkVideoComponentOptions = {
-      path: "def",
-      urlEndpoint: "https://example.com"
+      urlEndpoint: "https://example.com",
+      path: "def"
     };
     component.setUrl(options);
     expect(component.url).toBe(`https://example.com/def`);
@@ -195,6 +195,7 @@ describe("IkVideoComponent", () => {
   });
   
   it("video DOM src should be set initially", () => {
+    component.urlEndpoint = "https://ik.imagekit.io/example";
     component.src = "https://ik.imagekit.io/demo/sample-video.mp4";
     fixture.detectChanges();
     const ikImageElement: HTMLElement = fixture.nativeElement;
