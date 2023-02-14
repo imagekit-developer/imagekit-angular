@@ -13,13 +13,13 @@ ImageKit is complete media storage, optimization, and transformation solution th
 
 ## Installation
 
-"`shell
+```shell
 npm install --save imagekitio-angular
 ```
 
 or
 
-"`shell
+```shell
 yarn add imagekitio-angular
 ```
 
@@ -29,7 +29,7 @@ yarn add imagekitio-angular
 
 To use the SDK, you need to provide it with a few configuration parameters. The configuration parameters must be passed to the `ImagekitioAngularModule` module in your `app.module.ts` file. example:
 
-"`js
+```js
 @NgModule({
   declarations: [
     AppComponent
@@ -56,7 +56,7 @@ To use the SDK, you need to provide it with a few configuration parameters. The 
 
 ### Quick examples
 
-"`js
+```js
 // Render an image using a relative path - https://ik.imagekit.io/your_imagekit_id/default-image.jpg
 <ik-image path="/default-image.jpg"></ik-image>
 
@@ -166,13 +166,13 @@ The `ik-image` component renders an `img` tag. It is used for rendering and mani
 | transformationPosition | String |Optional. The default value is `path`, which places the transformation string as a URL path parameter. It can also be specified as `query`, which adds the transformation string as the URL's query parameter i.e.`tr`. If you use the `src` parameter to create the URL, then the transformation string is always added as a query parameter. |
 | queryParameters  | Object |Optional. These are the other query parameters that you want to add to the final URL. These can be any query parameters and are not necessarily related to ImageKit. Especially useful if you want to add some versioning parameters to your URLs. |
 | loading  | String |Optional. Pass `lazy` to lazy load images. Note: The component does not accept change in this value after it has mounted. |
-| lqip  | Object |Optional. You can use this to show a low-quality blurred placeholder while the original image is being loaded e.g. `{active:true, quality: 20, blur: 6, raw: "n-lqip_named_transformation"`}. The default value of `quality` is `20`, and `blur` is `6`. If `raw` transformation is provided, SDK uses that and ignores the `quality` and `blur` parameters. <br /> Note: Component does not accept change in this value after it has mounted.|
+| lqip  | Object |Optional. You can use this to show a low-quality blurred placeholder while the original image is being loaded e.g. `{active:true, quality: 20, blur: 6, raw: "n-lqip_named_transformation```}. The default value of `quality` is `20`, and `blur` is `6`. If `raw` transformation is provided, SDK uses that and ignores the `quality` and `blur` parameters. <br /> Note: Component does not accept change in this value after it has mounted.|
 
 ### Basic resizing examples
 
 The `transformation` prop is an array of objects. Each object can have the following properties. When you specify more than one object, each object is added as a chained transformation. For example:
 
-"`js
+```js
 // IThe following resizes the image to 300x300px 
 flexibleTransformationOne: Array<Transformation> = [{
   height: "300",
@@ -181,7 +181,7 @@ flexibleTransformationOne: Array<Transformation> = [{
 ```
 Sample usage of ik-image component:
 
-"`js
+```js
 // Loading image with no transformation
 <ik-image
   path="/default-image.jpg"
@@ -270,7 +270,7 @@ See the complete list of transformations supported in ImageKit [here](https://do
 ### Chained Transforms
 Chained transformations provide a simple way to control the sequence in which transformations are applied.
 
-"`js
+```js
 // Using chained transformation. First, resize and then rotate the image to 90 degrees.
 <ik-image 
   path="/default-image.jpg"
@@ -289,7 +289,7 @@ In the above case, the rotation will be performed first, and resizing according 
 
 ### Lazy loading images
 
-You can lazy load images using `loading= "lazy"`. When you use `loading= "lazy"`, all images that are immediately viewable without scrolling load normally. Those far below the device viewport are only fetched when the user scrolls near them.
+You can lazy load images using `loading= "lazy```. When you use `loading= "lazy```, all images that are immediately viewable without scrolling load normally. Those far below the device viewport are only fetched when the user scrolls near them.
 
 The SDK uses a fixed threshold based on the effective connection type to ensure that images are loaded early enough so that they have finished loading once the user scrolls near to them.
 
@@ -299,7 +299,7 @@ On fast connections (e.g 4G), the value of threshold is `1250px` and on slower c
 
 Example usage:
 
-"`js
+```js
 // Lazy loading images
 <ik-image
     path="/default-image.jpg"
@@ -348,7 +348,7 @@ You can also specify a `raw` transformation if you want more control over the UR
 ### Combining lazy loading with low-quality placeholders
 You can lazy-load the original image only when the user scrolls near them. Until then, only a low-quality placeholder is loaded. This saves a lot of network bandwidth if the user never scrolls further down.
 
-"`js
+```js
 // Loading a blurred low-quality image placeholder and lazy-loading original when the user scrolls near them
 <ik-image
     path="/default-image.jpg"
@@ -373,7 +373,7 @@ The `ik-video` component renders a `video` tag. It is used for rendering and man
 
 ### Basic video resizing examples
 
-"`js
+```js
 // Video from related file path with no transformations - https://ik.imagekit.io/your_imagekit_id/sample-video.mp4
 <ik-video
   path="/sample-video.mp4"
@@ -437,7 +437,7 @@ Note: All three `urlEndpoint`, `publicKey` and `authenticationEndpoint` must be 
 
 Sample usage
 
-"`js
+```js
 // Added to app.component.ts
 validateFileFunction(res: File) {
     console.log('validating')
@@ -481,7 +481,7 @@ validateFileFunction(res: File) {
 
 Custom button example, using buttonRef
 
-"`js
+```js
 // Set the [buttonRef] attribute
 <ik-upload 
     fileName= "test.jpg" 
@@ -504,7 +504,7 @@ Custom button example, using buttonRef
 
 Sample usage
 
-"`js
+```js
 import { ImagekitService } from 'imagekitio-angular';
 ...
 // Initializing the service with configuration
@@ -530,7 +530,7 @@ You can use the `urlEndpoint` property in a component to change url for it.
 
 Here is an example where the `ik-image` component's URL endpoint can be explicitly set:
 
-"`js
+```js
 <ik-image
   path="/path-to-my-image"
   urlEndpoint="https://images.custom-domain.com"
