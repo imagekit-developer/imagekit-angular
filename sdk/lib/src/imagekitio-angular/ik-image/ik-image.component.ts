@@ -111,7 +111,10 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     
     if (options.urlEndpoint) {
       config['urlEndpoint'] = options.urlEndpoint;
+    }else{
+      throw new Error('Missing urlEndpoint initialization!');
     }
+
     if (options.queryParameters) {
       config['queryParameters'] = options.queryParameters;
     }

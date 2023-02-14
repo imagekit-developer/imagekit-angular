@@ -63,7 +63,10 @@ export class IkVideoComponent implements OnInit {
     };
     if (options.urlEndpoint) {
       config['urlEndpoint'] = options.urlEndpoint;
+    } else{
+      throw new Error('Missing urlEndpoint initialization!');
     }
+
     if (options.queryParameters) {
       config['queryParameters'] = options.queryParameters;
     }
