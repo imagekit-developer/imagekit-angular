@@ -1,72 +1,127 @@
 import { Component, AfterViewInit, OnInit, ElementRef, Input, OnChanges } from '@angular/core';
 import { ImagekitService } from '../imagekit.service';
+import { Dict, QueryParameters, IkImageComponentOptions, LqipOptions } from '../utility/ik-type-def-collection'
+import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transformation';
 
 @Component({
   selector: 'ik-image',
-  template: `<img src={{src}}>`,
+  template: `<img src='' (load)="onImageLoaded($event)">`,
 })
 export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
-  @Input('src') src:string;
-  @Input('path') path:string;
-  @Input('urlEndpoint') urlEndpoint:string;
-  @Input('transformation') transformation:Array<Object> = [];
-  @Input('transformationPosition') transformationPosition:string;
-  @Input('queryParameters') queryParameters:Object;
-  @Input('lqip') lqip:any;
+  @Input('src') src: string;
+  @Input('path') path: string;
+  @Input('urlEndpoint') urlEndpoint: string;
+  @Input('transformation') transformation: Array<Transformation> = [];
+  @Input('transformationPosition') transformationPosition: "path" | "query";
+  @Input('queryParameters') queryParameters: QueryParameters;
+  @Input('lqip') lqip: LqipOptions;
+  @Input('loading') loading: string;
   url = '';
   lqipUrl = '';
-
+  
   observer: MutationObserver;
 
   constructor(private el: ElementRef, private imagekit: ImagekitService) {
   }
 
   ngOnInit(): void {
-    this.setUrl(this.src, this.path, this.transformation, this.lqip, this.urlEndpoint, this.transformationPosition, this.queryParameters);
+    const options: IkImageComponentOptions =  this.src ? {src: this.src} : {path: this.path};
+    options.urlEndpoint = this.urlEndpoint ? this.urlEndpoint : this.imagekit._ikInstance.options.urlEndpoint;
+    options.transformation = this.transformation;
+    options.transformationPosition = this.transformationPosition;
+    options.queryParameters = this.queryParameters;
+    options.lqip = this.lqip;
+    this.setUrl(options);
   }
 
   ngOnChanges(): void {
     this.ngOnInit();
+    this.ngAfterViewInit();
   }
 
-  ngAfterViewInit() {
-    const that = this;
-    this.loadImage(this.lqip && this.lqip.active ? this.lqipUrl : this.url);
-    const imageObserver = new IntersectionObserver(function (entry:any, observer) {
-      if (entry[0] && entry[0].isIntersecting) {
-        let image = entry[0].target;
-        that.loadImage(that.url);
-        imageObserver.unobserve(image);
+  ngAfterViewInit(): void {
+    if(this.loading == 'lazy'){
+      const that = this;
+      if(this.lqipUrl){
+        // If given LQIP, use that first
+        this.loadImage(this, this.lqipUrl);
       }
-    });
-    imageObserver.observe(this.el.nativeElement);
+      const imageObserver = new IntersectionObserver(
+        (entry: any, observer: IntersectionObserver)=>{
+          // Always load the original image when intersecting
+          that.handleIntersectionObserver(entry, observer, that.loadImage, that, that.url);
+        }
+      );
+      imageObserver.observe(this.el.nativeElement);
+    } else {
+      // If given LQIP, use that first
+      this.loadImage(this, this.lqipUrl ? this.lqipUrl : this.url);
+    }
   }
 
-  setUrl(src?, path?, transformation?, lqip?, urlEndpoint?, transformationPosition?, queryParameters?) {
-    const config = this.getConfigObject(src, path, transformation, transformationPosition, urlEndpoint, queryParameters)
+  onImageLoaded = (event) => {
+    if(this.loading != 'lazy' && event.srcElement.src === this.lqipUrl){
+      this.loadImage(this, this.url);
+    }
+  };
+
+  handleIntersectionObserver (entry: any, observer: IntersectionObserver, 
+    loadImageFunc: Function, context: IkImageComponent, url: string): void {
+    if (entry[0] && entry[0].isIntersecting) {
+      let image = entry[0].target;
+      loadImageFunc(context, url);
+      observer.unobserve(image);
+    }
+  }
+
+  setUrl(options: IkImageComponentOptions): void {
+    const config = this.getConfigObject(options);
     this.url = this.imagekit.getUrl(config);
-    if (lqip && lqip.active === true) {
-      this.lqipUrl = this.lqipload(lqip.quality, this.url, this.path);
+    if (options.lqip && options.lqip.active === true) {
+      this.lqipUrl = this.constructLqipUrl(options, options.lqip);
     }
   }
 
-  getConfigObject(src?, path?, transformation?, transformationPosition?, urlEndpoint?, queryParameters?) {
-    const config = {
-      transformation: transformation,
+  constructLqipUrl(options:IkImageComponentOptions, lqip: LqipOptions): any {
+    if (lqip && lqip.active) {
+      var quality = Math.round(lqip.quality || lqip.threshold || 20);
+      var blur = Math.round(lqip.blur || 6);
+      var newTransformation = options.transformation ? [...options.transformation] : [];
+      if (lqip.raw && typeof lqip.raw === "string" && lqip.raw.trim() != "") {
+        newTransformation.push({
+          raw: lqip.raw.trim()
+        });
+      } else {
+        newTransformation.push({
+          quality: String(quality),
+          blur: String(blur),
+        })
+      }
+      return this.imagekit.ikInstance.url({
+        ...options,
+        transformation: newTransformation
+      });
+    }
+  }
+
+  getConfigObject(options: IkImageComponentOptions): any {
+    const config  = {
+      transformation : options.transformation
     };
-    if (urlEndpoint) {
-      config['urlEndpoint'] = urlEndpoint;
+    
+    if (options.urlEndpoint) {
+      config['urlEndpoint'] = options.urlEndpoint;
     }
-    if (queryParameters) {
-      config['queryParameters'] = queryParameters;
+    if (options.queryParameters) {
+      config['queryParameters'] = options.queryParameters;
     }
-    if (src) {
-      config['src'] = src;
+    if (options.src) {
+      config['src'] = options.src;
       config['transformationPosition'] = 'query';
-    } else if (path) {
-      config['path'] = path;
-      if (transformationPosition) {
-        config['transformationPosition'] = transformationPosition;
+    } else if (options.path) {
+      config['path'] = options.path;
+      if (options.transformationPosition) {
+        config['transformationPosition'] = options.transformationPosition;
       }
     } else {
       throw new Error('Missing src / path during initialization!');
@@ -74,17 +129,17 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     return config;
   }
 
-  loadImage(url:string) {
-    const nativeElement = this.el.nativeElement;
+  loadImage(context: IkImageComponent, url: string): void {
+    const nativeElement = context.el.nativeElement;
     const attributes = nativeElement.attributes;
-    const attrsToSet = this.namedNodeMapToObject(attributes);
+    const attrsToSet = context.namedNodeMapToObject(attributes);
     attrsToSet['src'] = url;
     const image = nativeElement.children[0];
-    this.setElementAttributes(image, attrsToSet);
+    context.setElementAttributes(image, attrsToSet);
   }
 
-  namedNodeMapToObject(source: NamedNodeMap): any {
-    let target = {};
+  namedNodeMapToObject(source: NamedNodeMap): Dict {
+    let target: Dict = {};
     Object.keys(source).forEach(index => {
       const name = source[index].name;
       const value = source[index].value;
@@ -93,24 +148,8 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     return target;
   };
 
-  lqipload(quality, url, path) {
-    let lqip = "";
-    if (path) {
-      let newUrl = url.split("tr:");
-      if (newUrl[0] === url) {
-        let temp = url.split("/");
-        lqip = `${temp[0]}//${temp[2]}/${temp[3]}/tr:q-${quality}/${temp[4]}`;
-      } else {
-        lqip = `${newUrl[0]}tr:q-${quality}${newUrl[1]}`;
-      }
-    } else {
-      lqip = `${url}?tr=q-${quality}`;
-    }
-    return lqip;
-  }
-
-  setElementAttributes(element, attributesLiteral) {
-    Object.keys(attributesLiteral).forEach(attrName => {
+  setElementAttributes(element: any, attributesLiteral: Dict): void {
+    Object.keys(attributesLiteral).filter(attrName => attrName !== 'loading').forEach(attrName => {
         element.setAttribute(attrName, attributesLiteral[attrName]);
     });
   }

@@ -1,18 +1,17 @@
 {
   "name": "imagekitio-angular",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "author": "ImageKit",
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "imagekit-javascript": "^1.0.4"
+    "imagekit-javascript": "^1.5.4"
   },
   "ngPackage": {
     "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
     "lib": {
       "entryFile": "src/public_api.ts"
     },
-    "whitelistedNonPeerDependencies": ["imagekit-javascript"],
     "dest": "./dist/imagekitio-angular"
   }
 }
