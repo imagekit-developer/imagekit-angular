@@ -7,19 +7,19 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Twitter Follow](https://img.shields.io/twitter/follow/imagekitio?label=Follow&style=social)](https://twitter.com/ImagekitIo)
 
-ImageKit Angular SDK allows you to resize, optimize, deliver and upload images and videos in your react application.
+ImageKit Angular SDK allows you to resize, optimize, deliver, and upload images and videos in your react application.
 
 ImageKit is complete media storage, optimization, and transformation solution that comes with an image and video CDN. It can be integrated with your existing infrastructure - storage like AWS S3, web servers, your CDN, and custom domain names, allowing you to deliver optimized images in minutes with minimal code changes.
 
 ## Installation
 
-```shell
+"`shell
 npm install --save imagekitio-angular
 ```
 
 or
 
-```shell
+"`shell
 yarn add imagekitio-angular
 ```
 
@@ -27,9 +27,9 @@ yarn add imagekitio-angular
 
 ### Initialization
 
-In order to use the SDK, you need to provide it with a few configuration parameters. The configuration parameters must be passed to the `ImagekitioAngularModule` module in your `app.module.ts` file. example:
+To use the SDK, you need to provide it with a few configuration parameters. The configuration parameters must be passed to the `ImagekitioAngularModule` module in your `app.module.ts` file. example:
 
-```js
+"`js
 @NgModule({
   declarations: [
     AppComponent
@@ -56,56 +56,52 @@ In order to use the SDK, you need to provide it with a few configuration paramet
 
 ### Quick examples
 
-Note: If `urlEndpoint` field is not set in the HTML component, it will use the default value set in the initialization as shown [here](#initialization). In the below examples, if `urlEndpoint` is not set, it is assumed to be using URL endpoint: `https://ik.imagekit.io/demo/`.
-
-```js
-// Rendering an image using relative path
+"`js
+// Render an image using a relative path - https://ik.imagekit.io/your_imagekit_id/default-image.jpg
 <ik-image path="/default-image.jpg"></ik-image>
 
-// Rendering an image using relative path with lazy loading
-<ik-image path="/default-image.jpg" loading="lazy">
-</ik-image>
-
-//  Overriding URL endpoint
+//  Overriding URL endpoint - https://www.custom-domain.com/default-image.jpg
 <ik-image
   path="/default-image.jpg"
-  urlEndpoint="<url-to-override-with>"
-  >
-</ik-image>
+  urlEndpoint="https://www.custom-domain.com"
+></ik-image>
 
-// Height and width manipulation - https://ik.imagekit.io/demo/tr:h-200,w-200/default-image.jpg
+// Render an image using an absolute URL and basic transformations- https://www1.custom-domain.com/default-image.jpg?tr=w-100,h-300
+<ik-image
+  src="https://www1.custom-domain.com/default-image.jpg" 
+  [transformation]='[{
+    "height": "300",
+    "width": "100"
+  }]'
+></ik-image>
+
+// Height and width manipulation - https://ik.imagekit.io/your_imagekit_id/tr:h-200,w-200/default-image.jpg
 <ik-image 
   path="/default-image.jpg"
   [transformation]='[{
     "height": "200",
     "width": "200"
   }]'
-  >
-</ik-image>
+></ik-image>
 
-// Chained transformation. The following example does a sequenced transformation, firstly height and width manipulation followed by a rotation.
+// Chained transformation - https://ik.imagekit.io/your_imagekit_id/tr:h-200,w-200:rt-90/default-image.jpg
 <ik-image 
-  src="<full_image_url>" 
+  path="/default-image.jpg"
   [transformation]='[{
-    "height": "300",
-    "width": "400"
+      "height": "200",
+      "width": "200"
     },
     {
       "rotation": "90"
     }]'
-  >
-</ik-image>
+></ik-image>
 
-// Lazy loading images
-<ik-image
-  path="default-image.jpg" 
-  loading="lazy"
-  >
-</ik-image>
+// Lazy loading
+<ik-image path="/default-image.jpg" loading="lazy"></ik-image>
 
 /*
   Low-quality image placeholder
-  Will first load https://ik.imagekit.io/demo/tr:h-200,w-200:q-20,bl-6/default-image.jpg, while the original image, i.e., https://ik.imagekit.io/demo/tr:h-200,w-200/default-image.jpg is being loaded in the background.
+  Will first load https://ik.imagekit.io/your_imagekit_id/tr:h-200,w-200:q-20,bl-6/default-image.jpg, while the original image, i.e., https://ik.imagekit.io/your_imagekit_id/tr:h-200,w-200/default-image.jpg is being loaded in the background.
 */
 <ik-image 
   path="default-image.jpg" 
@@ -114,136 +110,52 @@ Note: If `urlEndpoint` field is not set in the HTML component, it will use the d
     "width": "200"
     }]'
   [lqip]="{active:true, quality: 20, blur: 6}"
-  >
-</ik-image>
+></ik-image>
 
-// Low-quality image placeholder and lazy loading original image in the background
+// Low-quality image placeholder and lazy loading of original image in the background
 <ik-image 
   path="default-image.jpg" 
   [lqip]="{active:true}"
-  loading="lazy"
-  >
-</ik-image>
+  loading= "lazy"
+></ik-image>
 
-// Rendering video using absolute path and applies a transformation to the video size
-<ik-video
-  src="<full_video_url>" 
+// Video element with basic transformation, reduced quality by 50% using q:50
+<ik-video 
+  path="default-video.mp4" 
   [transformation]='[{
-  "height": "300",
-  "width": "400"
+    "quality": "50"
   }]'
-  >
-</ik-video>
+></ik-video>
 
 // File upload with optional custom event handling
 // See section "ik-upload" in README for more info
 <ik-upload 
-  fileName="test.jpg" 
+  fileName= "test.jpg" 
   (onError)="handleUploadError($event)"
   (onSuccess)="handleUploadSuccess($event)"
-  >
-</ik-upload>
+></ik-upload>
 ```
 
 ## Demo application
+
 * The official step-by-step Angular quick start guide - https://docs.imagekit.io/getting-started/quickstart-guides/angular
-
-## Tips before starting
-There are two ways to assign object values to a HTML attribute.
-Let's use our `<ik-image>` for example and try to apply a transformation to it.
-
-Note: Regardless of which approach, whenever an attribute has to be binded to an object, the square brackets have to be used to encapsulate that attribute; eg. `[transformation]`.
-
-Approach one - direct HTML binding:
-```js
-<ik-image 
-  path="/default-image.jpg"
-  [transformation]='[{
-    "height": "200",
-    "width": "200"
-  }]'
-  >
-</ik-image>
-```
-
-Approach two - via app.component.ts.
-For this approach, we first setup our app.component.ts:
-```js
-import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transformation';
-...
-export class AppComponent {
-  ...
-  myTransformation: Array<Transformation> = [{
-     height: "200",
-     width: "200"
-  }];
-  ..
-```
-
-Then we use it in our html file:
-```js
-<ik-image 
-  path="/default-image.jpg"
-  [transformation]='myTransformation'
-  >
-</ik-image>
-```
-
-Both approaches yield the same result; applying a height and width of 200px to the image. 
-
-Now that you have learnt the two ways to bind objects to HTML attributes, let's continue exploring the Imagekit library.
 
 ## Components
 
-The library includes 3 Components and the ability to access the core component:
+The library includes three components:
 
-[ik-image](#ik-image) for image resizing. This renders a `<img>` tag.
+* [ik-image](#ik-image) for image resizing. This renders a `<img>` tag.
+* [ik-video](#ik-video) for video resizing. This renders a `<video>` tag.
+* [ik-upload](#ik-upload) for client-side file uploading. This renders a `<input type= "file">` tag.
 
-[ik-video](#ik-video) for video resizing. This renders a `<video>` tag.
+You can also access the underlying [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript). See 
+[here](#accessing-imagekit-core-js-sdk) for more details.
 
-[ik-upload](#ik-upload) for client-side file uploading. This renders a `<input type="file">` tag.
-
-Accessing the underlying [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript). See 
-[here](#accessing-imagekit-core-component) for more details.
-
-Note: URL endpoints of each component can be overridden explicitly. [See here for more details](#overriding-urlendpoint)
+> Note: URL endpoints of each component can be overridden explicitly. [See here for more details](#overriding-urlendpoint)
 
 ## ik-image
 
-The ik-image component defines an ImageKit Image tag. example usage:
-
-#### Using image path and image hostname or endpoint
-
-```js
-<ik-image path="/default-image.jpg" 
-  [transformation]='[{
-    "height": "300",
-    "width": "400"
-  }]'
-  >
-</ik-image>
-```
-
-#### Using full image URL  
-
-```js
-<ik-image 
-  src="<full_image_url>" 
-  [transformation]='[{
-    "height": "300",
-    "width": "400"
-  }]'
-  >
-</ik-image>
-```
-  
-`src` is the complete URL that is already mapped to ImageKit.
-`path` is the location of the image in the ImageKit cloud. `urlEndpoint` + `path` makes the complete url.
-`transformations` is optional. The transformations to be applied to a given image. It is declared in the form of an array of objects, where each object specifies the transformation you need. The values are mentioned below.
-
-### Image resizing
-
-The `ik-image` component renders an `img` tag. It is used for rendering and manipulating images in real time. `ik-image` component accepts the following props:
+The `ik-image` component renders an `img` tag. It is used for rendering and manipulating images in real-time. `ik-image` component accepts the following props:
 
 | Prop             | Type | Description                    |
 | :----------------| :----|:----------------------------- |
@@ -253,14 +165,14 @@ The `ik-image` component renders an `img` tag. It is used for rendering and mani
 | transformation   | Array of objects |Optional. An array of objects specifying the transformation to be applied in the URL. The transformation name and the value should be specified as a key-value pair in the object. See list of [different tranformations](#list-of-supported-transformations). Different steps of a [chained transformation](https://docs.imagekit.io/features/image-transformations/chained-transformations) can be specified as the Array's different objects. The complete list of supported transformations in the SDK and some examples of using them are given later. If you use a transformation name that is not specified in the SDK, it is applied in the URL as it is. |
 | transformationPosition | String |Optional. The default value is `path`, which places the transformation string as a URL path parameter. It can also be specified as `query`, which adds the transformation string as the URL's query parameter i.e.`tr`. If you use the `src` parameter to create the URL, then the transformation string is always added as a query parameter. |
 | queryParameters  | Object |Optional. These are the other query parameters that you want to add to the final URL. These can be any query parameters and are not necessarily related to ImageKit. Especially useful if you want to add some versioning parameters to your URLs. |
-| loading  | String |Optional. Pass `lazy` to lazy load images. Note: Component does not accept change in this value after it has mounted. |
+| loading  | String |Optional. Pass `lazy` to lazy load images. Note: The component does not accept change in this value after it has mounted. |
 | lqip  | Object |Optional. You can use this to show a low-quality blurred placeholder while the original image is being loaded e.g. `{active:true, quality: 20, blur: 6, raw: "n-lqip_named_transformation"`}. The default value of `quality` is `20`, and `blur` is `6`. If `raw` transformation is provided, SDK uses that and ignores the `quality` and `blur` parameters. <br /> Note: Component does not accept change in this value after it has mounted.|
 
-###  Resizing examples
+### Basic resizing examples
 
 The `transformation` prop is an array of objects. Each object can have the following properties. When you specify more than one object, each object is added as a chained transformation. For example:
 
-```js
+"`js
 // IThe following resizes the image to 300x300px 
 flexibleTransformationOne: Array<Transformation> = [{
   height: "300",
@@ -269,24 +181,24 @@ flexibleTransformationOne: Array<Transformation> = [{
 ```
 Sample usage of ik-image component:
 
-```js
+"`js
 // Loading image with no transformation
 <ik-image
   path="/default-image.jpg"
-  urlEndpoint="https://ik.imagekit.io/demo/"
+  urlEndpoint="https://ik.imagekit.io/your_imagekit_id/"
   >
 </ik-image>
 
 // Loading image with transformation
 <ik-image
   path="/default-image.jpg"
-  urlEndpoint="https://ik.imagekit.io/demo/"
+  urlEndpoint="https://ik.imagekit.io/your_imagekit_id/"
   [transformation]="flexibleTransformationOne"
   >
 </ik-image>
 ```
 
-The complete list of transformations supported and their usage in ImageKit can be found [here](https://docs.imagekit.io/features/image-transformations). The SDK gives a name to each transformation parameter, making the code simpler and readable. If a transformation is supported in ImageKit, but a name for it cannot be found in the table below, then use the transformation code from ImageKit docs as the name when using in the `url` function.
+See the complete list of transformations supported in ImageKit [here](https://docs.imagekit.io/features/image-transformations). The SDK gives a name to each transformation parameter e.g. `height` for `h` and `width` for `w` parameter. It makes your code more readable. If the property does not match any of the following supported options, it is added as it is in the URL.
 
 #### List of supported transformations
 
@@ -355,38 +267,29 @@ The complete list of transformations supported and their usage in ImageKit can b
 
 </details>
 
-#### Applying Transforms
-```js
-const transformations = [{
-  width: 90,
-  height: 180
-}]
-
-<ik-image style="" src="<full_image_url>" 
-[transformation] = "transformations">
-</ik-image>
-```
-The above image will apply transformation of width = 90 and height = 180 on the image. Since some transformations are destructive you might want to control the order in which the transforms are applied.
-
-##### Chained Transforms
+### Chained Transforms
 Chained transformations provide a simple way to control the sequence in which transformations are applied.
 
-```js
-const transformations = [
-  {
-    rotate: 90
-  },
-  {
-    width: 100,
-    aspectRatio: "16-9"
-  }
-];
+"`js
+// Using chained transformation. First, resize and then rotate the image to 90 degrees.
+<ik-image 
+  path="/default-image.jpg"
+  [transformation]='[{
+      "height": "200",
+      "width": "200"
+    },
+    {
+      "rotation": "90"
+    }]'
+  >
+</ik-image>
+
 ```
 In the above case, the rotation will be performed first, and resizing according to width and aspect ratio will be performed afterward.
 
 ### Lazy loading images
 
-You can lazy load images using `loading="lazy"`. When you use `loading="lazy"`, all images that are immediately viewable without scrolling load normally. Those far below the device viewport are only fetched when the user scrolls near them.
+You can lazy load images using `loading= "lazy"`. When you use `loading= "lazy"`, all images that are immediately viewable without scrolling load normally. Those far below the device viewport are only fetched when the user scrolls near them.
 
 The SDK uses a fixed threshold based on the effective connection type to ensure that images are loaded early enough so that they have finished loading once the user scrolls near to them.
 
@@ -396,30 +299,43 @@ On fast connections (e.g 4G), the value of threshold is `1250px` and on slower c
 
 Example usage:
 
-```js
+"`js
 // Lazy loading images
 <ik-image
-    path={{path}}
-    urlEndpoint="https://ik.imagekit.io/demo/"
-    loading="lazy"
+    path="/default-image.jpg"
+    [transformation]='[{
+      "height": "300",
+      "width": "400"
+    }]'
+    loading= "lazy"
+    height= "300"
+    width= "400"
     >
 </ik-image>
 ```
 
-#### Low Quality Image Placeholders (LQIP) for images
-The SDK supports automatic support for LQIP for your images, if you set lqip to true in the image component. example:
+#### Low-quality image placeholders (LQIP)
+To improve user experience, you can use a low-quality blurred variant of the original image as a placeholder while the original image is being loaded in the background. Once the original image is loaded, the placeholder is replaced with the original image.
 
-  ```js 
-  <ik-image 
-    src="<full_image_url>" 
-    [lqip]="{active:true, quality: 20}"
-    >
-  </ik-image>
-  ```
-`active` tells the status for lqip, it can be either, `true` or `false`
-`quality` decided the quaility of placeholder image. It can be any numeric value, a low number means low quality, and high number means high quality.
+```js 
+<ik-image 
+  path="/default-image.jpg"
+  [lqip]="{active:true}"
+  >
+</ik-image>
+```
 
-You can also specify a `raw` transformation if you want more control over the URL of the low-quality image placeholder. In this case, the SDK ignores `quality` and `blur` parameters.
+By default, the SDK uses the `quality:20` and `blur:6`. You can change this. For example:
+
+```js 
+<ik-image 
+  path="/default-image.jpg"
+  [lqip]="{active:true, quality: 40, blur: 5}"
+  >
+</ik-image>
+```
+
+You can also specify a `raw` transformation if you want more control over the URL of the low-quality image placeholder. The SDK ignores `quality` and `blur` parameters in this case.
 
 ```js
 <ik-image
@@ -430,52 +346,21 @@ You can also specify a `raw` transformation if you want more control over the UR
 ```
 
 ### Combining lazy loading with low-quality placeholders
-You have the option to lazy-load the original image only when the user scrolls near them. Until then, only a low-quality placeholder is loaded. This saves a lot of network bandwidth if the user never scrolls further down.
+You can lazy-load the original image only when the user scrolls near them. Until then, only a low-quality placeholder is loaded. This saves a lot of network bandwidth if the user never scrolls further down.
 
-```js
-// Loading a blurred low quality image placeholder and lazy-loading original when the user scrolls near them
+"`js
+// Loading a blurred low-quality image placeholder and lazy-loading original when the user scrolls near them
 <ik-image
-        src="<full_image_url>"
-        loading="lazy"
-        [lqip]="{ active: true, quality: 20, blur: 30 }"
-      >
+    path="/default-image.jpg"
+    loading= "lazy"
+    [lqip]="{ active: true, quality: 20, blur: 30 }"
+  >
 </ik-image>
 ```
 
-##### How does the lqip work?
-The component tries to keep it simple. It loads a lower quality image using the quality parameter to load a lower quality image, which is then replaced with the actual quality image later.
-
 ## ik-video
 
-The ik-video component defines an ImageKit video tag. example usage:
-
-#### Using video path and video hostname or endpoint
-
-```js
-<ik-video path="/sample-video.mp4" 
-  [transformation]='[{
-    "height": "300",
-    "width": "400"
-  }]'
->
-</ik-video>
-```
-
-#### Using full video URL  
-
-```js
-<ik-video 
-    src="<full_video_url>" 
-    [transformation]='[{
-      "height": "300",
-      "width": "400"
-    }]'
-  ></ik-video>
-```
-  
-`src` is the complete URL that is already mapped to ImageKit.
-`path` is the location of the video in the ImageKit cloud. `urlEndpoint` + `path` makes the complete url.
-`transformations` is optional. The transformations to be applied to a given video. It is declared in the form of an array of objects, where each object specifies the transformation you need. The values are mentioned below.
+The `ik-video` component renders a `video` tag. It is used for rendering and manipulating videos in real time. `ik-video` component accepts the following props:
 
 | Prop             | Type | Description                    |
 | :----------------| :----|:----------------------------- |
@@ -486,55 +371,40 @@ The ik-video component defines an ImageKit video tag. example usage:
 | transformationPosition | String |Optional. The default value is `path`, which places the transformation string as a URL path parameter. It can also be specified as `query`, which adds the transformation string as the URL's query parameter i.e.`tr`. If you use the `src` parameter to create the URL, then the transformation string is always added as a query parameter. |
 | queryParameters  | Object |Optional. These are the other query parameters that you want to add to the final URL. These can be any query parameters and are not necessarily related to ImageKit. Especially useful if you want to add some versioning parameters to your URLs. |
 
-#### Applying Transforms
-```js
-const transformations = [{
-  width: 90,
-  height: 180
-}]
+### Basic video resizing examples
 
-<ik-video style="" src="<full_video_url>" 
-  [transformations] = "transformations"
+"`js
+// Video from related file path with no transformations - https://ik.imagekit.io/your_imagekit_id/sample-video.mp4
+<ik-video
+  path="/sample-video.mp4"
 ></ik-video>
-```
-The above video will apply transformation of width = 90 and height = 180 on the video. Since some transformations are destructive you might want to control the order in which the transforms are applied.
 
-##### Chained Transforms
-Chained transformations provide a simple way to control the sequence in which transformations are applied.
+// Video resizing - https://ik.imagekit.io/your_imagekit_id/tr:w-h-300,w-400/sample-video.mp4
+<ik-video
+  path="/sample-video.mp4"
+  [transformation]='[{
+    "height": "300",
+    "width": "400"
+  }]'
+></ik-video>
 
-```js
-const transformations = [
-  {
-    rotate: 90
-  },
-  {
-    width: 100,
-    aspectRatio: "16-9"
-  }
-];
+// Loading video from an absolute file path with no transformations - https://www.custom-domain.com/default-video.mp4
+<ik-video
+  src="https://www.custom-domain.com/default-video.mp4"
+></ik-video>
+
+// Using a new transformation parameter that is not there in this SDK yet - https://ik.imagekit.io/your_imagekit_id/tr:custom-value/sample-video.mp4
+<ik-video
+  path="/sample-video.mp4"
+  [transformation]='[{
+    "custom": "value"
+  }]'
+></ik-video>
+
 ```
-In the above case, the rotation will be performed first, and resizing according to width and aspect ratio will be performed afterward.
 
 ## ik-upload
-The SDK provides a simple Component to upload files to the ImageKit Media Library. It has an attribute called `fileName` which is used by SDK for `fileName` parameter required to upload. The `file` parameter is provided as an input from the user. 
-
-Also, make sure that you have specified `authenticationEndpoint` during SDK initialization. The SDK makes an HTTP GET request to this endpoint and expects a JSON response with three fields, i.e. `signature`, `token`, and `expire`.  
-
-[Learn how to implement authenticationEndpoint](https://docs.imagekit.io/api-reference/upload-file-api/client-side-file-upload#how-to-implement-authenticationendpoint-endpoint) on your server.
-
-An example of this server is provided in the sample-server folder of the SDK.
-
-Sample Usage
-```js
-// Simple upload
-<ik-upload fileName="my-upload"></ik-upload>
-
-// Using callbacks and other parameters of upload API
-<ik-upload fileName="test_new" [useUniqueFileName]="false" [isPrivateFile]="true"
-    (onSuccess)="handleUploadSuccess($event)" (onError)="handleUploadError($event)"
-    >
-</ik-upload>
-```
+The SDK provides a component to upload files to the [ImageKit Media Library](https://docs.imagekit.io/media-library/overview).
 
 `ik-upload` component accepts all the parameters supported by the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/client-side-file-upload#request-structure-multipart-form-data) as attributes e.g. `tags`, `useUniqueFileName`, `folder`, `isPrivateFile`, `customCoordinates` etc.
 
@@ -542,10 +412,10 @@ Sample Usage
 | :----------------| :----|:----------------------------- |
 | fileName | String | Optional. If not specified, the file system name is picked. 
 | useUniqueFileName  | Boolean | Optional. Accepts `true` of `false`. The default value is `true`. Specify whether to use a unique filename for this file or not. |
-| tags     | Array of string | Optional. Set the tags while uploading the file e.g. ["tag1","tag2"] |
+| tags     | Array of string | Optional. Set the tags while uploading the file e.g. ["tag1", "tag2"] |
 | folder        | String | Optional. The folder path (e.g. `/images/folder/`) in which the file has to be uploaded. If the folder doesn't exist before, a new folder is created.|
 | isPrivateFile | Boolean | Optional. Accepts `true` of `false`. The default value is `false`. Specify whether to mark the file as private or not. This is only relevant for image type files|
-| customCoordinates   | String | Optional. Define an important area in the image. This is only relevant for image-type files. To be passed as a string with the `x` and `y` coordinates of the top-left corner and `width` and `height` of the area of interest in the format `x,y,width,height`. For example - `10,10,100,100` |
+| customCoordinates   | String | Optional. Define an important area in the image. This is only relevant for image-type files. To be passed as a string with the `x` and `y' coordinates of the top-left corner and `width` and `height` of the area of interest in the format `x,y,width,height`. For example - `10,10,100,100` |
 | responseFields   | Array of string | Optional. Values of the fields that you want upload API to return in the response. For example, set the value of this field to `["tags", "customCoordinates", "isPrivateFile"]` to get value of `tags`, `customCoordinates`, and `isPrivateFile` in the response. |
 | extensions   | Array of object | Optional. Array of object for [applying extensions](https://docs.imagekit.io/extensions/overview) on the image. |
 | webhookUrl   | String | Optional. Final status of pending extensions will be sent to this URL. |
@@ -558,7 +428,7 @@ Sample Usage
 | onUploadProgress | Function callback | Optional. Called while an upload is in progress. The first and only argument is the ProgressEvent |
 | validateFile | Function callback | Optional. Called before the upload is started to run custom validation. The first and only argument is the file selected for upload. If the callback returns `true`, the upload is allowed to continue. But, if it returns `false`, the upload is not done |
 | onSuccess   | Function callback | Optional. EventEmitter. Called if the upload is successful. The first and only argument is the response JSON from the upload API. The request-id, response headers, and HTTP status code are also accessible using the `$ResponseMetadata` key that is exposed from the [javascript sdk](https://github.com/imagekit-developer/imagekit-javascript#access-request-id-other-response-headers-and-http-status-code) |
-| onError   | Function callback | Optional. EventEmitter. Called if upload results in an error. The first and only argument is the error received from the upload API |
+| onError   | Function callback | Optional. EventEmitter. Called if the upload results in error. The first and only argument is the error received from the upload API |
 | urlEndpoint      | String | Optional. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/ |
 | publicKey      | String | Optional |
 | authenticationEndpoint      | String | Optional |
@@ -567,7 +437,7 @@ Note: All three `urlEndpoint`, `publicKey` and `authenticationEndpoint` must be 
 
 Sample usage
 
-```js
+"`js
 // Added to app.component.ts
 validateFileFunction(res: File) {
     console.log('validating')
@@ -599,7 +469,7 @@ validateFileFunction(res: File) {
 
 // Added to app.component.html
 <ik-upload 
-    fileName="test.jpg" 
+    fileName= "test.jpg" 
     (onError)="handleUploadError($event)"
     (onSuccess)="handleUploadSuccess($event)"
     [validateFile]="validateFileFunction"
@@ -610,10 +480,11 @@ validateFileFunction(res: File) {
 ```
 
 Custom button example, using buttonRef
-```js
+
+"`js
 // Set the [buttonRef] attribute
 <ik-upload 
-    fileName="test.jpg" 
+    fileName= "test.jpg" 
     (onError)="handleUploadError($event)"
     (onSuccess)="handleUploadSuccess($event)"
     [validateFile]="validateFileFunction"
@@ -629,11 +500,11 @@ Custom button example, using buttonRef
 </button>
 ```
 
-## Accessing Imagekit Core Component
+## Accessing Imagekit core JS SDK
 
 Sample usage
 
-```js
+"`js
 import { ImagekitService } from 'imagekitio-angular';
 ...
 // Initializing the service with configuration
@@ -655,28 +526,22 @@ const url = this.service.ikInstance.url({
 ```
 
 ## Overriding urlEndpoint
-You can use `urlEndpoint` property in a component to change url for it. 
+You can use the `urlEndpoint` property in a component to change url for it. 
 
-Here is an example where `ik-image` component's URL endpoint can be explicitly set:
+Here is an example where the `ik-image` component's URL endpoint can be explicitly set:
 
-```js
+"`js
 <ik-image
-        path="/path-to-my-image"
-        urlEndpoint="<enter new URL endpoint>"
-        >
-  </ik-image>
+  path="/path-to-my-image"
+  urlEndpoint="https://images.custom-domain.com"
+></ik-image>
 ```
-
-## Sample application
-Repository link for sample applications: https://github.com/imagekit-samples/quickstart.
-
-Please refer to `./sdk/src/app/app.component.html` for sample usage for the components.
 
 ## Support
 
 For any feedback or to report any issues or general implementation support, please reach out to [support@imagekit.io](mailto:support@imagekit.io)
 
-Please note that this SDK version supports `Angular version 9 onwards`.
+Please note that this SDK version supports `Angular version 9 and onwards`.
 
 ## Links
 
