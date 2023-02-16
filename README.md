@@ -505,6 +505,7 @@ Custom button example, using buttonRef
 </button>
 ```
 ### **Abort uploads**
+Supported from imagekitio-angular v2.0.1 onwards.
 Aborting of uploads can be done by invoking the `abort` method for the component. 
 
 Here's an example written in the `app.component.ts`.
