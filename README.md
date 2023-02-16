@@ -504,6 +504,26 @@ Custom button example, using buttonRef
   <span>Upload</span>
 </button>
 ```
+### **Abort uploads**
+Aborting of uploads can be done by invoking the `abort` method for the component. 
+
+Here's an example written in the `app.component.ts`.
+```js
+onUploadStartFunction(res: any) {
+  console.log('onUploadStart');
+  // Start the upload timer
+  this.startUploadTimer();
+  if(this instanceof IkUploadComponent){
+    // Here we register the upload component's instance
+    this.uploadComponent = this;
+  }
+}
+
+// Suppose we wanna abort the upload when it exceeds certain timeout
+onTimeOut(){
+  this.uploadComponent.abort();
+}
+```
 
 ## Accessing Imagekit core JS SDK
 
