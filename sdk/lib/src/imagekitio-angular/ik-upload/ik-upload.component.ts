@@ -37,12 +37,20 @@ export class IkUploadComponent implements AfterViewInit {
   @Input('onUploadStart') onUploadStart: (e: HTMLInputEvent) => void;
   @Input('onUploadProgress') onUploadProgress: (e: ProgressEvent) => void;
   fileToUpload: File = null;
+  xhr: XMLHttpRequest;
 
   constructor(private el: ElementRef, private imagekit: ImagekitService) { 
   }
   
   ngAfterViewInit():void {
     this.buttonRef && this.buttonRef.addEventListener('click', ()=>{this.el.nativeElement.children[0].click()});
+  }
+
+  abort() {
+    if (this.xhr) {
+      this.xhr.abort();
+      console.log('Upload aborted');
+    }
   }
 
   handleFileInput(e: HTMLInputEvent): void {
@@ -92,6 +100,7 @@ export class IkUploadComponent implements AfterViewInit {
 
     // Custom upload-progress tracker
     options.xhr = new XMLHttpRequest();
+    this.xhr = options.xhr;
     const params = this.getUploadParams(options);
     const progressCb = this.createUploadProgressMonitor(options.xhr);
     const ik = this.getIkInstance();

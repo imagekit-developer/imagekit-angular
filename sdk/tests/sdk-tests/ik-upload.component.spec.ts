@@ -536,6 +536,19 @@ describe("IkUploadComponent", () => {
     expect(hasUploadStarted).toBeTruthy();
   });
 
+  it("abort should have been called when when upload.abort is called", () => {
+    component.fileName = 'dummy-file-name';
+    fixture.detectChanges();
+    const startIkUploadFunction = spyOn(component, 'startIkUpload');
+    const abortFunction = spyOn(component, 'abort');
+    const input = fixture.nativeElement.children[0];
+    input.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(startIkUploadFunction).toHaveBeenCalled();
+    component.abort();
+    expect(abortFunction).toHaveBeenCalled();
+   });
+
   it("onUploadProgress callback should be called if is define", () => {
     const comp = fixture.componentInstance;
     let dummyFile: File = new File([""], "dummy-file-name");
