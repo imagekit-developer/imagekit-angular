@@ -5,6 +5,12 @@ import { IkUploadComponent } from './ik-upload/ik-upload.component';
 import { IkVideoComponent } from './ik-video/ik-video.component';
 import { ImageKitConfiguration, ImagekitService } from './imagekit.service';
 
+declare module "@angular/core" {
+  interface ModuleWithProviders<T = any> {
+      ngModule: Type<T>;
+      providers?: (Provider | EnvironmentProviders)[] | undefined;
+  }
+}
 
 @NgModule({
   declarations: [IkUploadComponent, IkImageComponent, IkVideoComponent],
@@ -12,6 +18,7 @@ import { ImageKitConfiguration, ImagekitService } from './imagekit.service';
   exports: [IkUploadComponent, IkImageComponent, IkVideoComponent],
   providers: [ ImagekitService ]
 })
+
 export class ImagekitioAngularModule {
 
   static forRoot(config: ImageKitConfiguration): ModuleWithProviders {
