@@ -37,6 +37,7 @@ export interface IkVideoComponentOptions extends UrlOptionsBase {
 export interface IkUploadComponentOptions {
     file: File;
     fileName: string;
+    authenticator?: () => Promise<any>;
     tags?: Array<string>;
     useUniqueFileName?: boolean;
     responseFields?: Array<string>;
