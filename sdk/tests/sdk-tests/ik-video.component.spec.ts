@@ -13,7 +13,7 @@ describe("IkVideoComponent", () => {
     imageKitService = new ImagekitService({
       urlEndpoint: "https://ik.imagekit.io/company/",
       publicKey: "abc",
-      authenticationEndpoint: "https://example.com/auth"
+      // authenticationEndpoint: "https://example.com/auth"
     });
     TestBed.configureTestingModule({
       declarations: [IkVideoComponent],
@@ -44,7 +44,7 @@ describe("IkVideoComponent", () => {
     iKService = new ImagekitService({
       urlEndpoint: "https://ik.imagekit.io/company/",
       publicKey: "abc",
-      authenticationEndpoint: "http://example.com/auth"
+      // authenticationEndpoint: "http://example.com/auth"
     });
     let elRef: ElementRef;
     comp = new IkVideoComponent(elRef, iKService);

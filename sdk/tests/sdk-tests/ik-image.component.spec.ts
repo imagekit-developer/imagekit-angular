@@ -13,7 +13,7 @@ describe("IkImageComponent", () => {
     imageKitService = new ImagekitService({
       urlEndpoint: "https://ik.imagekit.io/company/",
       publicKey: "abc",
-      authenticationEndpoint: "http://example.com/auth"
+      // authenticationEndpoint: "http://example.com/auth"
     });
     TestBed.configureTestingModule({
       declarations: [IkImageComponent],
@@ -42,7 +42,7 @@ describe("IkImageComponent", () => {
     iKService = new ImagekitService({
       urlEndpoint: "https://ik.imagekit.io/company",
       publicKey: "abc",
-      authenticationEndpoint: "http://example.com/auth"
+      // authenticationEndpoint: "http://example.com/auth"
     });
     let elRef: ElementRef;
     comp = new IkImageComponent(elRef, iKService);
@@ -67,7 +67,7 @@ describe("IkImageComponent", () => {
     iKService = new ImagekitService({
       urlEndpoint: "https://ik.imagekit.io/company/",
       publicKey: "abc",
-      authenticationEndpoint: "http://example.com/auth"
+      // authenticationEndpoint: "http://example.com/auth"
     });
     let elRef: ElementRef;
     comp = new IkImageComponent(elRef, iKService);

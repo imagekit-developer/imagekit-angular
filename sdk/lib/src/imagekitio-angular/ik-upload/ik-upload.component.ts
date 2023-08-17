@@ -19,7 +19,8 @@ export class IkUploadComponent implements AfterViewInit {
   @Input('folder') folder: string; //optional
   @Input('publicKey') publicKey: string; //optional
   @Input('urlEndpoint') urlEndpoint: string; //optional
-  @Input('authenticationEndpoint') authenticationEndpoint: string; //optional
+  // @Input('authenticationEndpoint') authenticationEndpoint: string; //optional
+  @Input('authenticator') authenticator: () => Promise<any>
   @Input('isPrivateFile') isPrivateFile: boolean; //optional
   @Input('overwriteFile') overwriteFile: boolean; //optional
   @Input('overwriteAITags') overwriteAITags: boolean; //optional
@@ -38,11 +39,11 @@ export class IkUploadComponent implements AfterViewInit {
   @Input('onUploadProgress') onUploadProgress: (e: ProgressEvent) => void;
   fileToUpload: File = null;
 
-  constructor(private el: ElementRef, private imagekit: ImagekitService) { 
+  constructor(private el: ElementRef, private imagekit: ImagekitService) {
   }
-  
-  ngAfterViewInit():void {
-    this.buttonRef && this.buttonRef.addEventListener('click', ()=>{this.el.nativeElement.children[0].click()});
+
+  ngAfterViewInit(): void {
+    this.buttonRef && this.buttonRef.addEventListener('click', () => { this.el.nativeElement.children[0].click() });
   }
 
   handleFileInput(e: HTMLInputEvent): void {
@@ -73,55 +74,116 @@ export class IkUploadComponent implements AfterViewInit {
     if (!this.checkCustomFileValidation(options.file)) {
       return;
     }
-    
+
     this.startIkUpload(e, options);
   }
-  
+
   checkCustomFileValidation(file: File): boolean {
     if (this.validateFile && typeof this.validateFile === 'function') {
-     return this.validateFile(file);
+      return this.validateFile(file);
     }
     return true;
   }
 
   startIkUpload(e: HTMLInputEvent, options: IkUploadComponentOptions): void {
+
+    if (!this.authenticator) {
+      if (options.onError instanceof EventEmitter) {
+        options.onError.emit({
+          message: "The authenticator function is not provided."
+        });
+      }
+      return;
+    }
+
+    if (typeof this.authenticator !== 'function') {
+      if (options.onError instanceof EventEmitter) {
+        options.onError.emit({
+          message: "The provided authenticator is not a function."
+        })
+      }
+      return;
+    }
+
+    if (this.authenticator.length !== 0) {
+      if (options.onError instanceof EventEmitter) {
+        options.onError.emit({
+          message: "The authenticator function should not accept any parameters. Please provide a parameterless function reference."
+        })
+      }
+      return;
+    }
+
     // Custom upload-start tracker
     if (this.onUploadStart && typeof this.onUploadStart === 'function') {
       this.onUploadStart(e);
     }
-
     // Custom upload-progress tracker
     options.xhr = new XMLHttpRequest();
     const params = this.getUploadParams(options);
     const progressCb = this.createUploadProgressMonitor(options.xhr);
     const ik = this.getIkInstance();
-      
-    ik.upload(params, (err, result) => {
-      this.handleUploadResponse(err, result, options, options.xhr, progressCb)
-    });
+
+    const authPromise = this.authenticator()
+
+    if (!(authPromise instanceof Promise)) {
+      if (options.onError instanceof EventEmitter) {
+        options.onError.emit({
+          message: "The authenticator function is expected to return a Promise instance."
+        });
+      }
+      return;
+    }
+
+    authPromise
+      .then(({ signature, token, expire }) => {
+        params['signature'] = signature;
+        params['expire'] = expire;
+        params['token'] = token
+        ik.upload(params, (err, result) => {
+          this.handleUploadResponse(err, result, options, options.xhr, progressCb)
+        });
+      })
+      .catch((data) => {
+        var error;
+        if (data instanceof Array) {
+          error = data[0];
+        }
+        else {
+          error = data
+        }
+
+        if (options.onError instanceof EventEmitter) {
+          options.onError.emit({
+            message: String(error)
+          });
+        }
+        return;
+      })
   }
 
   getIkInstance(): any {
-    if(this.publicKey === undefined || 
-      this.urlEndpoint === undefined || 
-      this.authenticationEndpoint === undefined){
-        return this.imagekit.ikInstance;
+    if (this.publicKey === undefined ||
+      this.urlEndpoint === undefined
+      // || this.authenticationEndpoint === undefined
+    ) {
+      return this.imagekit.ikInstance;
     }
     let service = new ImagekitService({
-        urlEndpoint: this.urlEndpoint,
-        publicKey: this.publicKey,
-        authenticationEndpoint: this.authenticationEndpoint
-      });
+      urlEndpoint: this.urlEndpoint,
+      publicKey: this.publicKey,
+      // authenticationEndpoint: this.authenticationEndpoint
+    });
     return service.ikInstance;
   }
 
   handleUploadResponse(err, result, options, xhr, progressCb): void {
     if (err) {
-      if(options.onError instanceof EventEmitter) {
+      if (options.onError instanceof EventEmitter) {
         options.onError.emit(err);
       }
     } else {
-      if(options.onSuccess instanceof EventEmitter) {
+      if (options.onSuccess instanceof EventEmitter) {
         options.onSuccess.emit(result);
       }
       xhr.upload.removeEventListener('progress', progressCb);
