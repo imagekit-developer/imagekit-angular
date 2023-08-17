@@ -12,8 +12,8 @@ export class AppComponent {
   videoPath = "sample-video.mp4";
 
   transformation: Array<Transformation> = [{
-     height: "200",
-     width: "200"
+    height: "200",
+    width: "200"
   }];
 
   flexibleTransformationOne: Array<Transformation> = [{
@@ -24,7 +24,7 @@ export class AppComponent {
   flexibleTransformationTwo: Array<Transformation> = [{
     height: "200",
     width: "200"
- }];
+  }];
 
   videoAdvanceTransformation: Array<Transformation> = [{
     height: "200",
@@ -40,6 +40,37 @@ export class AppComponent {
 
   uploadedImageSource = "https://ik.imagekit.io/demo/default-image.jpg";
   uploadErrorMessage = "";
+
+  authenticator = () => {
+    return new Promise((resolve, reject) => {
+      var url = 'http://localhost:3000/auth'; // Use the full URL with the protocol
+      if (url.indexOf("?") === -1) {
+        url += `?t=${Math.random().toString()}`;
+      } else {
+        url += `&t=${Math.random().toString()}`;
+      }
+
+      // Make the Fetch API request
+      fetch(url, { method: 'GET', mode: 'cors' }) // Enable CORS mode
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(body => {
+          var obj = {
+            signature: body.signature,
+            expire: body.expire,
+            token: body.token
+          };
+          resolve(obj);
+        })
+        .catch(error => {
+          reject([error]);
+        });
+    });
+  }
 
   applyImgTransformationOne(res) {
     this.flexibleTransformationOne = [{
@@ -68,7 +99,7 @@ export class AppComponent {
 
   validateFileFunction(res: any) {
     console.log('validating')
-    if(res.size < 1000000){ // Less than 1mb
+    if (res?.size < 1000000) { // Less than 1mb
       return true;
     }
     return false;
