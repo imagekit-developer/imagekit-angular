@@ -9,7 +9,39 @@ describe("IkUploadComponent", () => {
   let imageKitConfiguration: ImageKitConfiguration;
   let fixture: ComponentFixture<IkUploadComponent>;
 
-  beforeEach(async() => {
+  const authenticator = () => {
+    return new Promise((resolve, reject) => {
+      var url = 'http://localhost:3000/auth'; // Use the full URL with the protocol
+      if (url.indexOf("?") === -1) {
+        url += `?t=${Math.random().toString()}`;
+      } else {
+        url += `&t=${Math.random().toString()}`;
+      }
+
+      // Make the Fetch API request
+      fetch(url, { method: 'GET', mode: 'cors' }) // Enable CORS mode
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(body => {
+          var obj = {
+            signature: body.signature,
+            expire: body.expire,
+            token: body.token
+          };
+          resolve(obj);
+        })
+        .catch(error => {
+          reject([error]);
+        });
+    });
+  }
+
+
+  beforeEach(async () => {
     imageKitConfiguration = {
       urlEndpoint: "url",
       publicKey: "pub",
@@ -17,9 +49,9 @@ describe("IkUploadComponent", () => {
     };
     TestBed.configureTestingModule({
       declarations: [IkUploadComponent],
-      providers: [ 
-        {provide: ImagekitService, useValue: imageKitService},
-        {provide: ImageKitConfiguration, useValue: imageKitConfiguration}
+      providers: [
+        { provide: ImagekitService, useValue: imageKitService },
+        { provide: ImageKitConfiguration, useValue: imageKitConfiguration }
       ]
     }).compileComponents();
     fixture = TestBed.createComponent(IkUploadComponent);
@@ -34,6 +66,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName
     }
@@ -46,6 +79,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       useUniqueFileName: undefined
@@ -59,6 +93,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       useUniqueFileName: true
@@ -76,6 +111,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       useUniqueFileName: true,
@@ -94,6 +130,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       tags: ["tag"]
@@ -104,14 +141,15 @@ describe("IkUploadComponent", () => {
       fileName: newFileName,
       tags: ["tag"]
     };
-    
-    expect(JSON.stringify(actual.tags)).toEqual(JSON.stringify(expected.tags));
+
+    expect(JSON.stringify(actual['tags'])).toEqual(JSON.stringify(expected.tags));
   });
 
   it("getUploadParams removes folder if not defined", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       folder: undefined
@@ -128,6 +166,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       folder: 'folder'
@@ -145,6 +184,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       isPrivateFile: undefined
@@ -161,6 +201,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       isPrivateFile: true
@@ -178,6 +219,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       customCoordinates: undefined
@@ -194,6 +236,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       customCoordinates: "10, 10, 100, 100"
@@ -211,6 +254,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       responseFields: undefined
@@ -227,6 +271,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       responseFields: ["metadata"]
@@ -237,13 +282,14 @@ describe("IkUploadComponent", () => {
       fileName: newFileName,
       responseFields: ["metadata"]
     };
-    expect(JSON.stringify(actual.responseFields)).toEqual(JSON.stringify(expected.responseFields));
+    expect(JSON.stringify(actual['responseFields'])).toEqual(JSON.stringify(expected.responseFields));
   });
 
   it("getUploadParams removes customMetadata if not defined", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       customMetadata: undefined
@@ -260,23 +306,25 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
-      customMetadata: {"name": "remove-bg","options": {"add_shadow": true}}
+      customMetadata: { "name": "remove-bg", "options": { "add_shadow": true } }
     }
     const actual = component.getUploadParams(options);
     const expected = {
       file: dummyFile,
       fileName: newFileName,
-      customMetadata: {"name": "remove-bg","options": {"add_shadow": true}}
+      customMetadata: { "name": "remove-bg", "options": { "add_shadow": true } }
     };
-    expect(JSON.stringify(actual.customMetadata)).toEqual(JSON.stringify(expected.customMetadata));
+    expect(JSON.stringify(actual['customMetadata'])).toEqual(JSON.stringify(expected.customMetadata));
   });
 
   it("getUploadParams removes extensions if not defined", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       extensions: undefined
@@ -293,23 +341,25 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
-      extensions: [{"name": "remove-bg","options": {"add_shadow": true}}]
+      extensions: [{ "name": "remove-bg", "options": { "add_shadow": true } }]
     }
     const actual = component.getUploadParams(options);
     const expected = {
       file: dummyFile,
       fileName: newFileName,
-      extensions: [{"name": "remove-bg","options": {"add_shadow": true}}]
+      extensions: [{ "name": "remove-bg", "options": { "add_shadow": true } }]
     };
-    expect(JSON.stringify(actual.extensions)).toEqual(JSON.stringify(expected.extensions));
+    expect(JSON.stringify(actual['extensions'])).toEqual(JSON.stringify(expected.extensions));
   });
 
   it("getUploadParams removes webhookUrl if not defined", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       webhookUrl: undefined
@@ -326,6 +376,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       webhookUrl: 'mywebhookurl'
@@ -343,6 +394,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       overwriteFile: undefined
@@ -359,6 +411,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       overwriteFile: false
@@ -376,6 +429,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       overwriteAITags: undefined
@@ -392,6 +446,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       overwriteAITags: false
@@ -409,6 +464,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       overwriteTags: undefined
@@ -425,6 +481,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       overwriteTags: false
@@ -442,6 +499,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       overwriteCustomMetadata: undefined
@@ -458,6 +516,7 @@ describe("IkUploadComponent", () => {
     let newFileName: string = "new-file-name";
     let dummyFile: File = new File([""], "dummy-file-name");
     let options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: newFileName,
       overwriteCustomMetadata: false
@@ -466,7 +525,7 @@ describe("IkUploadComponent", () => {
     const expected = {
       file: dummyFile,
       fileName: newFileName,
-      overwriteCustomMetadata: false
+      overwriteCustomMetadata: false,
     };
     expect(actual).toEqual(expected);
   });
@@ -487,7 +546,7 @@ describe("IkUploadComponent", () => {
     component.validateFile = () => {
       return true;
     };
-    
+
     input.dispatchEvent(new Event('change'));
     fixture.detectChanges();
     expect(startIkUploadFunction).toHaveBeenCalled();
@@ -517,6 +576,7 @@ describe("IkUploadComponent", () => {
     const xhr = new XMLHttpRequest();
     const progressCb = component.createUploadProgressMonitor(xhr);
     const options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: 'dummyFile',
       onSuccess: component.onSuccess
@@ -545,12 +605,13 @@ describe("IkUploadComponent", () => {
       hasTrackedProgress = true;
     }
     const xhr = new XMLHttpRequest();
-    xhr.upload.addEventListener = jasmine.createSpy('addEventListener').and.callFake((e, callback)=>{
+    xhr.upload.addEventListener = jasmine.createSpy('addEventListener').and.callFake((e, callback) => {
       callback();
     });
 
     const progressCb = comp.createUploadProgressMonitor(xhr);
     const options: IkUploadComponentOptions = {
+      authenticator: authenticator,
       file: dummyFile,
       fileName: 'dummyFile',
       onSuccess: comp.onSuccess
