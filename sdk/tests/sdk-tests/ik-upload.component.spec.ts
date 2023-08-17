@@ -13,7 +13,7 @@ describe("IkUploadComponent", () => {
     imageKitConfiguration = {
       urlEndpoint: "url",
       publicKey: "pub",
-      authenticationEndpoint: "auth"
+      // authenticationEndpoint: "auth"
     };
     TestBed.configureTestingModule({
       declarations: [IkUploadComponent],
