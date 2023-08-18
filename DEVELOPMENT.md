@@ -12,7 +12,7 @@ npm run build
 
 ## Running test cases
 
-The designated directory for tests is `sdk/tests/sdk-tests` folder. All tests will be executed once on the Chrome Headless browser.
+The designated directory for the tests is `sdk/tests/sdk-tests` folder. All tests will be executed once on the Chrome Headless browser.
 
 Execute following command from the `sdk` folder to start testing.
 ```sh
