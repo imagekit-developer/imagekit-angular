@@ -19,7 +19,6 @@ export class IkUploadComponent implements AfterViewInit {
   @Input('folder') folder: string; //optional
   @Input('publicKey') publicKey: string; //optional
   @Input('urlEndpoint') urlEndpoint: string; //optional
-  // @Input('authenticationEndpoint') authenticationEndpoint: string; //optional
   @Input('authenticator') authenticator: () => Promise<any>
   @Input('isPrivateFile') isPrivateFile: boolean; //optional
   @Input('overwriteFile') overwriteFile: boolean; //optional
@@ -164,15 +163,12 @@ export class IkUploadComponent implements AfterViewInit {
 
   getIkInstance(): any {
     if (this.publicKey === undefined ||
-      this.urlEndpoint === undefined
-      // || this.authenticationEndpoint === undefined
-    ) {
+      this.urlEndpoint === undefined) {
       return this.imagekit.ikInstance;
     }
     let service = new ImagekitService({
       urlEndpoint: this.urlEndpoint,
       publicKey: this.publicKey,
-      // authenticationEndpoint: this.authenticationEndpoint
     });
     return service.ikInstance;
   }
