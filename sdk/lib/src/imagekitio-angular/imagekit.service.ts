@@ -13,8 +13,7 @@ export interface Lqip {
 export class ImageKitConfiguration {
   urlEndpoint: string;
   publicKey: string;
-  // authenticationEndpoint?: string;
-  authenticator?: ()=>Promise<any>
+  authenticator?: () => Promise<any>
   lqip?: Lqip;
   fileName?: string;
   tags?: string;

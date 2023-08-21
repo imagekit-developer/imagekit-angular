@@ -12,10 +12,9 @@ import { environment } from '../environments/environment';
     ImagekitioAngularModule.forRoot({
       urlEndpoint: environment.URL_ENDPOINT,
       publicKey: environment.PUBLIC_KEY,
-      // authenticationEndpoint: environment.AUTHENTICATION_ENDPOINT
     })
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
