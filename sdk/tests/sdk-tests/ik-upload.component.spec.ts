@@ -45,7 +45,6 @@
 //     imageKitConfiguration = {
 //       urlEndpoint: "url",
 //       publicKey: "pub",
-//       // authenticationEndpoint: "auth"
 //     };
 //     TestBed.configureTestingModule({
 //       declarations: [IkUploadComponent],

@@ -13,11 +13,10 @@ describe("IkImageComponent", () => {
     imageKitService = new ImagekitService({
       urlEndpoint: "https://ik.imagekit.io/company/",
       publicKey: "abc",
-      // authenticationEndpoint: "http://example.com/auth"
     });
     TestBed.configureTestingModule({
       declarations: [IkImageComponent],
-      providers: [ {
+      providers: [{
         provide: ImagekitService, useValue: imageKitService
       }]
     }).compileComponents();
@@ -42,7 +41,6 @@ describe("IkImageComponent", () => {
     iKService = new ImagekitService({
       urlEndpoint: "https://ik.imagekit.io/company",
       publicKey: "abc",
-      // authenticationEndpoint: "http://example.com/auth"
     });
     let elRef: ElementRef;
     comp = new IkImageComponent(elRef, iKService);
@@ -67,7 +65,6 @@ describe("IkImageComponent", () => {
     iKService = new ImagekitService({
       urlEndpoint: "https://ik.imagekit.io/company/",
       publicKey: "abc",
-      // authenticationEndpoint: "http://example.com/auth"
     });
     let elRef: ElementRef;
     comp = new IkImageComponent(elRef, iKService);
@@ -97,7 +94,7 @@ describe("IkImageComponent", () => {
   });
 
   it("supported transformation parameter is passed then it should come in query parameters after transformation", () => {
-    const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
+    const transformation = [{ height: "200", width: "200" }, { rotation: "90" }];
     let options: IkImageComponentOptions = {
       urlEndpoint: "https://ik.imagekit.io/company/",
       src: "https://abc.com/def",
@@ -108,7 +105,7 @@ describe("IkImageComponent", () => {
   });
 
   it("if SRC is used to create URL, transformartionPosition should be query", () => {
-    const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
+    const transformation = [{ height: "200", width: "200" }, { rotation: "90" }];
     let options: IkImageComponentOptions = {
       urlEndpoint: "https://ik.imagekit.io/company/",
       src: "https://abc.com/def",
@@ -119,7 +116,7 @@ describe("IkImageComponent", () => {
   });
 
   it("if SRC is used to create URL, transformartionPosition should be query even if anything else is passed", () => {
-    const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
+    const transformation = [{ height: "200", width: "200" }, { rotation: "90" }];
     let options: IkImageComponentOptions = {
       urlEndpoint: "https://ik.imagekit.io/company/",
       src: "https://example.com/ab.png",
@@ -133,7 +130,7 @@ describe("IkImageComponent", () => {
   });
 
   it("if PATH is used to create URL, transformartionPosition should be kept as is", () => {
-    const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
+    const transformation = [{ height: "200", width: "200" }, { rotation: "90" }];
     let options: IkImageComponentOptions = {
       urlEndpoint: "https://ik.imagekit.io/company/",
       path: "ab.png",
@@ -150,7 +147,7 @@ describe("IkImageComponent", () => {
     let options: IkImageComponentOptions = {
       urlEndpoint: "https://ik.imagekit.io/company/",
       src: "https://example.com/ab.png",
-      queryParameters: {version:5, name: "check"}
+      queryParameters: { version: 5, name: "check" }
     };
     component.setUrl(options);
     expect(component.url).toContain('?version=5&name=check');
@@ -160,7 +157,7 @@ describe("IkImageComponent", () => {
     let options: IkImageComponentOptions = {
       urlEndpoint: "https://ik.imagekit.io/company/",
       src: "https://example.com/ab.png?foo=bar&baz=nax",
-      queryParameters: {version:5, name: "check"}
+      queryParameters: { version: 5, name: "check" }
     };
     component.setUrl(options);
     expect(component.url).toContain('&version=5&name=check');
@@ -171,7 +168,7 @@ describe("IkImageComponent", () => {
     let options: IkImageComponentOptions = {
       urlEndpoint: "https://ik.imagekit.io/company/",
       path: "/default.png",
-      queryParameters: {version:6, name: "bar"}
+      queryParameters: { version: 6, name: "bar" }
     };
     component.setUrl(options);
     expect(component.url).toContain('?version=6&name=bar');
@@ -219,7 +216,7 @@ describe("IkImageComponent", () => {
       lqipOptions
     );
     expect(lqipURl).toContain("tr:q-10,bl-6");
-    
+
     lqipOptions = {
       active: true,
       quality: 20,
@@ -260,24 +257,24 @@ describe("IkImageComponent", () => {
     );
     expect(lqipURl2).toContain("tr=n-lqip");
   });
-  
+
   it("if urlEndpoint not set, expect errors to be thrown", () => {
-    const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
+    const transformation = [{ height: "200", width: "200" }, { rotation: "90" }];
     let options: IkImageComponentOptions = {
       transformation: transformation,
       transformationPosition: "query"
     };
-    expect(()=>component.getConfigObject(options)).toThrow(new Error('Missing urlEndpoint initialization!'));
+    expect(() => component.getConfigObject(options)).toThrow(new Error('Missing urlEndpoint initialization!'));
   });
 
   it("if SRC and PATH not set, expect errors to be thrown", () => {
-    const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
+    const transformation = [{ height: "200", width: "200" }, { rotation: "90" }];
     let options: IkImageComponentOptions = {
       urlEndpoint: 'https://ik.imagekit.io/example',
       transformation: transformation,
       transformationPosition: "query"
     };
-    expect(()=>component.getConfigObject(options)).toThrow(new Error('Missing src / path during initialization!'));
+    expect(() => component.getConfigObject(options)).toThrow(new Error('Missing src / path during initialization!'));
   });
 
   it("if lazy loading, img DOM src should be empty initially", () => {
@@ -290,7 +287,7 @@ describe("IkImageComponent", () => {
 
   it("if lazy loading and LQIP active, img DOM src should be set to LQIP URL initially", () => {
     component.src = "https://ik.imagekit.io/18ykd9wzp/default-image.jpg";
-    component.lqip = {active: true, quality: 10};
+    component.lqip = { active: true, quality: 10 };
     component.loading = "lazy";
     fixture.detectChanges();
     const ikImageElement: HTMLElement = fixture.nativeElement;
@@ -313,12 +310,12 @@ describe("IkImageComponent", () => {
     }];
     let isObserving = true;
     const mockObserver = jasmine.createSpyObj('IntersectionObserver', ['unobserve']);
-    mockObserver.unobserve.and.callFake(function() {
+    mockObserver.unobserve.and.callFake(function () {
       isObserving = false;
     });
     let isImageLoaded = false;
     const mockIkImageComponent = jasmine.createSpyObj('IkImageComponent', ['loadImage']);
-    mockIkImageComponent.loadImage.and.callFake(function() {
+    mockIkImageComponent.loadImage.and.callFake(function () {
       isImageLoaded = true;
     });
     component.handleIntersectionObserver(entry, mockObserver, mockIkImageComponent.loadImage, component, '');
