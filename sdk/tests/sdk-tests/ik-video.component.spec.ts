@@ -13,11 +13,10 @@ describe("IkVideoComponent", () => {
     imageKitService = new ImagekitService({
       urlEndpoint: "https://ik.imagekit.io/company/",
       publicKey: "abc",
-      // authenticationEndpoint: "https://example.com/auth"
     });
     TestBed.configureTestingModule({
       declarations: [IkVideoComponent],
-      providers: [ {
+      providers: [{
         provide: ImagekitService, useValue: imageKitService
       }]
     }).compileComponents();
@@ -44,7 +43,6 @@ describe("IkVideoComponent", () => {
     iKService = new ImagekitService({
       urlEndpoint: "https://ik.imagekit.io/company/",
       publicKey: "abc",
-      // authenticationEndpoint: "http://example.com/auth"
     });
     let elRef: ElementRef;
     comp = new IkVideoComponent(elRef, iKService);
@@ -75,7 +73,7 @@ describe("IkVideoComponent", () => {
   });
 
   it("supported transformation parameter is passed then it should come in query parameters after transformation", () => {
-    const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
+    const transformation = [{ height: "200", width: "200" }, { rotation: "90" }];
     let options: IkVideoComponentOptions = {
       urlEndpoint: "https://ik.imagekit.io/company/",
       src: "https://abc.com/def",
@@ -86,7 +84,7 @@ describe("IkVideoComponent", () => {
   });
 
   it("if SRC is used to create URL, transformartioPosition should be query", () => {
-    const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
+    const transformation = [{ height: "200", width: "200" }, { rotation: "90" }];
     let options: IkVideoComponentOptions = {
       urlEndpoint: "https://ik.imagekit.io/company/",
       src: "https://abc.com/def",
@@ -97,7 +95,7 @@ describe("IkVideoComponent", () => {
   });
 
   it("if SRC is used to create URL, transformationPosition should be query even if anything else is passed", () => {
-    const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
+    const transformation = [{ height: "200", width: "200" }, { rotation: "90" }];
     let options: IkVideoComponentOptions = {
       urlEndpoint: "https://ik.imagekit.io/company/",
       src: "https://example.com/sample-video.mp4",
@@ -112,7 +110,7 @@ describe("IkVideoComponent", () => {
   });
 
   it("if PATH is used to create URL, transformartionPosition should be kept as is", () => {
-    const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
+    const transformation = [{ height: "200", width: "200" }, { rotation: "90" }];
     let options: IkVideoComponentOptions = {
       urlEndpoint: "https://ik.imagekit.io/company/",
       path: "sample-video.mp4",
@@ -130,7 +128,7 @@ describe("IkVideoComponent", () => {
     let options: IkVideoComponentOptions = {
       urlEndpoint: "https://ik.imagekit.io/company/",
       src: "https://example.com/sample-video.mp4",
-      queryParameters: {version:5, name: 'check'}
+      queryParameters: { version: 5, name: 'check' }
     };
     component.setUrl(options);
     expect(component.url).toContain('?version=5&name=check');
@@ -140,7 +138,7 @@ describe("IkVideoComponent", () => {
     let options: IkVideoComponentOptions = {
       urlEndpoint: "https://ik.imagekit.io/company/",
       src: "https://example.com/sample-video.mp4?foo=bar&baz=nax",
-      queryParameters: {version:5, name: 'check'}
+      queryParameters: { version: 5, name: 'check' }
     };
     component.setUrl(options);
     expect(component.url).toContain('&version=5&name=check');
@@ -151,7 +149,7 @@ describe("IkVideoComponent", () => {
     let options: IkVideoComponentOptions = {
       urlEndpoint: "https://ik.imagekit.io/company/",
       path: "/default.png",
-      queryParameters: {version:6, name: 'bar'}
+      queryParameters: { version: 6, name: 'bar' }
     };
     component.setUrl(options);
     expect(component.url).toContain('?version=6&name=bar');
@@ -176,24 +174,24 @@ describe("IkVideoComponent", () => {
   });
 
   it("if urlEndpoint not set, expect errors to be thrown", () => {
-    const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
+    const transformation = [{ height: "200", width: "200" }, { rotation: "90" }];
     let options: IkVideoComponentOptions = {
       transformation: transformation,
       transformationPosition: "query"
     };
-    expect(()=>component.getConfigObject(options)).toThrow(new Error('Missing urlEndpoint initialization!'));
+    expect(() => component.getConfigObject(options)).toThrow(new Error('Missing urlEndpoint initialization!'));
   });
 
   it("if SRC and PATH not set, expect errors to be thrown", () => {
-    const transformation = [{ height: "200", width: "200" }, { rotation: "90"}];
+    const transformation = [{ height: "200", width: "200" }, { rotation: "90" }];
     let options: IkVideoComponentOptions = {
       urlEndpoint: 'https://ik.imagekit.io/example',
       transformation: transformation,
       transformationPosition: "query"
     };
-    expect(()=>component.getConfigObject(options)).toThrow(new Error('Missing src / path during initialization!'));
+    expect(() => component.getConfigObject(options)).toThrow(new Error('Missing src / path during initialization!'));
   });
-  
+
   it("video DOM src should be set initially", () => {
     component.urlEndpoint = "https://ik.imagekit.io/example";
     component.src = "https://ik.imagekit.io/demo/sample-video.mp4";
