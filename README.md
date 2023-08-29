@@ -17,40 +17,35 @@ ImageKit is complete media storage, optimization, and transformation solution th
 * Previously, when using this SDK, we had to pass `authenticationEndpoint` which is used by SDK internally for fetching security parameters i.e `signature`, `token`, and `expire`.
 * In version 3.0.0, we have deprecated the use of the `authenticationEndpoint` parameter. Instead, the SDK now introduces a new parameter named `authenticator`. This parameter expects an asynchronous function that resolves with an object containing the necessary security parameters i.e `signature`, `token`, and `expire`.
 
-Example implementation for `authenticator`
+Example implementation for `authenticator` using `Fetch API`.
 
 ``` javascript
 
- authenticator = () => {
-    return new Promise((resolve, reject) => {
-      var url = "server_endpoint"; // Use the full URL with the protocol
-      if (url.indexOf("?") === -1) {
-        url += `?t=${Math.random().toString()}`;
-      } else {
-        url += `&t=${Math.random().toString()}`;
-      }
+authenticator = async () => {
+    try {
 
-      // Make the Fetch API request
-      fetch(url, { method: "GET", mode: "cors" }) // Enable CORS mode
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then((body) => {
-          var obj = {
-            signature: body.signature,
-            expire: body.expire,
-            token: body.token,
-          };
-          resolve(obj);
-        })
-        .catch((error) => {
-          reject([error]);
+        // You can pass headers as well and later validate the request source in the backend, or you can use headers for any other use case.
+        const headers = {
+          'Authorization': 'Bearer your-access-token',
+          'CustomHeader': 'CustomValue'
+        };
+
+        const response = await fetch('server_endpoint', {
+            headers
         });
-    });
-  };
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Request failed with status ${response.status}: ${errorText}`);
+        }
+
+        const data = await response.json();
+        const { signature, expire, token } = data;
+        return { signature, expire, token };
+    } catch (error) {
+        throw new Error(`Authentication request failed: ${error.message}`);
+    }
+};
 ```
 
 *Note*: Avoid generating security parameters on the client side. Always send a request to your backend to retrieve security parameters, as the generation of these parameters necessitates the use of your Imagekit `privateKey`, which must not be included in client-side code.
