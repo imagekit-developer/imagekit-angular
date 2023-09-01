@@ -16,7 +16,7 @@ describe('ik-upload component', () => {
             cy.wait(4000);
 
             //Verify uploaded file
-            cy.get('.uploaded-img-ik').find('img').invoke('attr', 'src').should('contain','/test');
+            cy.get('.uploaded-img-ik').find('img').invoke('attr', 'src').should('contain','/demo');
         });
     });
 });
