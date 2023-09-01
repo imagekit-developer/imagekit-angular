@@ -40,7 +40,7 @@
         "@types/node": "^6.0.118",
         "codecov": "^3.8.0",
         "codelyzer": "~3.2.0",
-        "cypress": "^10.4.0",
+        "cypress": "^13.1.0",
         "cypress-file-upload": "^5.0.8",
         "cypress-log-to-output": "^1.1.2",
         "execa": "^4.0.0",
