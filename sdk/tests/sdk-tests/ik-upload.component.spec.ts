@@ -559,27 +559,27 @@ describe("IkUploadComponent", () => {
     expect(hasUploadStarted).toBeTruthy();
   });
 
-  // it("onUploadProgress callback should be called if is define", () => {
-  //   const comp = fixture.componentInstance;
-  //   component.authenticator = authenticator;
-  //   let dummyFile: File = new File([""], "dummy-file-name");
-  //   comp.fileName = dummyFile.name;
-  //   let hasTrackedProgress = false;
-  //   comp.onUploadProgress = () => {
-  //     hasTrackedProgress = true;
-  //   }
-  //   const xhr = new XMLHttpRequest();
-  //   xhr.upload.addEventListener = jasmine.createSpy('addEventListener').and.callFake((e, callback) => {
-  //     callback();
-  //   });
+  it("onUploadProgress callback should be called if is define", () => {
+    const comp = fixture.componentInstance;
+    component.authenticator = authenticator;
+    let dummyFile: File = new File([""], "dummy-file-name");
+    comp.fileName = dummyFile.name;
+    let hasTrackedProgress = false;
+    comp.onUploadProgress = () => {
+      hasTrackedProgress = true;
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.upload.addEventListener = jasmine.createSpy('addEventListener').and.callFake((e, callback) => {
+      callback();
+    });
 
-  //   const progressCb = comp.createUploadProgressMonitor(xhr);
-  //   const options: IkUploadComponentOptions = {
-  //     file: dummyFile,
-  //     fileName: 'dummyFile',
-  //     onSuccess: comp.onSuccess
-  //   }
-  //   comp.handleUploadResponse(undefined, 'success', options, xhr, progressCb);
-  //   expect(hasTrackedProgress).toBeTruthy();
-  // });
+    const progressCb = comp.createUploadProgressMonitor(xhr);
+    const options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: 'dummyFile',
+      onSuccess: comp.onSuccess
+    }
+    comp.handleUploadResponse(undefined, 'success', options, xhr, progressCb);
+    expect(hasTrackedProgress).toBeTruthy();
+  });
 });
