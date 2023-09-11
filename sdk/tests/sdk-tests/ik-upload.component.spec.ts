@@ -547,17 +547,17 @@ describe("IkUploadComponent", () => {
     expect(onSuccessEventEmitter).toHaveBeenCalled();
   });
 
-  // it("onUploadStart function called when when upload commences", () => {
-  //   component.fileName = 'dummy-file-name';
-  //   component.authenticator = authenticator;
-  //   let hasUploadStarted = false;
-  //   component.onUploadStart = () => { hasUploadStarted = true; }
-  //   fixture.detectChanges();
-  //   const input = fixture.nativeElement.children[0];
-  //   input.dispatchEvent(new Event('change'));
-  //   fixture.detectChanges();
-  //   expect(hasUploadStarted).toBeTruthy();
-  // });
+  it("onUploadStart function called when when upload commences", () => {
+    component.fileName = 'dummy-file-name';
+    component.authenticator = authenticator;
+    let hasUploadStarted = false;
+    component.onUploadStart = () => { hasUploadStarted = true; }
+    fixture.detectChanges();
+    const input = fixture.nativeElement.children[0];
+    input.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(hasUploadStarted).toBeTruthy();
+  });
 
   // it("onUploadProgress callback should be called if is define", () => {
   //   const comp = fixture.componentInstance;
