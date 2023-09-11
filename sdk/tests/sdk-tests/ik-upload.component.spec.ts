@@ -9,37 +9,24 @@ describe("IkUploadComponent", () => {
   let imageKitConfiguration: ImageKitConfiguration;
   let fixture: ComponentFixture<IkUploadComponent>;
 
-  const authenticator = () => {
-    return new Promise((resolve, reject) => {
-      var url = 'http://localhost:3000/auth'; // Use the full URL with the protocol
-      if (url.indexOf("?") === -1) {
-        url += `?t=${Math.random().toString()}`;
-      } else {
-        url += `&t=${Math.random().toString()}`;
+  const authenticator = async () => {
+    try {
+
+      // You can pass headers as well and later validate the request source in the backend, or you can use headers for any other use case.
+      const response = await fetch('http://localhost:3000/auth');
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Request failed with status ${response.status}: ${errorText}`);
       }
 
-      // Make the Fetch API request
-      fetch(url, { method: 'GET', mode: 'cors' }) // Enable CORS mode
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then(body => {
-          var obj = {
-            signature: body.signature,
-            expire: body.expire,
-            token: body.token
-          };
-          resolve(obj);
-        })
-        .catch(error => {
-          reject([error]);
-        });
-    });
-  }
-
+      const data = await response.json();
+      const { signature, expire, token } = data;
+      return { signature, expire, token };
+    } catch (error) {
+      throw new Error(`Authentication request failed: ${error.message}`);
+    }
+  };
 
   beforeEach(async () => {
     imageKitConfiguration = {
