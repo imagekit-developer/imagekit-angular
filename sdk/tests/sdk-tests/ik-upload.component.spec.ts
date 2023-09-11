@@ -519,16 +519,19 @@ describe("IkUploadComponent", () => {
     expect(startIkUploadFunction).toHaveBeenCalled();
   });
 
-  // it("onError event emitter called when upload fails", () => {
-  //   component.fileName = 'dummy-file-name';
-  //   component.authenticator = authenticator;
-  //   fixture.detectChanges();
-  //   const onErrorEventEmitter = spyOn(component.onError, 'emit');
-  //   const input = fixture.nativeElement.children[0];
-  //   input.dispatchEvent(new Event('change'));
-  //   fixture.detectChanges();
-  //   expect(onErrorEventEmitter).toHaveBeenCalled();
-  // });
+  it("onError event emitter called when upload fails", async () => {
+    component.fileName = 'dummy-file-name';
+    component.authenticator = authenticator;
+    fixture.detectChanges();
+    const onErrorEventEmitter = spyOn(component.onError, 'emit').and.callThrough();
+    const input = fixture.nativeElement.children[0];
+    input.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    
+    await fixture.whenStable(); // Wait for asynchronous tasks to complete.
+    
+    expect(onErrorEventEmitter).toHaveBeenCalled();
+  });
 
   it("onSuccess event emitter called when when upload succeeds", () => {
     let dummyFile: File = new File([""], "dummy-file-name");
