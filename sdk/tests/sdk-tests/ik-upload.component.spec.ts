@@ -530,22 +530,22 @@ describe("IkUploadComponent", () => {
   //   expect(onErrorEventEmitter).toHaveBeenCalled();
   // });
 
-  // it("onSuccess event emitter called when when upload succeeds", () => {
-  //   let dummyFile: File = new File([""], "dummy-file-name");
-  //   component.fileName = dummyFile.name;
-  //   component.authenticator = authenticator;
-  //   fixture.detectChanges();
-  //   const onSuccessEventEmitter = spyOn(component.onSuccess, 'emit');
-  //   const xhr = new XMLHttpRequest();
-  //   const progressCb = component.createUploadProgressMonitor(xhr);
-  //   const options: IkUploadComponentOptions = {
-  //     file: dummyFile,
-  //     fileName: 'dummyFile',
-  //     onSuccess: component.onSuccess,
-  //   }
-  //   component.handleUploadResponse(undefined, 'success', options, xhr, progressCb);
-  //   expect(onSuccessEventEmitter).toHaveBeenCalled();
-  // });
+  it("onSuccess event emitter called when when upload succeeds", () => {
+    let dummyFile: File = new File([""], "dummy-file-name");
+    component.fileName = dummyFile.name;
+    component.authenticator = authenticator;
+    fixture.detectChanges();
+    const onSuccessEventEmitter = spyOn(component.onSuccess, 'emit');
+    const xhr = new XMLHttpRequest();
+    const progressCb = component.createUploadProgressMonitor(xhr);
+    const options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: 'dummyFile',
+      onSuccess: component.onSuccess,
+    }
+    component.handleUploadResponse(undefined, 'success', options, xhr, progressCb);
+    expect(onSuccessEventEmitter).toHaveBeenCalled();
+  });
 
   // it("onUploadStart function called when when upload commences", () => {
   //   component.fileName = 'dummy-file-name';
