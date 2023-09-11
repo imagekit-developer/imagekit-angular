@@ -519,67 +519,70 @@ describe("IkUploadComponent", () => {
     expect(startIkUploadFunction).toHaveBeenCalled();
   });
 
-  // it("onError event emitter called when upload fails", () => {
-  //   component.fileName = 'dummy-file-name';
-  //   component.authenticator = authenticator;
-  //   fixture.detectChanges();
-  //   const onErrorEventEmitter = spyOn(component.onError, 'emit');
-  //   const input = fixture.nativeElement.children[0];
-  //   input.dispatchEvent(new Event('change'));
-  //   fixture.detectChanges();
-  //   expect(onErrorEventEmitter).toHaveBeenCalled();
-  // });
+  it("onError event emitter called when upload fails", async () => {
+    component.fileName = 'dummy-file-name';
+    component.authenticator = authenticator;
+    fixture.detectChanges();
+    const onErrorEventEmitter = spyOn(component.onError, 'emit').and.callThrough();
+    const input = fixture.nativeElement.children[0];
+    input.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    
+    await fixture.whenStable(); // Wait for asynchronous tasks to complete.
+    
+    expect(onErrorEventEmitter).toHaveBeenCalled();
+  });
 
-  // it("onSuccess event emitter called when when upload succeeds", () => {
-  //   let dummyFile: File = new File([""], "dummy-file-name");
-  //   component.fileName = dummyFile.name;
-  //   component.authenticator = authenticator;
-  //   fixture.detectChanges();
-  //   const onSuccessEventEmitter = spyOn(component.onSuccess, 'emit');
-  //   const xhr = new XMLHttpRequest();
-  //   const progressCb = component.createUploadProgressMonitor(xhr);
-  //   const options: IkUploadComponentOptions = {
-  //     file: dummyFile,
-  //     fileName: 'dummyFile',
-  //     onSuccess: component.onSuccess,
-  //   }
-  //   component.handleUploadResponse(undefined, 'success', options, xhr, progressCb);
-  //   expect(onSuccessEventEmitter).toHaveBeenCalled();
-  // });
+  it("onSuccess event emitter called when when upload succeeds", () => {
+    let dummyFile: File = new File([""], "dummy-file-name");
+    component.fileName = dummyFile.name;
+    component.authenticator = authenticator;
+    fixture.detectChanges();
+    const onSuccessEventEmitter = spyOn(component.onSuccess, 'emit');
+    const xhr = new XMLHttpRequest();
+    const progressCb = component.createUploadProgressMonitor(xhr);
+    const options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: 'dummyFile',
+      onSuccess: component.onSuccess,
+    }
+    component.handleUploadResponse(undefined, 'success', options, xhr, progressCb);
+    expect(onSuccessEventEmitter).toHaveBeenCalled();
+  });
 
-  // it("onUploadStart function called when when upload commences", () => {
-  //   component.fileName = 'dummy-file-name';
-  //   component.authenticator = authenticator;
-  //   let hasUploadStarted = false;
-  //   component.onUploadStart = () => { hasUploadStarted = true; }
-  //   fixture.detectChanges();
-  //   const input = fixture.nativeElement.children[0];
-  //   input.dispatchEvent(new Event('change'));
-  //   fixture.detectChanges();
-  //   expect(hasUploadStarted).toBeTruthy();
-  // });
+  it("onUploadStart function called when when upload commences", () => {
+    component.fileName = 'dummy-file-name';
+    component.authenticator = authenticator;
+    let hasUploadStarted = false;
+    component.onUploadStart = () => { hasUploadStarted = true; }
+    fixture.detectChanges();
+    const input = fixture.nativeElement.children[0];
+    input.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(hasUploadStarted).toBeTruthy();
+  });
 
-  // it("onUploadProgress callback should be called if is define", () => {
-  //   const comp = fixture.componentInstance;
-  //   component.authenticator = authenticator;
-  //   let dummyFile: File = new File([""], "dummy-file-name");
-  //   comp.fileName = dummyFile.name;
-  //   let hasTrackedProgress = false;
-  //   comp.onUploadProgress = () => {
-  //     hasTrackedProgress = true;
-  //   }
-  //   const xhr = new XMLHttpRequest();
-  //   xhr.upload.addEventListener = jasmine.createSpy('addEventListener').and.callFake((e, callback) => {
-  //     callback();
-  //   });
+  it("onUploadProgress callback should be called if is define", () => {
+    const comp = fixture.componentInstance;
+    component.authenticator = authenticator;
+    let dummyFile: File = new File([""], "dummy-file-name");
+    comp.fileName = dummyFile.name;
+    let hasTrackedProgress = false;
+    comp.onUploadProgress = () => {
+      hasTrackedProgress = true;
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.upload.addEventListener = jasmine.createSpy('addEventListener').and.callFake((e, callback) => {
+      callback();
+    });
 
-  //   const progressCb = comp.createUploadProgressMonitor(xhr);
-  //   const options: IkUploadComponentOptions = {
-  //     file: dummyFile,
-  //     fileName: 'dummyFile',
-  //     onSuccess: comp.onSuccess
-  //   }
-  //   comp.handleUploadResponse(undefined, 'success', options, xhr, progressCb);
-  //   expect(hasTrackedProgress).toBeTruthy();
-  // });
+    const progressCb = comp.createUploadProgressMonitor(xhr);
+    const options: IkUploadComponentOptions = {
+      file: dummyFile,
+      fileName: 'dummyFile',
+      onSuccess: comp.onSuccess
+    }
+    comp.handleUploadResponse(undefined, 'success', options, xhr, progressCb);
+    expect(hasTrackedProgress).toBeTruthy();
+  });
 });
