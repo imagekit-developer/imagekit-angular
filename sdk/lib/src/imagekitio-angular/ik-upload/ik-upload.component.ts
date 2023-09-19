@@ -54,7 +54,7 @@ export class IkUploadComponent implements AfterViewInit {
   @Input("onUploadProgress") onUploadProgress: (e: ProgressEvent) => void;
   fileToUpload: File = null;
 
-  constructor(private el: ElementRef, private imagekit: ImagekitService) {}
+  constructor(private el: ElementRef, private imagekit: ImagekitService) { }
 
   ngAfterViewInit(): void {
     this.buttonRef &&
@@ -92,6 +92,10 @@ export class IkUploadComponent implements AfterViewInit {
       return;
     }
 
+    if (!this.checkAuthenticator(options)) {
+      return;
+    }
+
     this.startIkUpload(e, options);
   }
 
@@ -102,34 +106,24 @@ export class IkUploadComponent implements AfterViewInit {
     return true;
   }
 
-  throwError(message: string, options: IkUploadComponentOptions): void {
+  checkAuthenticator(options: IkUploadComponentOptions): boolean {
+    if (!this.authenticator || typeof this.authenticator !== "function" || this.authenticator.length !== 0) {
+      return this.throwError("The authenticator function is not provided or is not a function.", options)
+    }
+
+    return true;
+  }
+
+  throwError(message: string, options: IkUploadComponentOptions): boolean {
     if (options && options.onError instanceof EventEmitter) {
       options.onError.emit({
         message: message || "Something went wrong.",
       });
     }
-    return undefined;
+    return false;
   }
 
   startIkUpload(e: HTMLInputEvent, options: IkUploadComponentOptions): void {
-    let errMgs = null;
-    if (!this.authenticator) {
-      errMgs = "The authenticator function is not provided.";
-    }
-
-    if (typeof this.authenticator !== "function") {
-      errMgs = "The provided authenticator is not a function.";
-    }
-
-    if (this.authenticator.length !== 0) {
-      errMgs =
-        "The authenticator function should not accept any parameters. Please provide a parameterless function reference.";
-    }
-
-    if (errMgs) {
-      return this.throwError(errMgs, options);
-    }
-
     // Custom upload-start tracker
     if (this.onUploadStart && typeof this.onUploadStart === "function") {
       this.onUploadStart(e);
