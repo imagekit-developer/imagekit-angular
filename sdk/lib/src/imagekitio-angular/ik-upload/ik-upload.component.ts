@@ -144,11 +144,7 @@ export class IkUploadComponent implements AfterViewInit {
     }
 
     const handleAuthResponse = ({ signature, token, expire }) => {
-      params.signature = signature;
-      params.expire = expire;
-      params.token = token;
-
-      ik.upload(params, (err, result) => {
+      ik.upload({ ...params, signature, token, expire }, (err, result) => {
         this.handleUploadResponse(
           err,
           result,
@@ -175,11 +171,11 @@ export class IkUploadComponent implements AfterViewInit {
     if (this.publicKey === undefined || this.urlEndpoint === undefined) {
       return this.imagekit.ikInstance;
     }
-    let service = new ImagekitService({
+
+    return new ImagekitService({
       urlEndpoint: this.urlEndpoint,
       publicKey: this.publicKey,
-    });
-    return service.ikInstance;
+    })._ikInstance
   }
 
   handleUploadResponse(err, result, options, xhr, progressCb): void {
