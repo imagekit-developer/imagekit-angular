@@ -527,6 +527,7 @@ describe("IkUploadComponent", () => {
     const input = fixture.nativeElement.children[0];
     input.dispatchEvent(new Event('change'));
     fixture.detectChanges();
+    await fixture.whenStable();
     expect(onErrorEventEmitter).toHaveBeenCalled();
   });
 
