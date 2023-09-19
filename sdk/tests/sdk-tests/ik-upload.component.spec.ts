@@ -496,7 +496,7 @@ describe("IkUploadComponent", () => {
     component.validateFile = () => {
       return false;
     };
-    
+
     fixture.detectChanges();
     const startIkUploadFunction = spyOn(component, 'startIkUpload');
     const input = fixture.nativeElement.children[0];
@@ -527,9 +527,6 @@ describe("IkUploadComponent", () => {
     const input = fixture.nativeElement.children[0];
     input.dispatchEvent(new Event('change'));
     fixture.detectChanges();
-    
-    await fixture.whenStable(); // Wait for asynchronous tasks to complete.
-    
     expect(onErrorEventEmitter).toHaveBeenCalled();
   });
 
