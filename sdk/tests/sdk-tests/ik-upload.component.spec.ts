@@ -585,4 +585,17 @@ describe("IkUploadComponent", () => {
     comp.handleUploadResponse(undefined, 'success', options, xhr, progressCb);
     expect(hasTrackedProgress).toBeTruthy();
   });
+
+  it("abort should have been called when when upload.abort is invoked", () => {
+    component.fileName = 'dummy-file-name';
+    fixture.detectChanges();
+    const input = fixture.nativeElement.children[0];
+    input.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    spyOn(window.console, 'log');
+    component.xhr = new XMLHttpRequest();
+    component.abort();
+    // There would have been a `Upload aborted` log printed
+    expect(window.console.log).toHaveBeenCalled();
+   });
 });

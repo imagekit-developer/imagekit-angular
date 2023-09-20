@@ -1,5 +1,6 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import { Transformation } from "imagekit-javascript/dist/src/interfaces/Transformation";
+import { IkUploadComponent } from "../../lib/src/public_api";
 
 @Component({
   selector: "app-root",
@@ -10,6 +11,7 @@ export class AppComponent {
   title = "app";
   path = "default-image.jpg";
   videoPath = "sample-video.mp4";
+  @ViewChild('upload') uploadComponent:IkUploadComponent;
 
   transformation: Array<Transformation> = [
     {
@@ -101,8 +103,8 @@ export class AppComponent {
 
   validateFileFunction(res: any) {
     console.log("validating");
-    if (res.size < 1000000) {
-      // Less than 1mb
+    if (res.size < 10000000) {
+      // Less than 10mb
       return true;
     }
     return false;
@@ -110,6 +112,10 @@ export class AppComponent {
 
   onUploadStartFunction(res: any) {
     console.log("onUploadStart");
+  }
+
+  onAbortFunction(){
+    this.uploadComponent && this.uploadComponent.abort();
   }
 
   onUploadProgressFunction(res: any) {
