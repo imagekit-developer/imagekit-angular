@@ -496,7 +496,7 @@ describe("IkUploadComponent", () => {
     component.validateFile = () => {
       return false;
     };
-    
+
     fixture.detectChanges();
     const startIkUploadFunction = spyOn(component, 'startIkUpload');
     const input = fixture.nativeElement.children[0];
@@ -519,6 +519,20 @@ describe("IkUploadComponent", () => {
     expect(startIkUploadFunction).toHaveBeenCalled();
   });
 
+  it("upload file should not commence if authenticator function not passed or validation fails", () => {
+    const startIkUploadFunction = spyOn(component, 'startIkUpload');
+
+    //  Authenticator not a function
+    component.authenticator = undefined;
+    fixture.detectChanges();
+    expect(startIkUploadFunction).not.toHaveBeenCalled();
+
+    // Authenticator function does not return a promise
+    component.authenticator = () => undefined
+    fixture.detectChanges();
+    expect(startIkUploadFunction).not.toHaveBeenCalled();
+  });
+
   it("onError event emitter called when upload fails", async () => {
     component.fileName = 'dummy-file-name';
     component.authenticator = authenticator;
@@ -527,9 +541,7 @@ describe("IkUploadComponent", () => {
     const input = fixture.nativeElement.children[0];
     input.dispatchEvent(new Event('change'));
     fixture.detectChanges();
-    
-    await fixture.whenStable(); // Wait for asynchronous tasks to complete.
-    
+    await fixture.whenStable();
     expect(onErrorEventEmitter).toHaveBeenCalled();
   });
 
