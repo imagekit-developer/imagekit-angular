@@ -477,7 +477,7 @@ The SDK provides a component to upload files to the [ImageKit Media Library](htt
 | publicKey      | String | Optional |
 | authenticator      | ()=>Promise<{signature:string,token:string,expiry:number}> | Optional |
 
-Note: All three `urlEndpoint` and `publicKey`  must be present in the attribute for them to take effect. Otherwise, the SDK will fall back to the values specified in `app.module.ts`.
+Note: `urlEndpoint` and `publicKey` must be present in the attribute for them to take effect. Otherwise, the SDK will fall back to the values specified in `app.module.ts`.
 
 Sample usage
 
@@ -542,6 +542,32 @@ Custom button example, using buttonRef
 <button #myBtn type="button" style="color:blue">
   <span>Upload</span>
 </button>
+```
+
+Abort upload
+
+```js
+// Added to app.component.ts
+@ViewChild('upload') uploadComponent:IkUploadComponent;// @ViewChild can be used to get instance of IKUpload component.
+
+onAbortFunction(){
+    this.uploadComponent && this.uploadComponent.abort();
+}
+
+// Added to app.component.html
+<ik-upload 
+  #upload
+  fileName= "test.jpg" 
+  (onError)="handleUploadError($event)"
+  (onSuccess)="handleUploadSuccess($event)"
+  [validateFile]="validateFileFunction"
+  [onUploadStart]="onUploadStartFunction"
+  [onUploadProgress]="onUploadProgressFunction"
+  [authenticator]="authenticator"
+></ik-upload>
+<button 
+  (click)="onAbortFunction()"
+>Abort</button>
 ```
 
 ## Accessing Imagekit core JS SDK
