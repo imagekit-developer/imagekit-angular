@@ -11,7 +11,6 @@ describe("IkUploadComponent", () => {
 
   const authenticator = async () => {
     try {
-
       // You can pass headers as well and later validate the request source in the backend, or you can use headers for any other use case.
       const response = await fetch('http://localhost:3000/auth');
 
@@ -531,6 +530,33 @@ describe("IkUploadComponent", () => {
     component.authenticator = () => undefined
     fixture.detectChanges();
     expect(startIkUploadFunction).not.toHaveBeenCalled();
+  });
+
+  it('should authenticate successfully', async () => {
+    const expectedAuthData = {
+      signature: 'mockSignature',
+      expire: 1234567890,
+      token: 'mockToken',
+    };
+
+    // Create a spy on the fetch function to mock the network request
+    spyOn(window, 'fetch').and.returnValue(
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(expectedAuthData),
+      } as Response)
+    );
+
+    // Set up the authenticator function with the spy
+    component.authenticator = authenticator;
+
+    fixture.detectChanges();
+
+    // Call the authenticator function
+    const authResult = await component.authenticator();
+
+    // Assert that the authenticator function returned the expected data
+    expect(authResult).toEqual(expectedAuthData);
   });
 
   it("onError event emitter called when upload fails", async () => {
