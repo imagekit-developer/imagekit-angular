@@ -518,19 +518,19 @@ describe("IkUploadComponent", () => {
     expect(startIkUploadFunction).toHaveBeenCalled();
   });
 
-  it("upload file should not commence if authenticator function not passed or validation fails", () => {
+  it("upload file should not commence if authenticator function not passed", () => {
     const startIkUploadFunction = spyOn(component, 'startIkUpload');
-
-    //  Authenticator not a function
     component.authenticator = undefined;
     fixture.detectChanges();
     expect(startIkUploadFunction).not.toHaveBeenCalled();
+  });
 
-    // Authenticator function does not return a promise
+  it("upload file should not commence if authenicator function doesn't return a promise",()=>{
+    const startIkUploadFunction = spyOn(component, 'startIkUpload'); 
     component.authenticator = () => undefined
     fixture.detectChanges();
     expect(startIkUploadFunction).not.toHaveBeenCalled();
-  });
+  })
 
   it('should authenticate successfully', async () => {
     const expectedAuthData = {

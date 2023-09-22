@@ -115,10 +115,9 @@ export class IkUploadComponent implements AfterViewInit {
   }
 
   checkAuthenticator(options: IkUploadComponentOptions): boolean {
-    if (!this.authenticator || typeof this.authenticator !== "function" || this.authenticator.length !== 0) {
+    if (!this.authenticator || typeof this.authenticator !== "function" || this.authenticator.length !== 0 || !(this.authenticator() instanceof Promise)) {
       return this.throwError("The authenticator function is not provided or is not a function.", options)
     }
-
     return true;
   }
 
@@ -142,16 +141,8 @@ export class IkUploadComponent implements AfterViewInit {
     const params = this.getUploadParams(options);
     const progressCb = this.createUploadProgressMonitor(options.xhr);
     const ik = this.getIkInstance();
-
     const authPromise = this.authenticator();
-
-    if (!(authPromise instanceof Promise)) {
-      this.throwError(
-        "The authenticator function is expected to return a Promise instance.",
-        options
-      );
-    }
-
+    
     const handleAuthResponse = ({ signature, token, expire }) => {
       ik.upload({ ...params, signature, token, expire }, (err, result) => {
         this.handleUploadResponse(
