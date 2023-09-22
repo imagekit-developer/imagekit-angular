@@ -322,4 +322,25 @@ describe("IkImageComponent", () => {
     expect(isObserving).toBeFalsy();
     expect(isImageLoaded).toBeTruthy();
   });
+
+  it("onImageLoaded should load the image when not lazy loading and the event source matches lqipUrl", () => {
+    // const fixture = TestBed.createComponent(IkImageComponent);
+    const component = fixture.componentInstance;
+    component.loading = "eager"; // Set to eager (not lazy) loading
+    component.lqipUrl = "lqip-url"; // Set a sample lqip URL
+    component.url = "original-url"; // Set a sample original URL
+  
+    const event = {
+      srcElement: {
+        src: "lqip-url", // Simulate an event with lqip URL as src
+      },
+    };
+  
+    const loadImageSpy = spyOn(component, "loadImage"); // Spy on loadImage function
+  
+    component.onImageLoaded(event);
+  
+    // Expect loadImage function to be called with the component and original URL
+    expect(loadImageSpy).toHaveBeenCalledWith(component, "original-url");
+  });
 });

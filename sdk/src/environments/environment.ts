@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  URL_ENDPOINT: "https://ik.imagekit.io/hzd8q2tzb",
-  PUBLIC_KEY: "public_3dyqiwVutyh20C/+Y/NPQKjMn8U=",
+  URL_ENDPOINT: "https://ik.imagekit.io/demo/",
+  PUBLIC_KEY: "",
 };

@@ -11,7 +11,6 @@ describe("IkUploadComponent", () => {
 
   const authenticator = async () => {
     try {
-
       // You can pass headers as well and later validate the request source in the backend, or you can use headers for any other use case.
       const response = await fetch('http://localhost:3000/auth');
 
@@ -533,6 +532,33 @@ describe("IkUploadComponent", () => {
     expect(startIkUploadFunction).not.toHaveBeenCalled();
   });
 
+  it('should authenticate successfully', async () => {
+    const expectedAuthData = {
+      signature: 'mockSignature',
+      expire: 1234567890,
+      token: 'mockToken',
+    };
+
+    // Create a spy on the fetch function to mock the network request
+    spyOn(window, 'fetch').and.returnValue(
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(expectedAuthData),
+      } as Response)
+    );
+
+    // Set up the authenticator function with the spy
+    component.authenticator = authenticator;
+
+    fixture.detectChanges();
+
+    // Call the authenticator function
+    const authResult = await component.authenticator();
+
+    // Assert that the authenticator function returned the expected data
+    expect(authResult).toEqual(expectedAuthData);
+  });
+
   it("onError event emitter called when upload fails", async () => {
     component.fileName = 'dummy-file-name';
     component.authenticator = authenticator;
@@ -597,4 +623,16 @@ describe("IkUploadComponent", () => {
     comp.handleUploadResponse(undefined, 'success', options, xhr, progressCb);
     expect(hasTrackedProgress).toBeTruthy();
   });
+
+  it("abort should have been called when when upload.abort is invoked", () => {
+    component.fileName = 'dummy-file-name';
+    fixture.detectChanges();
+    const input = fixture.nativeElement.children[0];
+    input.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    component.xhr = new XMLHttpRequest();
+    const abortFunction = spyOn(component.xhr,'abort');
+    component.abort();
+    expect(abortFunction).toHaveBeenCalled();
+   });
 });
