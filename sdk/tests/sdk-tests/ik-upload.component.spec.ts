@@ -635,4 +635,29 @@ describe("IkUploadComponent", () => {
     component.abort();
     expect(abortFunction).toHaveBeenCalled();
    });
+
+   it("should handle promise rejection with an array of errors", async () => {
+    // Set up the component and data
+    const component = fixture.componentInstance;
+    const dummyFile: File = new File([""], "dummy-file-name");
+    component.fileName = dummyFile.name;
+  
+    // Mock the authenticator function to reject the promise with an array of errors
+    component.authenticator = () => {
+      return Promise.reject(['Error 1', 'Error 2']);
+    };
+  
+    fixture.detectChanges();
+  
+    // Call the authenticator function
+    const onErrorEventEmitter = spyOn(component.onError, 'emit').and.callThrough();
+    const input = fixture.nativeElement.children[0];
+    input.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+  
+    // Wait for the promise to be rejected
+    await fixture.whenStable();
+
+    expect(onErrorEventEmitter).toHaveBeenCalled();
+  });
 });
