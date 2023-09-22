@@ -103,8 +103,8 @@ export class AppComponent {
 
   validateFileFunction(res: any) {
     console.log("validating");
-    if (res.size < 10000000) {
-      // Less than 10mb
+    if (res.size < 1000000) {
+      // Less than 1mb
       return true;
     }
     return false;

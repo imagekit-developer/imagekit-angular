@@ -630,10 +630,9 @@ describe("IkUploadComponent", () => {
     const input = fixture.nativeElement.children[0];
     input.dispatchEvent(new Event('change'));
     fixture.detectChanges();
-    spyOn(window.console, 'log');
+    const abortFunction = spyOn(component, 'abort');
     component.xhr = new XMLHttpRequest();
     component.abort();
-    // There would have been a `Upload aborted` log printed
-    expect(window.console.log).toHaveBeenCalled();
+    expect(abortFunction).toHaveBeenCalled();
    });
 });

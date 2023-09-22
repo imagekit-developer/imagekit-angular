@@ -61,7 +61,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
 
   onImageLoaded = (event: { srcElement: { src: string; }; }) => {
     const { loading, lqipUrl, url } = this;
-  
+
     if (loading !== 'lazy' && event.srcElement.src === lqipUrl) {
       this.loadImage(this, url);
     }
