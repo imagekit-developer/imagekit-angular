@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ImageKitConfiguration, ImagekitService } from "../../lib/src/imagekitio-angular/imagekit.service";
 import { IkUploadComponent } from "../../lib/src/imagekitio-angular/ik-upload/ik-upload.component";
 import { IkUploadComponentOptions } from '../../lib/src/imagekitio-angular/utility/ik-type-def-collection';
+import { EventEmitter } from '@angular/core';
 
 describe("IkUploadComponent", () => {
   let component: IkUploadComponent;
@@ -659,5 +660,24 @@ describe("IkUploadComponent", () => {
     await fixture.whenStable();
 
     expect(onErrorEventEmitter).toHaveBeenCalled();
+  });
+
+  it('handleUploadResponse should handle an error', () => {
+    const options = {
+      onError: new EventEmitter<any>(),
+      onSuccess: new EventEmitter<any>(),
+    };
+
+    // Mock the throwError method
+    spyOn(component, 'throwError');
+
+    // Call handleUploadResponse with an error
+    component.handleUploadResponse('error message', null, options, null, null);
+
+    // Expect that the throwError method was called with the error message and options
+    expect(component.throwError).toHaveBeenCalledWith('error message', options);
+
+    // Expect that onSuccess EventEmitter was not emitted
+    expect(options.onSuccess.observers.length).toBe(0);
   });
 });
