@@ -662,6 +662,50 @@ describe("IkUploadComponent", () => {
     expect(onErrorEventEmitter).toHaveBeenCalled();
   });
 
+  it("should handle promise resolution", async () => {
+    // Set up the component and data
+    const component = fixture.componentInstance;
+    const dummyFile: File = new File([""], "dummy-file-name");
+    component.fileName = dummyFile.name;
+  
+    // Mock the authenticator function to resolve the promise with an object
+    component.authenticator = () => {
+      return Promise.resolve({
+        signature: 'signature',
+        token: 'token',
+        expire: 123123
+      });
+    };
+  
+    fixture.detectChanges();
+  
+    const promiseResolveHandler = spyOn(component, 'handleAuthResponse').and.callThrough();
+    const handleUploadResponse = spyOn(component, 'handleUploadResponse');
+  
+    // Call the public method to get _ikInstance
+    const ikInstance = component.getIkInstance();
+  
+    // You can now use ikInstance in your test
+    // For example, if _ikInstance has a method called 'upload', you can spy on it
+    const ikUploadSpy = spyOn(ikInstance, 'upload').and.callFake((params, callback) => {
+      // Simulate a successful upload by invoking the callback
+      callback(null, 'upload successful');
+    });
+  
+    const input = fixture.nativeElement.children[0];
+    input.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+  
+    // Wait for the promise to be resolved
+    await fixture.whenStable();
+  
+    expect(promiseResolveHandler).toHaveBeenCalled();
+    expect(handleUploadResponse).toHaveBeenCalled(); // Ensure that handleUploadResponse is called
+    expect(ikUploadSpy).toHaveBeenCalled();
+  });
+  
+  
+
   it('handleUploadResponse should handle an error', () => {
     const options = {
       onError: new EventEmitter<any>(),

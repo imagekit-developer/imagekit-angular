@@ -58,10 +58,7 @@ export class IkUploadComponent implements AfterViewInit {
   constructor(private el: ElementRef, private imagekit: ImagekitService) { }
 
   ngAfterViewInit(): void {
-    this.buttonRef &&
-      this.buttonRef.addEventListener("click", () => {
-        this.el.nativeElement.children[0].click();
-      });
+    this.buttonRef && this.buttonRef.addEventListener("click", () => {this.el.nativeElement.children[0].click()});
   }
 
   abort() {
@@ -130,6 +127,18 @@ export class IkUploadComponent implements AfterViewInit {
     return false;
   }
 
+  handleAuthResponse = ({signature,token,expire},ik,params,options,progressCb) => {
+    ik.upload({ ...params, signature, token, expire }, (err, result) => {
+      this.handleUploadResponse(
+        err,
+        result,
+        options,
+        options.xhr,
+        progressCb
+      );
+    });
+  }
+
   startIkUpload(e: HTMLInputEvent, options: IkUploadComponentOptions): void {
     // Custom upload-start tracker
     if (this.onUploadStart && typeof this.onUploadStart === "function") {
@@ -142,20 +151,8 @@ export class IkUploadComponent implements AfterViewInit {
     const progressCb = this.createUploadProgressMonitor(options.xhr);
     const ik = this.getIkInstance();
     const authPromise = this.authenticator();
-    
-    const handleAuthResponse = ({ signature, token, expire }) => {
-      ik.upload({ ...params, signature, token, expire }, (err, result) => {
-        this.handleUploadResponse(
-          err,
-          result,
-          options,
-          options.xhr,
-          progressCb
-        );
-      });
-    };
 
-    authPromise.then(handleAuthResponse).catch((data) => {
+    authPromise.then((obj)=>this.handleAuthResponse(obj,ik,params,options,progressCb)).catch((data) => {
       var error;
       if (data instanceof Array) {
         error = data[0];
