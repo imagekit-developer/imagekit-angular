@@ -21,7 +21,7 @@ declare module "@angular/core" {
 
 export class ImagekitioAngularModule {
 
-  static forRoot(config: ImageKitConfiguration): ModuleWithProviders {
+  static forRoot(config: ImageKitConfiguration): ModuleWithProviders<any> {
     return {
       ngModule: ImagekitioAngularModule,
       providers: [

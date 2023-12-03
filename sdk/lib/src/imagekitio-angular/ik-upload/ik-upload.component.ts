@@ -5,7 +5,7 @@ import { IkUploadComponentOptions, Dict, HTMLInputEvent } from '../utility/ik-ty
 @Component({
   selector: 'ik-upload',
   template: `
-  <input *ngIf="buttonRef; else elseBlock" type="file" (change)="handleFileInput($event)" style="display:none"/>
+  <input *ngIf="buttonRef; else elseBlock" type="file" [accept]="acceptedExtension" (change)="handleFileInput($event)" style="display:none"/>
   <ng-template #elseBlock>
     <input type="file" (change)="handleFileInput($event)" />
   </ng-template>
@@ -14,6 +14,7 @@ import { IkUploadComponentOptions, Dict, HTMLInputEvent } from '../utility/ik-ty
 })
 export class IkUploadComponent implements AfterViewInit {
   @Input('fileName') fileName: string; //optional
+  @Input('acceptedExtension') acceptedExtension: string; //optional
   @Input('useUniqueFileName') useUniqueFileName: boolean; //optional
   @Input('tags') tags: Array<string>; //optional
   @Input('folder') folder: string; //optional
@@ -38,9 +39,9 @@ export class IkUploadComponent implements AfterViewInit {
   @Input('onUploadProgress') onUploadProgress: (e: ProgressEvent) => void;
   fileToUpload: File = null;
 
-  constructor(private el: ElementRef, private imagekit: ImagekitService) { 
+  constructor(private el: ElementRef, private imagekit: ImagekitService) {
   }
-  
+
   ngAfterViewInit():void {
     this.buttonRef && this.buttonRef.addEventListener('click', ()=>{this.el.nativeElement.children[0].click()});
   }
@@ -73,10 +74,10 @@ export class IkUploadComponent implements AfterViewInit {
     if (!this.checkCustomFileValidation(options.file)) {
       return;
     }
-    
+
     this.startIkUpload(e, options);
   }
-  
+
   checkCustomFileValidation(file: File): boolean {
     if (this.validateFile && typeof this.validateFile === 'function') {
      return this.validateFile(file);
@@ -95,15 +96,15 @@ export class IkUploadComponent implements AfterViewInit {
     const params = this.getUploadParams(options);
     const progressCb = this.createUploadProgressMonitor(options.xhr);
     const ik = this.getIkInstance();
-      
+
     ik.upload(params, (err, result) => {
       this.handleUploadResponse(err, result, options, options.xhr, progressCb)
     });
   }
 
   getIkInstance(): any {
-    if(this.publicKey === undefined || 
-      this.urlEndpoint === undefined || 
+    if(this.publicKey === undefined ||
+      this.urlEndpoint === undefined ||
       this.authenticationEndpoint === undefined){
         return this.imagekit.ikInstance;
     }
