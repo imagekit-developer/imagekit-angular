@@ -1,64 +1,49 @@
-import {
-  AfterViewInit,
-  ElementRef,
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-} from "@angular/core";
-import { ImagekitService } from "../imagekit.service";
-import {
-  IkUploadComponentOptions,
-  Dict,
-  HTMLInputEvent,
-} from "../utility/ik-type-def-collection";
+import { AfterViewInit, ElementRef, Component, Input, Output, EventEmitter } from '@angular/core';
+import { ImagekitService } from '../imagekit.service';
+import { IkUploadComponentOptions, Dict, HTMLInputEvent } from '../utility/ik-type-def-collection';
 
 @Component({
-  selector: "ik-upload",
+  selector: 'ik-upload',
   template: `
-    <input
-      *ngIf="buttonRef; else elseBlock"
-      type="file"
-      (change)="handleFileInput($event)"
-      style="display:none"
-    />
-    <ng-template #elseBlock>
-      <input type="file" (change)="handleFileInput($event)" />
-    </ng-template>
+  <input *ngIf="buttonRef; else elseBlock" type="file" (change)="handleFileInput($event)" style="display:none"/>
+  <ng-template #elseBlock>
+    <input type="file" (change)="handleFileInput($event)" />
+  </ng-template>
   `,
-  providers: [ImagekitService],
+  providers: [ImagekitService]
 })
 export class IkUploadComponent implements AfterViewInit {
-  @Input("fileName") fileName: string; //optional
-  @Input("useUniqueFileName") useUniqueFileName: boolean; //optional
-  @Input("tags") tags: Array<string>; //optional
-  @Input("folder") folder: string; //optional
-  @Input("publicKey") publicKey: string; //optional
-  @Input("urlEndpoint") urlEndpoint: string; //optional
+  @Input('fileName') fileName: string; //optional
+  @Input('useUniqueFileName') useUniqueFileName: boolean; //optional
+  @Input('tags') tags: Array<string>; //optional
+  @Input('folder') folder: string; //optional
+  @Input('publicKey') publicKey: string; //optional
+  @Input('urlEndpoint') urlEndpoint: string; //optional
   @Input("authenticator") authenticator: () => Promise<any>;
-  @Input("isPrivateFile") isPrivateFile: boolean; //optional
-  @Input("overwriteFile") overwriteFile: boolean; //optional
-  @Input("overwriteAITags") overwriteAITags: boolean; //optional
-  @Input("overwriteTags") overwriteTags: boolean; //optional
-  @Input("overwriteCustomMetadata") overwriteCustomMetadata: boolean; //optional
-  @Input("customCoordinates") customCoordinates: string; //optional
-  @Input("webhookUrl") webhookUrl: string; //optional
-  @Input("responseFields") responseFields: Array<string>; //optional
-  @Input("extensions") extensions: Array<Object>; //optional
-  @Input("customMetadata") customMetadata: Object; //optional
-  @Input("buttonRef") buttonRef: HTMLButtonElement; //optional
+  @Input('isPrivateFile') isPrivateFile: boolean; //optional
+  @Input('overwriteFile') overwriteFile: boolean; //optional
+  @Input('overwriteAITags') overwriteAITags: boolean; //optional
+  @Input('overwriteTags') overwriteTags: boolean; //optional
+  @Input('overwriteCustomMetadata') overwriteCustomMetadata: boolean; //optional
+  @Input('customCoordinates') customCoordinates: string; //optional
+  @Input('webhookUrl') webhookUrl: string; //optional
+  @Input('responseFields') responseFields: Array<string>; //optional
+  @Input('extensions') extensions: Array<Object>; //optional
+  @Input('customMetadata') customMetadata: Object; //optional
+  @Input('buttonRef') buttonRef: HTMLButtonElement; //optional
   @Output() onError: EventEmitter<any> = new EventEmitter();
   @Output() onSuccess: EventEmitter<any> = new EventEmitter();
-  @Input("validateFile") validateFile: (file: File) => boolean;
-  @Input("onUploadStart") onUploadStart: (e: HTMLInputEvent) => void;
-  @Input("onUploadProgress") onUploadProgress: (e: ProgressEvent) => void;
+  @Input('validateFile') validateFile: (file: File) => boolean;
+  @Input('onUploadStart') onUploadStart: (e: HTMLInputEvent) => void;
+  @Input('onUploadProgress') onUploadProgress: (e: ProgressEvent) => void;
   fileToUpload: File = null;
   xhr: XMLHttpRequest;
 
-  constructor(private el: ElementRef, private imagekit: ImagekitService) { }
-
-  ngAfterViewInit(): void {
-    this.buttonRef && this.buttonRef.addEventListener("click", () => {this.el.nativeElement.children[0].click()});
+  constructor(private el: ElementRef, private imagekit: ImagekitService) { 
+  }
+  
+  ngAfterViewInit():void {
+    this.buttonRef && this.buttonRef.addEventListener('click', ()=>{this.el.nativeElement.children[0].click()});
   }
 
   abort() {
@@ -89,8 +74,8 @@ export class IkUploadComponent implements AfterViewInit {
       extensions: this.extensions,
       webhookUrl: this.webhookUrl,
       onError: this.onError,
-      onSuccess: this.onSuccess,
-    };
+      onSuccess: this.onSuccess
+    }
 
     // Custom validation
     if (!this.checkCustomFileValidation(options.file)) {
@@ -100,13 +85,13 @@ export class IkUploadComponent implements AfterViewInit {
     if (!this.checkAuthenticator(options)) {
       return;
     }
-
+    
     this.startIkUpload(e, options);
   }
-
+  
   checkCustomFileValidation(file: File): boolean {
-    if (this.validateFile && typeof this.validateFile === "function") {
-      return this.validateFile(file);
+    if (this.validateFile && typeof this.validateFile === 'function') {
+     return this.validateFile(file);
     }
     return true;
   }
@@ -141,9 +126,10 @@ export class IkUploadComponent implements AfterViewInit {
 
   startIkUpload(e: HTMLInputEvent, options: IkUploadComponentOptions): void {
     // Custom upload-start tracker
-    if (this.onUploadStart && typeof this.onUploadStart === "function") {
+    if (this.onUploadStart && typeof this.onUploadStart === 'function') {
       this.onUploadStart(e);
     }
+
     // Custom upload-progress tracker
     options.xhr = new XMLHttpRequest();
     this.xhr = options.xhr;
@@ -151,7 +137,7 @@ export class IkUploadComponent implements AfterViewInit {
     const progressCb = this.createUploadProgressMonitor(options.xhr);
     const ik = this.getIkInstance();
     const authPromise = this.authenticator();
-
+      
     authPromise.then((obj)=>this.handleAuthResponse(obj,ik,params,options,progressCb)).catch((data) => {
       var error;
       if (data instanceof Array) {
@@ -165,10 +151,10 @@ export class IkUploadComponent implements AfterViewInit {
   }
 
   getIkInstance(): any {
-    if (this.publicKey === undefined || this.urlEndpoint === undefined) {
-      return this.imagekit.ikInstance;
+    if(this.publicKey === undefined || 
+      this.urlEndpoint === undefined ){
+        return this.imagekit.ikInstance;
     }
-
     return new ImagekitService({
       urlEndpoint: this.urlEndpoint,
       publicKey: this.publicKey,
@@ -179,31 +165,28 @@ export class IkUploadComponent implements AfterViewInit {
     if (err) {
       this.throwError(err, options);
     } else {
-      if (options.onSuccess instanceof EventEmitter) {
+      if(options.onSuccess instanceof EventEmitter) {
         options.onSuccess.emit(result);
       }
-      xhr.upload.removeEventListener("progress", progressCb);
+      xhr.upload.removeEventListener('progress', progressCb);
     }
   }
 
   createUploadProgressMonitor(xhr: XMLHttpRequest): any {
     const progressCb = (e: ProgressEvent) => {
-      if (
-        this.onUploadProgress &&
-        typeof this.onUploadProgress === "function"
-      ) {
+      if (this.onUploadProgress && typeof this.onUploadProgress === 'function') {
         // Custom upload-progress tracker
         this.onUploadProgress(e);
       }
     };
-    xhr.upload.addEventListener("progress", progressCb);
+    xhr.upload.addEventListener('progress', progressCb);
     return progressCb;
   }
 
   getUploadParams(options: IkUploadComponentOptions): Dict {
     const params: Dict = {
       file: options.file,
-      fileName: options.fileName,
+      fileName: options.fileName
     };
 
     if (options.useUniqueFileName !== undefined) {
@@ -239,9 +222,7 @@ export class IkUploadComponent implements AfterViewInit {
     }
 
     if (options.overwriteCustomMetadata !== undefined) {
-      Object.assign(params, {
-        overwriteCustomMetadata: options.overwriteCustomMetadata,
-      });
+      Object.assign(params, { overwriteCustomMetadata: options.overwriteCustomMetadata });
     }
 
     if (options.tags !== undefined) {
