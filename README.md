@@ -177,6 +177,15 @@ To use the SDK, you need to provide it with a few configuration parameters. The 
   fileName= "test.jpg" 
   (onError)="handleUploadError($event)"
   (onSuccess)="handleUploadSuccess($event)"
+  [tags]='["sample-tag1", "sample-tag2"]'
+  customCoordinates="10,10,10,10"
+  [isPrivateFile]="false"
+  [responseFields]='["tags"]'
+  folder="/sample-folder"
+  [validateFile]="validateFileFunction"
+  [onUploadStart]="onUploadStartFunction"
+  [onUploadProgress]="onUploadProgressFunction"
+  [authenticator]="authenticator"
 ></ik-upload>
 ```
 
@@ -217,7 +226,7 @@ The `ik-image` component renders an `img` tag. It is used for rendering and mani
 The `transformation` prop is an array of objects. Each object can have the following properties. When you specify more than one object, each object is added as a chained transformation. For example:
 
 ```js
-// IThe following resizes the image to 300x300px 
+// The following resizes the image to 300x300px 
 flexibleTransformationOne: Array<Transformation> = [{
   height: "300",
   width: "300"
