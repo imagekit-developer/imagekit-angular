@@ -28,16 +28,16 @@ describe("IkUploadComponent", () => {
     }
   };
 
-  beforeEach(async () => {
+  beforeEach(async() => {
     imageKitConfiguration = {
       urlEndpoint: "url",
       publicKey: "pub",
     };
     TestBed.configureTestingModule({
       declarations: [IkUploadComponent],
-      providers: [
-        { provide: ImagekitService, useValue: imageKitService },
-        { provide: ImageKitConfiguration, useValue: imageKitConfiguration }
+      providers: [ 
+        {provide: ImagekitService, useValue: imageKitService},
+        {provide: ImageKitConfiguration, useValue: imageKitConfiguration}
       ]
     }).compileComponents();
     fixture = TestBed.createComponent(IkUploadComponent);
@@ -122,7 +122,7 @@ describe("IkUploadComponent", () => {
       fileName: newFileName,
       tags: ["tag"]
     };
-
+    
     expect(JSON.stringify(actual['tags'])).toEqual(JSON.stringify(expected.tags));
   });
 
@@ -280,13 +280,13 @@ describe("IkUploadComponent", () => {
     let options: IkUploadComponentOptions = {
       file: dummyFile,
       fileName: newFileName,
-      customMetadata: { "name": "remove-bg", "options": { "add_shadow": true } }
+      customMetadata: {"name": "remove-bg","options": {"add_shadow": true}}
     }
     const actual = component.getUploadParams(options);
     const expected = {
       file: dummyFile,
       fileName: newFileName,
-      customMetadata: { "name": "remove-bg", "options": { "add_shadow": true } }
+      customMetadata: {"name": "remove-bg","options": {"add_shadow": true}}
     };
     expect(JSON.stringify(actual['customMetadata'])).toEqual(JSON.stringify(expected.customMetadata));
   });
@@ -313,13 +313,13 @@ describe("IkUploadComponent", () => {
     let options: IkUploadComponentOptions = {
       file: dummyFile,
       fileName: newFileName,
-      extensions: [{ "name": "remove-bg", "options": { "add_shadow": true } }]
+      extensions: [{"name": "remove-bg","options": {"add_shadow": true}}]
     }
     const actual = component.getUploadParams(options);
     const expected = {
       file: dummyFile,
       fileName: newFileName,
-      extensions: [{ "name": "remove-bg", "options": { "add_shadow": true } }]
+      extensions: [{"name": "remove-bg","options": {"add_shadow": true}}]
     };
     expect(JSON.stringify(actual['extensions'])).toEqual(JSON.stringify(expected.extensions));
   });
@@ -484,7 +484,7 @@ describe("IkUploadComponent", () => {
     const expected = {
       file: dummyFile,
       fileName: newFileName,
-      overwriteCustomMetadata: false,
+      overwriteCustomMetadata: false
     };
     expect(actual).toEqual(expected);
   });
@@ -496,7 +496,6 @@ describe("IkUploadComponent", () => {
     component.validateFile = () => {
       return false;
     };
-
     fixture.detectChanges();
     const startIkUploadFunction = spyOn(component, 'startIkUpload');
     const input = fixture.nativeElement.children[0];
@@ -507,7 +506,7 @@ describe("IkUploadComponent", () => {
     component.validateFile = () => {
       return true;
     };
-
+    
     input.dispatchEvent(new Event('change'));
     fixture.detectChanges();
     expect(startIkUploadFunction).toHaveBeenCalled();
@@ -583,7 +582,7 @@ describe("IkUploadComponent", () => {
     const options: IkUploadComponentOptions = {
       file: dummyFile,
       fileName: 'dummyFile',
-      onSuccess: component.onSuccess,
+      onSuccess: component.onSuccess
     }
     component.handleUploadResponse(undefined, 'success', options, xhr, progressCb);
     expect(onSuccessEventEmitter).toHaveBeenCalled();
@@ -611,7 +610,7 @@ describe("IkUploadComponent", () => {
       hasTrackedProgress = true;
     }
     const xhr = new XMLHttpRequest();
-    xhr.upload.addEventListener = jasmine.createSpy('addEventListener').and.callFake((e, callback) => {
+    xhr.upload.addEventListener = jasmine.createSpy('addEventListener').and.callFake((e, callback)=>{
       callback();
     });
 
@@ -624,6 +623,7 @@ describe("IkUploadComponent", () => {
     comp.handleUploadResponse(undefined, 'success', options, xhr, progressCb);
     expect(hasTrackedProgress).toBeTruthy();
   });
+
 
   it("abort should have been called when when upload.abort is invoked", () => {
     component.fileName = 'dummy-file-name';
