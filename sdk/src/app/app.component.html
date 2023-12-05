@@ -94,6 +94,8 @@
     [authenticator]="authenticator"
     class="file-upload-ik">
   </ik-upload>
+  <button (click)="onAbortFunction()">Abort</button>
+
   <p>Your above uploaded file will appear here </p>
   <ik-image 
     [src]="uploadedImageSource"
@@ -111,5 +113,4 @@
   <button #myBtn type="button" style="color:blue">
     <span>Upload</span>
   </button>
-  <button (click)="onAbortFunction()">Abort</button>
 </div>

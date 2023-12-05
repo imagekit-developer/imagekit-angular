@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transformation';
 import { IkUploadComponent } from "../../lib/src/public_api";
 
@@ -92,7 +92,7 @@ export class AppComponent {
     if(res.size < 1000000){ // Less than 1mb
       return true;
     }
-    return false;
+    return true;
   }
 
   onUploadStartFunction(res: any) {
@@ -100,7 +100,7 @@ export class AppComponent {
   }
 
   onUploadProgressFunction(res: any) {
-    console.log('progressing')
+    console.log('progressing',res)
   }
 
   handleUploadSuccess(res) {
@@ -113,5 +113,10 @@ export class AppComponent {
   handleUploadError(err) {
     console.log('There was an error in upload: ', err);
     this.uploadErrorMessage = 'File upload failed.';
+  }
+
+  onAbortFunction(){
+    console.log('abort initiated')
+    this.uploadComponent.abort()
   }
 }
