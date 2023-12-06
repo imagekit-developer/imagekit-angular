@@ -22,6 +22,9 @@ jobs:
         npm install -g @angular/cli@1.4.10
         cd sdk
         npm install
+        cd tests/test-apps/sample-server
+        npm install
+        cd ../../../
         npm run start:auth
         npm run test:ci
       env:
