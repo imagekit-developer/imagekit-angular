@@ -6,7 +6,6 @@
   "scripts": {
     "server": "nodemon app"
   },
-  "author": "Vivek V Dwivedi",
   "license": "ISC",
   "devDependencies": {
     "cors": "^2.8.5",
