@@ -117,6 +117,6 @@ export class AppComponent {
 
   onAbortFunction(){
     console.log('abort initiated')
-    this.uploadComponent.abort()
+    this.uploadComponent && this.uploadComponent.abort()
   }
 }
