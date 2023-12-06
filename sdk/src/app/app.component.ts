@@ -92,7 +92,7 @@ export class AppComponent {
     if(res.size < 1000000){ // Less than 1mb
       return true;
     }
-    return true;
+    return false;
   }
 
   onUploadStartFunction(res: any) {
