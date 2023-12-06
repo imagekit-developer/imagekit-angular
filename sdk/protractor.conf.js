@@ -20,6 +20,14 @@ exports.config = {
     print: function() {}
   },
   onPrepare() {
+    const authServer = spawn('npm', ['run', 'start:auth-server'], {
+      shell: true,
+    });
+
+    process.on('exit', () => {
+      authServer.kill();
+    });
+
     require('ts-node').register({
       project: 'e2e/tsconfig.e2e.json'
     });
