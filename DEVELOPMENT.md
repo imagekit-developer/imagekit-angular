@@ -1,6 +1,6 @@
 ## SDK development
 
-SDK is build in angular 4 for forward compatibilty and `ng-packagr` is used to create final package. Make sure `@angular/cli` is at `v1.4.x` and node ver `14.x` before building the package.
+SDK is build in angular 4 for forward compatibilty and `ng-packagr` is used to create final package. Make sure `@angular/cli` is at `v1.4.*` and node ver `14.x` before building the package.
 
 ## Building package
 
