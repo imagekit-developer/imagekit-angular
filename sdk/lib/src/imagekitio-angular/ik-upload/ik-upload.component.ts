@@ -49,7 +49,6 @@ export class IkUploadComponent implements AfterViewInit {
   abort() {
     if (this.xhr) {
       this.xhr.abort();
-      console.log('Upload aborted');
     }
   }
 
