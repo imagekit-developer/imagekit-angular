@@ -23,9 +23,10 @@ jobs:
         cd sdk
         npm install
         cd tests/test-apps/sample-server
+        echo PRIVATE_KEY=${{ secrets.ik_private_key }} >> .env;
         npm install
+        npm run server &
         cd ../../../
-        npm run start:auth
         npm run test:ci
       env:
         CI: true

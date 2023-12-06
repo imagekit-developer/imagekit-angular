@@ -5,7 +5,6 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "start:auth": "node ./tests/test-apps/sample-server/app.js",
         "build:app": "ng build",
         "test": "ng test",
         "test:ci": "ng test -code--coverage && codecov",
