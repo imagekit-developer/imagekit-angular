@@ -11,9 +11,8 @@ ImageKit Angular SDK allows you to resize, optimize, deliver, and upload images 
 
 ImageKit is complete media storage, optimization, and transformation solution that comes with an image and video CDN. It can be integrated with your existing infrastructure - storage like AWS S3, web servers, your CDN, and custom domain names, allowing you to deliver optimized images in minutes with minimal code changes.
 
-## Changelog - SDK Version 3.0.0
-### Breaking changes
-**1. Authentication Process Update:**
+## Breaking changes - Upgrading from 2.x to 3.x version
+3.x version has breaking changes as listed below.
 * Previously, when using this SDK, we had to pass `authenticationEndpoint` which is used by SDK internally for fetching security parameters i.e `signature`, `token`, and `expire`.
 * In version 3.0.0, we have deprecated the use of the `authenticationEndpoint` parameter. Instead, the SDK now introduces a new parameter named `authenticator`. This parameter expects an asynchronous function that resolves with an object containing the necessary security parameters i.e `signature`, `token`, and `expire`.
 
