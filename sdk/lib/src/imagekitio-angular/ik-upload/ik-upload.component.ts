@@ -117,7 +117,6 @@ export class IkUploadComponent implements AfterViewInit {
         err,
         result,
         options,
-        options.xhr,
         progressCb
       );
     });
@@ -160,14 +159,15 @@ export class IkUploadComponent implements AfterViewInit {
     })._ikInstance
   }
 
-  handleUploadResponse(err, result, options, xhr, progressCb): void {
+  handleUploadResponse(err, result, options, progressCb): void {
     if (err) {
       this.throwError(err, options);
     } else {
       if(options.onSuccess instanceof EventEmitter) {
         options.onSuccess.emit(result);
       }
-      xhr.upload.removeEventListener('progress', progressCb);
+      if(options.xhr)
+      options.xhr.upload.removeEventListener('progress', progressCb);
     }
   }
 
@@ -178,6 +178,7 @@ export class IkUploadComponent implements AfterViewInit {
         this.onUploadProgress(e);
       }
     };
+    if(xhr)
     xhr.upload.addEventListener('progress', progressCb);
     return progressCb;
   }
