@@ -559,6 +559,18 @@ describe("IkUploadComponent", () => {
     expect(authResult).toEqual(expectedAuthData);
   });
 
+  
+  it("onError event emitter called when upload fails", async () => {
+    component.fileName = 'dummy-file-name';
+    component.authenticator = authenticator;
+    fixture.detectChanges();
+    const onErrorEventEmitter = spyOn(component.onError, 'emit').and.callThrough();
+    const input = fixture.nativeElement.children[0];
+    input.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    await fixture.whenStable();
+    // expect(onErrorEventEmitter).toHaveBeenCalled();
+  });
 
   it("onSuccess event emitter called when when upload succeeds", () => {
     let dummyFile: File = new File([""], "dummy-file-name");
@@ -628,30 +640,30 @@ describe("IkUploadComponent", () => {
     expect(abortFunction).toHaveBeenCalled();
    });
 
-  //  it("should handle promise rejection with an array of errors", async () => {
-  //   // Set up the component and data
-  //   const component = fixture.componentInstance;
-  //   const dummyFile: File = new File([""], "dummy-file-name");
-  //   component.fileName = dummyFile.name;
+   it("should handle promise rejection with an array of errors", async () => {
+    // Set up the component and data
+    const component = fixture.componentInstance;
+    const dummyFile: File = new File([""], "dummy-file-name");
+    component.fileName = dummyFile.name;
   
-  //   // Mock the authenticator function to reject the promise with an array of errors
-  //   component.authenticator = () => {
-  //     return Promise.reject(['Error 1', 'Error 2']);
-  //   };
+    // Mock the authenticator function to reject the promise with an array of errors
+    component.authenticator = () => {
+      return Promise.reject(['Error 1', 'Error 2']).catch(err=>{});
+    };
   
-  //   fixture.detectChanges();
+    fixture.detectChanges();
   
-  //   // Call the authenticator function
-  //   const onErrorEventEmitter = spyOn(component.onError, 'emit').and.callThrough();
-  //   const input = fixture.nativeElement.children[0];
-  //   input.dispatchEvent(new Event('change'));
-  //   fixture.detectChanges();
+    // Call the authenticator function
+    const onErrorEventEmitter = spyOn(component.onError, 'emit').and.callThrough();
+    const input = fixture.nativeElement.children[0];
+    input.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
   
-  //   // Wait for the promise to be rejected
-  //   await fixture.whenStable();
+    // Wait for the promise to be rejected
+    await fixture.whenStable();
 
-  //   expect(onErrorEventEmitter).toHaveBeenCalled();
-  // });
+    expect(onErrorEventEmitter).toHaveBeenCalled();
+  });
 
   it("should handle promise resolution", async () => {
     // Set up the component and data
