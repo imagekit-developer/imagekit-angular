@@ -324,7 +324,7 @@ describe("IkImageComponent", () => {
   });
 
   it("onImageLoaded should load the image when not lazy loading and the event source matches lqipUrl", () => {
-    // const fixture = TestBed.createComponent(IkImageComponent);
+    const fixture = TestBed.createComponent(IkImageComponent);
     const component = fixture.componentInstance;
     component.loading = "eager"; // Set to eager (not lazy) loading
     component.lqipUrl = "lqip-url"; // Set a sample lqip URL
