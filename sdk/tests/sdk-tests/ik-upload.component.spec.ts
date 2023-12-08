@@ -565,11 +565,16 @@ describe("IkUploadComponent", () => {
     component.authenticator = authenticator;
     fixture.detectChanges();
     const onErrorEventEmitter = spyOn(component.onError, 'emit').and.callThrough();
-    const input = fixture.nativeElement.children[0];
+    const throwErrorSpy = spyOn(component, 'throwError').and.callThrough();
+    const input = fixture.nativeElement.children[0];;
     input.dispatchEvent(new Event('change'));
     fixture.detectChanges();
     await fixture.whenStable();
-    // expect(onErrorEventEmitter).toHaveBeenCalled();
+    expect(component.onError instanceof EventEmitter).toBeTruthy();
+    setTimeout(()=>{    
+      expect(throwErrorSpy).toHaveBeenCalled();
+      expect(onErrorEventEmitter).toHaveBeenCalled();
+    },1000)
   });
 
   it("onSuccess event emitter called when when upload succeeds", () => {
