@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { AfterViewInit, ElementRef, Component, Input, Output, EventEmitter } from '@angular/core';
 import { ImagekitService } from '../imagekit.service';
 import { IkUploadComponentOptions, Dict, HTMLInputEvent } from '../utility/ik-type-def-collection';

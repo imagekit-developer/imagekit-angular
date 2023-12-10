@@ -558,7 +558,6 @@ describe("IkUploadComponent", () => {
     // Assert that the authenticator function returned the expected data
     expect(authResult).toEqual(expectedAuthData);
   });
-
   
   it("onError event emitter called when upload fails", async () => {
     component.fileName = 'dummy-file-name';
@@ -631,7 +630,6 @@ describe("IkUploadComponent", () => {
     comp.handleUploadResponse(undefined, 'success', options, progressCb);
     expect(hasTrackedProgress).toBeTruthy();
   });
-
 
   it("abort should have been called when when upload.abort is invoked", () => {
     component.fileName = 'dummy-file-name';
@@ -712,8 +710,6 @@ describe("IkUploadComponent", () => {
     expect(ikUploadSpy).toHaveBeenCalled();
   });
   
-  
-
   it('handleUploadResponse should handle an error', () => {
     const options = {
       onError: new EventEmitter<any>(),
