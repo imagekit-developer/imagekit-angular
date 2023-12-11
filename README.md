@@ -141,7 +141,7 @@ To use the SDK, you need to provide it with a few configuration parameters. The 
 // Renders an image with text overlaid.
 <ik-image 
   path="/default-image.jpg"
-  [transformation]='[{ "width": 300, "height": 300 },{ "raw": "l-text,i-ImageKit,w-10,rt-90,l-end" }]'>
+  [transformation]='[{ "width": 300, "height": 300 },{ "raw": "l-text,i-Imagekit,rt-90,co-0651D5,fs-50,l-end" }]'>
 </ik-image>
 
 // Lazy loading
