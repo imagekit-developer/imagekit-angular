@@ -22,6 +22,11 @@ jobs:
         npm install -g @angular/cli@1.4.10
         cd sdk
         npm install
+        cd tests/test-apps/sample-server
+        echo PRIVATE_KEY=${{ secrets.ik_private_key }} >> .env;
+        npm install
+        npm run server &
+        cd ../../../
         npm run test:ci
       env:
         CI: true
@@ -49,7 +54,6 @@ jobs:
         echo production: false, >> environment.ts;
         echo URL_ENDPOINT:\"https://ik.imagekit.io/sdktestingik\", >> environment.ts;
         echo PUBLIC_KEY:\"${{ secrets.ik_public_key }}\", >> environment.ts;
-        echo AUTHENTICATION_ENDPOINT:\"http://localhost:3000/auth\" >> environment.ts;
         echo '};' >>  environment.ts;
         less environment.ts
 
@@ -81,4 +85,3 @@ jobs:
         PUBLIC_KEY: ${{ secrets.ik_public_key }}
         PRIVATE_KEY: ${{ secrets.ik_private_key }}
         URL_ENDPOINT: https://ik.imagekit.io/sdktestingik
-        AUTHENTICATION_ENDPOINT: 'http://localhost:3000/auth'

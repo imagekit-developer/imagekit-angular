@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transformation';
+import { IkUploadComponent } from "../../lib/src/public_api";
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,7 @@ export class AppComponent {
   title = 'app';
   path = "default-image.jpg";
   videoPath = "sample-video.mp4";
+  @ViewChild('upload') uploadComponent:IkUploadComponent;
 
   transformation: Array<Transformation> = [{
      height: "200",
@@ -40,6 +42,25 @@ export class AppComponent {
 
   uploadedImageSource = "https://ik.imagekit.io/demo/default-image.jpg";
   uploadErrorMessage = "";
+
+  authenticator = async () => {
+    try {
+
+      // You can pass headers as well and later validate the request source in the backend, or you can use headers for any other use case.
+      const response = await fetch('http://localhost:3000/auth');
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Request failed with status ${response.status}: ${errorText}`);
+      }
+
+      const data = await response.json();
+      const { signature, expire, token } = data;
+      return { signature, expire, token };
+    } catch (error) {
+      throw new Error(`Authentication request failed: ${error.message}`);
+    }
+  };
 
   applyImgTransformationOne(res) {
     this.flexibleTransformationOne = [{
@@ -79,7 +100,7 @@ export class AppComponent {
   }
 
   onUploadProgressFunction(res: any) {
-    console.log('progressing')
+    console.log('progressing',res)
   }
 
   handleUploadSuccess(res) {
@@ -92,5 +113,10 @@ export class AppComponent {
   handleUploadError(err) {
     console.log('There was an error in upload: ', err);
     this.uploadErrorMessage = 'File upload failed.';
+  }
+
+  onAbortFunction(){
+    console.log('abort initiated')
+    this.uploadComponent && this.uploadComponent.abort()
   }
 }

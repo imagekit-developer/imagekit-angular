@@ -7,5 +7,4 @@ export const environment = {
   production: false,
   URL_ENDPOINT: "https://ik.imagekit.io/demo/",
   PUBLIC_KEY: "",
-  AUTHENTICATION_ENDPOINT: ""
 };

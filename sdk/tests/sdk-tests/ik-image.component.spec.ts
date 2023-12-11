@@ -13,7 +13,6 @@ describe("IkImageComponent", () => {
     imageKitService = new ImagekitService({
       urlEndpoint: "https://ik.imagekit.io/company/",
       publicKey: "abc",
-      authenticationEndpoint: "http://example.com/auth"
     });
     TestBed.configureTestingModule({
       declarations: [IkImageComponent],
@@ -42,7 +41,6 @@ describe("IkImageComponent", () => {
     iKService = new ImagekitService({
       urlEndpoint: "https://ik.imagekit.io/company",
       publicKey: "abc",
-      authenticationEndpoint: "http://example.com/auth"
     });
     let elRef: ElementRef;
     comp = new IkImageComponent(elRef, iKService);
@@ -67,7 +65,6 @@ describe("IkImageComponent", () => {
     iKService = new ImagekitService({
       urlEndpoint: "https://ik.imagekit.io/company/",
       publicKey: "abc",
-      authenticationEndpoint: "http://example.com/auth"
     });
     let elRef: ElementRef;
     comp = new IkImageComponent(elRef, iKService);
@@ -324,5 +321,26 @@ describe("IkImageComponent", () => {
     component.handleIntersectionObserver(entry, mockObserver, mockIkImageComponent.loadImage, component, '');
     expect(isObserving).toBeFalsy();
     expect(isImageLoaded).toBeTruthy();
+  });
+
+  it("onImageLoaded should load the image when not lazy loading and the event source matches lqipUrl", () => {
+    // const fixture = TestBed.createComponent(IkImageComponent);
+    const component = fixture.componentInstance;
+    component.loading = "eager"; // Set to eager (not lazy) loading
+    component.lqipUrl = "lqip-url"; // Set a sample lqip URL
+    component.url = "original-url"; // Set a sample original URL
+  
+    const event = {
+      srcElement: {
+        src: "lqip-url", // Simulate an event with lqip URL as src
+      },
+    };
+  
+    const loadImageSpy = spyOn(component, "loadImage"); // Spy on loadImage function
+  
+    component.onImageLoaded(event);
+  
+    // Expect loadImage function to be called with the component and original URL
+    expect(loadImageSpy).toHaveBeenCalledWith(component, "original-url");
   });
 });

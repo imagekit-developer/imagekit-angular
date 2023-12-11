@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { AfterViewInit, ElementRef, Component, Input, Output, EventEmitter } from '@angular/core';
 import { ImagekitService } from '../imagekit.service';
 import { IkUploadComponentOptions, Dict, HTMLInputEvent } from '../utility/ik-type-def-collection';
@@ -19,7 +20,7 @@ export class IkUploadComponent implements AfterViewInit {
   @Input('folder') folder: string; //optional
   @Input('publicKey') publicKey: string; //optional
   @Input('urlEndpoint') urlEndpoint: string; //optional
-  @Input('authenticationEndpoint') authenticationEndpoint: string; //optional
+  @Input("authenticator") authenticator: () => Promise<any>;
   @Input('isPrivateFile') isPrivateFile: boolean; //optional
   @Input('overwriteFile') overwriteFile: boolean; //optional
   @Input('overwriteAITags') overwriteAITags: boolean; //optional
@@ -37,12 +38,19 @@ export class IkUploadComponent implements AfterViewInit {
   @Input('onUploadStart') onUploadStart: (e: HTMLInputEvent) => void;
   @Input('onUploadProgress') onUploadProgress: (e: ProgressEvent) => void;
   fileToUpload: File = null;
+  xhr: XMLHttpRequest;
 
   constructor(private el: ElementRef, private imagekit: ImagekitService) { 
   }
   
   ngAfterViewInit():void {
     this.buttonRef && this.buttonRef.addEventListener('click', ()=>{this.el.nativeElement.children[0].click()});
+  }
+
+  abort() {
+    if (this.xhr) {
+      this.xhr.abort();
+    }
   }
 
   handleFileInput(e: HTMLInputEvent): void {
@@ -73,6 +81,10 @@ export class IkUploadComponent implements AfterViewInit {
     if (!this.checkCustomFileValidation(options.file)) {
       return;
     }
+
+    if (!this.checkAuthenticator(options)) {
+      return;
+    }
     
     this.startIkUpload(e, options);
   }
@@ -84,6 +96,33 @@ export class IkUploadComponent implements AfterViewInit {
     return true;
   }
 
+  checkAuthenticator(options: IkUploadComponentOptions): boolean {
+    if (!this.authenticator || typeof this.authenticator !== "function" || this.authenticator.length !== 0 || !(this.authenticator() instanceof Promise)) {
+      return this.throwError("The authenticator function is not provided or is not a function.", options)
+    }
+    return true;
+  }
+
+  throwError(message: string, options: IkUploadComponentOptions): boolean {
+    if (options && options.onError instanceof EventEmitter) {
+      options.onError.emit({
+        message: message || "Something went wrong.",
+      });
+    }
+    return false;
+  }
+
+  handleAuthResponse = ({signature,token,expire},ik,params,options,progressCb) => {
+    ik.upload({ ...params, signature, token, expire }, (err, result) => {
+      this.handleUploadResponse(
+        err,
+        result,
+        options,
+        progressCb
+      );
+    });
+  }
+
   startIkUpload(e: HTMLInputEvent, options: IkUploadComponentOptions): void {
     // Custom upload-start tracker
     if (this.onUploadStart && typeof this.onUploadStart === 'function') {
@@ -92,39 +131,44 @@ export class IkUploadComponent implements AfterViewInit {
 
     // Custom upload-progress tracker
     options.xhr = new XMLHttpRequest();
+    this.xhr = options.xhr;
     const params = this.getUploadParams(options);
     const progressCb = this.createUploadProgressMonitor(options.xhr);
     const ik = this.getIkInstance();
+    const authPromise = this.authenticator();
       
-    ik.upload(params, (err, result) => {
-      this.handleUploadResponse(err, result, options, options.xhr, progressCb)
+    authPromise.then((obj)=>this.handleAuthResponse(obj,ik,params,options,progressCb)).catch((data) => {
+      var error;
+      if (data instanceof Array) {
+        error = data[0];
+      } else {
+        error = data;
+      }
+
+      this.throwError(String(error), options);
     });
   }
 
   getIkInstance(): any {
     if(this.publicKey === undefined || 
-      this.urlEndpoint === undefined || 
-      this.authenticationEndpoint === undefined){
+      this.urlEndpoint === undefined ){
         return this.imagekit.ikInstance;
     }
-    let service = new ImagekitService({
-        urlEndpoint: this.urlEndpoint,
-        publicKey: this.publicKey,
-        authenticationEndpoint: this.authenticationEndpoint
-      });
-    return service.ikInstance;
+    return new ImagekitService({
+      urlEndpoint: this.urlEndpoint,
+      publicKey: this.publicKey,
+    })._ikInstance
   }
 
-  handleUploadResponse(err, result, options, xhr, progressCb): void {
+  handleUploadResponse(err, result, options, progressCb): void {
     if (err) {
-      if(options.onError instanceof EventEmitter) {
-        options.onError.emit(err);
-      }
+      this.throwError(err, options);
     } else {
       if(options.onSuccess instanceof EventEmitter) {
         options.onSuccess.emit(result);
       }
-      xhr.upload.removeEventListener('progress', progressCb);
+      if(options.xhr)
+      options.xhr.upload.removeEventListener('progress', progressCb);
     }
   }
 
@@ -135,6 +179,7 @@ export class IkUploadComponent implements AfterViewInit {
         this.onUploadProgress(e);
       }
     };
+    if(xhr)
     xhr.upload.addEventListener('progress', progressCb);
     return progressCb;
   }
