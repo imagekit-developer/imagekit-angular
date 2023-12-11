@@ -138,6 +138,12 @@ To use the SDK, you need to provide it with a few configuration parameters. The 
     }]'
 ></ik-image>
 
+// Renders an image with text overlaid.
+<ik-image 
+  path="/default-image.jpg"
+  [transformation]='[{ "width": 300, "height": 300 },{ "raw": "l-text,i-Hello%20World,w-10,rt-90,l-end" }]'>
+</ik-image>
+
 // Lazy loading
 <ik-image path="/default-image.jpg" loading="lazy"></ik-image>
 
@@ -274,34 +280,6 @@ See the complete list of transformations supported in ImageKit [here](https://do
 | rotation | rt |
 | blur | bl |
 | named | n |
-| overlayX | ox |
-| overlayY | oy |
-| overlayFocus | ofo |
-| overlayHeight | oh |
-| overlayWidth | ow |
-| overlayImage | oi |
-| overlayImageTrim | oit |
-| overlayImageAspectRatio | oiar |
-| overlayImageBackground | oibg |
-| overlayImageBorder | oib |
-| overlayImageDPR | oidpr |
-| overlayImageQuality | oiq |
-| overlayImageCropping | oic |
-| overlayImageTrim | oit |
-| overlayText | ot |
-| overlayTextFontSize | ots |
-| overlayTextFontFamily | otf |
-| overlayTextColor | otc |
-| overlayTextTransparency | oa |
-| overlayAlpha | oa |
-| overlayTextTypography | ott |
-| overlayBackground | obg |
-| overlayTextEncoded | ote |
-| overlayTextWidth | otw |
-| overlayTextBackground | otbg |
-| overlayTextPadding | otp |
-| overlayTextInnerAlignment | otia |
-| overlayRadius | or |
 | progressive | pr |
 | lossless | lo |
 | trim | t |
