@@ -28,6 +28,7 @@ jobs:
         npm run server &
         cd ../../../
         npm run test:ci
+        npm run build
       env:
         CI: true
         PUBLIC_KEY: ${{ secrets.ik_public_key }}

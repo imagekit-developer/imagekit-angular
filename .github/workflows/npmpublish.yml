@@ -25,7 +25,12 @@ jobs:
         npm install -g @angular/cli@1.4.10
         cd sdk
         npm install
-        npm run test
+        cd tests/test-apps/sample-server
+        echo PRIVATE_KEY=${{ secrets.ik_private_key }} >> .env;
+        npm install
+        npm run server &
+        cd ../../../
+        npm run test:ci
         npm run build
       env:
         CI: true
