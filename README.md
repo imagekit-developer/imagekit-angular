@@ -138,12 +138,6 @@ To use the SDK, you need to provide it with a few configuration parameters. The 
     }]'
 ></ik-image>
 
-// Renders an image with text overlaid.
-<ik-image 
-  path="/default-image.jpg"
-  [transformation]='[{ "width": 300, "height": 300 },{ "raw": "l-text,i-Imagekit,rt-90,co-0651D5,fs-50,l-end" }]'>
-</ik-image>
-
 // Lazy loading
 <ik-image path="/default-image.jpg" loading="lazy"></ik-image>
 
@@ -256,6 +250,62 @@ Sample usage of ik-image component:
 ```
 
 See the complete list of transformations supported in ImageKit [here](https://docs.imagekit.io/features/image-transformations). The SDK gives a name to each transformation parameter e.g. `height` for `h` and `width` for `w` parameter. It makes your code more readable. If the property does not match any of the following supported options, it is added as it is in the URL.
+
+### Adding overlays
+
+ImageKit.io enables you to apply overlays to [images](https://docs.imagekit.io/features/image-transformations/overlay-using-layers) and [videos](https://docs.imagekit.io/features/video-transformation/overlay) using the raw parameter with the concept of [layers](https://docs.imagekit.io/features/image-transformations/overlay-using-layers#layers). The raw parameter facilitates incorporating transformations directly in the URL. A layer is a distinct type of transformation that allows you to define an asset to serve as an overlay, along with its positioning and additional transformations.
+
+**Text as overlays**
+
+You can add any text string over a base video or image using a text layer (l-text).
+
+For example:
+
+```js
+<ik-image
+    path="/default-image.jpg"
+    [transformation]='[{ "width": 400, "height": 300 },{ "raw": "l-text,i-Imagekit,fs-50,l-end" }]'>
+</ik-image>
+```
+**Sample Result URL**
+```
+https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400,l-text,i-Imagekit,fs-50,l-end/default-image.jpg
+```
+
+**Image as overlays**
+
+You can add an image over a base video or image using an image layer (l-image).
+
+For example:
+
+```js
+<ik-image
+    path="/default-image.jpg"
+    [transformation]='[{ "width": 400, "height": 300 },{ "raw": "l-image,i-default-image.jpg,w-100,b-10_CDDC39,l-end" }]'>
+</ik-image>
+```
+**Sample Result URL**
+```
+https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400,l-image,i-default-image.jpg,w-100,b-10_CDDC39,l-end/default-image.jpg
+```
+
+**Solid color blocks as overlays**
+
+You can add solid color blocks over a base video or image using an image layer (l-image).
+
+For example:
+
+```js
+<ik-video
+    path="/img/sample-video.mp4"
+    [transformation]='[{ "width": 400, "height": 300 },{ "raw": "l-image,i-ik_canvas,bg-FF0000,w-300,h-100,l-end" }]'>
+</ik-video>
+```
+**Sample Result URL**
+```
+https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400,l-image,i-ik_canvas,bg-FF0000,w-300,h-100,l-end/img/sample-video.mp4
+```
+
 
 #### List of supported transformations
 
