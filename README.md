@@ -291,6 +291,8 @@ See the complete list of transformations supported in ImageKit [here](https://do
 | effectUSM | e-usm |
 | effectContrast | e-contrast |
 | effectGray | e-grayscale |
+| effectShadow | e-shadow |
+| effectGradient | e-gradient |
 | original | orig |
 | raw | The string provided in raw will be added to the URL as it is. |
 
