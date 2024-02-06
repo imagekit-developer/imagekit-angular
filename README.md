@@ -11,7 +11,7 @@ ImageKit Angular SDK allows you to resize, optimize, deliver, and upload images 
 
 ImageKit is complete media storage, optimization, and transformation solution that comes with an image and video CDN. It can be integrated with your existing infrastructure - storage like AWS S3, web servers, your CDN, and custom domain names, allowing you to deliver optimized images in minutes with minimal code changes.
 
-## Breaking changes - 
+## Breaking changes
 
 ### Upgrading from 3.x to 4.x version
 
