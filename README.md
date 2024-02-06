@@ -11,7 +11,17 @@ ImageKit Angular SDK allows you to resize, optimize, deliver, and upload images 
 
 ImageKit is complete media storage, optimization, and transformation solution that comes with an image and video CDN. It can be integrated with your existing infrastructure - storage like AWS S3, web servers, your CDN, and custom domain names, allowing you to deliver optimized images in minutes with minimal code changes.
 
-## Breaking changes - Upgrading from 2.x to 3.x version
+## Breaking changes - 
+
+### Upgrading from 3.x to 4.x version
+
+1. Overlay syntax update
+
+* In version 4.0.0, we've removed the old overlay syntax parameters for transformations, such as `oi`, `ot`, `obg`, and [more](https://docs.imagekit.io/features/image-transformations/overlay). These parameters are deprecated and will start returning errors when used in URLs. Please migrate to the new layers syntax that supports overlay nesting, provides better positional control, and allows more transformations at the layer level. You can start with [examples](https://docs.imagekit.io/features/image-transformations/overlay-using-layers#examples) to learn quickly.
+* You can migrate to the new layers syntax using the `raw` transformation parameter.
+
+### Upgrading from 2.x to 3.x version
+
 3.x version has breaking changes as listed below.
 * In version 3.0.0, we have deprecated the use of the `authenticationEndpoint` parameter. Instead, the SDK now introduces a new parameter named `authenticator`. This parameter expects an asynchronous function that resolves with an object containing the necessary security parameters i.e `signature`, `token`, and `expire`.
 
@@ -190,6 +200,15 @@ To use the SDK, you need to provide it with a few configuration parameters. The 
   [onUploadStart]="onUploadStartFunction"
   [onUploadProgress]="onUploadProgressFunction"
   [authenticator]="authenticator"
+  [transformation]="{
+    'pre': 'l-text,i-Imagekit,fs-50,l-end', 
+    'post': [
+        {
+            'type': 'transformation', 
+            'value': 'w-100'
+        }
+    ]
+  }"
 ></ik-upload>
 ```
 
@@ -389,6 +408,30 @@ You can lazy-load the original image only when the user scrolls near them. Until
 </ik-image>
 ```
 
+### Arithmetic expressions in transformations
+
+ImageKit allows use of [arithmetic expressions](https://docs.imagekit.io/features/arithmetic-expressions-in-transformations) in certain dimension and position-related parameters, making media transformations more flexible and dynamic.
+
+For example:
+
+```js
+<ik-image
+    path="/default-image.jpg"
+    loading= "lazy"
+    [transformation]='[{
+        "height": "ih_div_2",
+        "width": "iw_div_4",
+        "border": "cw_mul_0.05_yellow"
+    }]'
+  >
+</ik-image>
+```
+
+**Sample Result URL**
+```
+https://ik.imagekit.io/your_imagekit_id/default-image.jpg?tr=w-iw_div_4,h-ih_div_2,b-cw_mul_0.05_yellow
+```
+
 ## ik-video
 
 The `ik-video` component renders a `video` tag. It is used for rendering and manipulating videos in real time. `ik-video` component accepts the following props:
@@ -506,6 +549,15 @@ validateFileFunction(res: File) {
     [validateFile]="validateFileFunction"
     [onUploadStart]="onUploadStartFunction"
     [onUploadProgress]="onUploadProgressFunction"
+    [transformation]="{
+      'pre': 'l-text,i-Imagekit,fs-50,l-end', 
+      'post': [
+          {
+              'type': 'transformation', 
+              'value': 'w-100'
+          }
+      ]
+    }"
     >
   </ik-upload>
 ```
@@ -522,6 +574,15 @@ Custom button example, using buttonRef
     [onUploadStart]="onUploadStartFunction"
     [onUploadProgress]="onUploadProgressFunction"
     [buttonRef]="myBtn"
+    [transformation]="{
+      'pre': 'l-text,i-Imagekit,fs-50,l-end', 
+      'post': [
+          {
+              'type': 'transformation', 
+              'value': 'w-100'
+          }
+      ]
+    }"
     >
   </ik-upload>
 
@@ -551,6 +612,15 @@ onAbortFunction(){
   [onUploadStart]="onUploadStartFunction"
   [onUploadProgress]="onUploadProgressFunction"
   [authenticator]="authenticator"
+  [transformation]="{
+    'pre': 'l-text,i-Imagekit,fs-50,l-end', 
+    'post': [
+        {
+            'type': 'transformation', 
+            'value': 'w-100'
+        }
+    ]
+  }"
 ></ik-upload>
 <button 
   (click)="onAbortFunction()"
