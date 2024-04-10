@@ -1,23 +1,23 @@
 import { ElementRef } from "@angular/core";
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IkVideoComponent } from "../../lib/src/imagekitio-angular/ik-video/ik-video.component";
-import { ImagekitService } from "../../lib/src/imagekitio-angular/imagekit.service";
-import { IkVideoComponentOptions } from '../../lib/src/imagekitio-angular/utility/ik-type-def-collection'
+import { IkVideoComponent } from "../../projects/imagekitio-angular/src/lib/ik-video/ik-video.component";
+import { ImagekitioAngularService } from "../../projects/imagekitio-angular/src/lib/imagekitio-angular.service";
+import { IkVideoComponentOptions } from '../../projects/imagekitio-angular/src/lib/utility/ik-type-def-collection'
 
 describe("IkVideoComponent", () => {
   let component: IkVideoComponent;
-  let imageKitService: ImagekitService;
+  let imageKitService: ImagekitioAngularService;
   let fixture: ComponentFixture<IkVideoComponent>;
 
   beforeEach(() => {
-    imageKitService = new ImagekitService({
+    imageKitService = new ImagekitioAngularService({
       urlEndpoint: "https://ik.imagekit.io/company/",
       publicKey: "abc",
     });
     TestBed.configureTestingModule({
       declarations: [IkVideoComponent],
       providers: [ {
-        provide: ImagekitService, useValue: imageKitService
+        provide: ImagekitioAngularService, useValue: imageKitService
       }]
     }).compileComponents();
     fixture = TestBed.createComponent(IkVideoComponent);
@@ -39,8 +39,8 @@ describe("IkVideoComponent", () => {
 
   it("Presence and absence of leading slash in path parameter should not result in double slash (//) in the returned url", () => {
     let comp: IkVideoComponent;
-    let iKService: ImagekitService;
-    iKService = new ImagekitService({
+    let iKService: ImagekitioAngularService;
+    iKService = new ImagekitioAngularService({
       urlEndpoint: "https://ik.imagekit.io/company/",
       publicKey: "abc",
     });

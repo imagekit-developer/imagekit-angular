@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, OnInit, ElementRef, Input, OnChanges } from '@angular/core';
-import { ImagekitService } from '../imagekit.service';
+import { ImagekitioAngularService } from '../imagekitio-angular.service';
 import { Dict, QueryParameters, IkImageComponentOptions, LqipOptions } from '../utility/ik-type-def-collection'
 import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transformation';
 
@@ -21,7 +21,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   
   observer: MutationObserver;
 
-  constructor(private el: ElementRef, private imagekit: ImagekitService) {
+  constructor(private el: ElementRef, private imagekit: ImagekitioAngularService) {
   }
 
   ngOnInit(): void {
@@ -59,7 +59,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     }
   }
 
-  onImageLoaded = (event: { srcElement: { src: string; }; }) => {
+  onImageLoaded = (event: { srcElement: { src: string; } | any }) => {
     const { loading, lqipUrl, url } = this;
 
     if (loading !== 'lazy' && event.srcElement.src === lqipUrl) {
@@ -107,8 +107,8 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   }
 
   getConfigObject(options: IkImageComponentOptions): any {
-    const config  = {
-      transformation : options.transformation
+    const config: IkImageComponentOptions = {
+      'transformation' : options.transformation
     };
     
     if (options.urlEndpoint) {
@@ -145,9 +145,10 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
 
   namedNodeMapToObject(source: NamedNodeMap): Dict {
     let target: Dict = {};
+    console.log({source})
     Object.keys(source).forEach(index => {
-      const name = source[index].name;
-      const value = source[index].value;
+      const name = source[Number(index)].name;
+      const value = source[Number(index)].value;
       target[name] = value;
     });
     return target;

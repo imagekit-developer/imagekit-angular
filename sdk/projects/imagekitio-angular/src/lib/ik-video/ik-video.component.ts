@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, Input } from '@angular/core';
-import { ImagekitService } from '../imagekit.service';
+import { ImagekitioAngularService } from '../imagekitio-angular.service';
 import { IkVideoComponentOptions, QueryParameters, Dict } from '../utility/ik-type-def-collection'
 import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transformation';
 
@@ -18,7 +18,7 @@ export class IkVideoComponent implements OnInit {
   @Input('queryParameters') queryParameters: QueryParameters;
   url = '';
 
-  constructor(private el: ElementRef, private imagekit: ImagekitService) { }
+  constructor(private el: ElementRef, private imagekit: ImagekitioAngularService) { }
 
   ngOnInit(): void {
     const options: IkVideoComponentOptions =  this.src ? {src: this.src} : {path: this.path};
@@ -45,8 +45,8 @@ export class IkVideoComponent implements OnInit {
   namedNodeMapToObject(source: NamedNodeMap): Dict {
       let target: Dict = {};
       Object.keys(source).forEach(index => {
-        const name = source[index].name;
-        const value = source[index].value;
+        const name = source[Number(index)].name;
+        const value = source[Number(index)].value;
         target[name] = value;
       });
       return target;
@@ -58,7 +58,7 @@ export class IkVideoComponent implements OnInit {
   }
 
   getConfigObject(options: IkVideoComponentOptions): any {
-    const config = {
+    const config: IkVideoComponentOptions = {
       transformation: options.transformation,
     };
     if (options.urlEndpoint) {

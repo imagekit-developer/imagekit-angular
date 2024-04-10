@@ -1,10 +1,10 @@
-import { ImagekitService } from "../../lib/src/imagekitio-angular/imagekit.service";
+import { ImagekitioAngularService } from "../../projects/imagekitio-angular/src/lib/imagekitio-angular.service";
 const pjson = require("../../lib/package.json");
 
 describe("ImagekitService", () => {
-  let imagekitService: ImagekitService;
+  let imagekitService: ImagekitioAngularService;
   beforeEach(() => {
-    imagekitService = new ImagekitService({
+    imagekitService = new ImagekitioAngularService({
       urlEndpoint: "url",
       publicKey: "pub",
     });

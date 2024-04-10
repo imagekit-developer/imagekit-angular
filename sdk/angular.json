@@ -1,0 +1,39 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "imagekitio-angular": {
+      "projectType": "library",
+      "root": "projects/imagekitio-angular",
+      "sourceRoot": "projects/imagekitio-angular/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/imagekitio-angular/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/imagekitio-angular/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/imagekitio-angular/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/imagekitio-angular/src/test.ts",
+            "tsConfig": "projects/imagekitio-angular/tsconfig.spec.json",
+            "karmaConfig": "projects/imagekitio-angular/karma.conf.js"
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "imagekitio-angular"
+}

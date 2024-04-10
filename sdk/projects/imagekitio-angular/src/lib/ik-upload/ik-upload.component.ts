@@ -1,6 +1,5 @@
-/* istanbul ignore file */
 import { AfterViewInit, ElementRef, Component, Input, Output, EventEmitter } from '@angular/core';
-import { ImagekitService } from '../imagekit.service';
+import { ImagekitioAngularService } from '../imagekitio-angular.service';
 import { IkUploadComponentOptions, Dict, HTMLInputEvent } from '../utility/ik-type-def-collection';
 
 @Component({
@@ -11,7 +10,7 @@ import { IkUploadComponentOptions, Dict, HTMLInputEvent } from '../utility/ik-ty
     <input type="file" (change)="handleFileInput($event)" />
   </ng-template>
   `,
-  providers: [ImagekitService]
+  providers: [ImagekitioAngularService]
 })
 export class IkUploadComponent implements AfterViewInit {
   @Input('fileName') fileName: string; //optional
@@ -41,7 +40,7 @@ export class IkUploadComponent implements AfterViewInit {
   fileToUpload: File = null;
   xhr: XMLHttpRequest;
 
-  constructor(private el: ElementRef, private imagekit: ImagekitService) { 
+  constructor(private el: ElementRef, private imagekit: ImagekitioAngularService) { 
   }
   
   ngAfterViewInit():void {
@@ -54,7 +53,7 @@ export class IkUploadComponent implements AfterViewInit {
     }
   }
 
-  handleFileInput(e: HTMLInputEvent): void {
+  handleFileInput(e: HTMLInputEvent| any): void {
     // Using IK-upload
     const files = e.target.files;
     this.fileToUpload = files.item(0);
@@ -156,7 +155,7 @@ export class IkUploadComponent implements AfterViewInit {
       this.urlEndpoint === undefined ){
         return this.imagekit.ikInstance;
     }
-    return new ImagekitService({
+    return new ImagekitioAngularService({
       urlEndpoint: this.urlEndpoint,
       publicKey: this.publicKey,
     })._ikInstance
