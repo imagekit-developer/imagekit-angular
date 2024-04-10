@@ -1,5 +1,4 @@
 import { ImagekitioAngularService } from "../../projects/imagekitio-angular/src/lib/imagekitio-angular.service";
-// const pjson = require("../../projects/imagekitio-angular/package.json");
 
 describe("ImagekitService", () => {
   let imagekitService: ImagekitioAngularService;

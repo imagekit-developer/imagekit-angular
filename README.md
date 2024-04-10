@@ -59,7 +59,7 @@ authenticator = async () => {
 *Note*: Avoid generating security parameters on the client side. Always send a request to your backend to retrieve security parameters, as the generation of these parameters necessitates the use of your Imagekit `privateKey`, which must not be included in client-side code.
 
 ## Version Support
-| SDK Version | ANGULAR 10.x | ANGULAR 11.x | ANGULAR 12.2.x | ANGULAR 13.x | ANGULAR 14.x | ANGULAR 15.x | ANGULAR 16.x | ANGULAR 17.x |
+| SDK Version | Angular 10.x | Angular 11.x | Angular 12.2.x | Angular 13.x | Angular 14.x | Angular 15.x | Angular 16.x | Angular 17.x |
 |-------------|---------|---------|---------|---------|---------|---------|---------|---------|
 | 5.x         | ❌     | ❌     |  ✔️     | ✔️     | ✔️       | ✔️       | ✔️     |✔️      |
 | 4.x         | ✔️     | ✔️     |  ✔️     |  ✔️     |  ✔️      | ✔️       |  ❌     | ❌      |
