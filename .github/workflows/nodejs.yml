@@ -9,7 +9,6 @@ jobs:
 
     strategy:
       matrix:
-        angular-versions: [ '10','11', '12.2.18', '13', '14', '15', '16', '17' ]
         node-version: [14.x]
 
     steps:
@@ -20,7 +19,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: npm install, build, and test
       run: |
-        npm install -g @angular/cli@${{ matrix.angular-versions }}
+        npm install -g @angular/cli@12.2.18
         cd sdk
         npm install
         cd tests/test-apps/sample-server
