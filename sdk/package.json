@@ -8,7 +8,7 @@
         "build:app": "ng build",
         "build": "ng build && npm run assets",
         "test": "ng test",
-        "test:ci": "ng test --watch=false --no-progress --code--coverage && codecov",
+        "test:ci": "ng test --watch=false --code--coverage && codecov",
         "test:e2e": "cypress open",
         "lint": "ng lint",
         "watch": "ng build --watch --configuration development",

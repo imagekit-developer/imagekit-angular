@@ -686,10 +686,14 @@ describe("IkUploadComponent", () => {
   });
   
   it('handleUploadResponse should handle an error', () => {
+    let dummyFile: File = new File([""], "dummy-file-name");
+
     const options = {
       onError: new EventEmitter<any>(),
       onSuccess: new EventEmitter<any>(),
-      xhr: null
+      xhr: null,
+      file: dummyFile,
+      fileName: 'dummyFile',
     };
 
     // Mock the throwError method
@@ -699,7 +703,7 @@ describe("IkUploadComponent", () => {
     component.handleUploadResponse('error message', null, options, null);
 
     // Expect that the throwError method was called with the error message and options
-    // expect(component.throwError).toHaveBeenCalledWith('error message', options);
+    expect(component.throwError).toHaveBeenCalledWith('error message', options);
 
     // Expect that onSuccess EventEmitter was not emitted
     expect(options.onSuccess.observers.length).toBe(0);
