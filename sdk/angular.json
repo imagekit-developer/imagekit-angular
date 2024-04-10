@@ -27,9 +27,10 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/imagekitio-angular/src/test.ts",
-            "tsConfig": "projects/imagekitio-angular/tsconfig.spec.json",
-            "karmaConfig": "projects/imagekitio-angular/karma.conf.js"
+            "main": "tests/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tests/tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js"
           }
         }
       }
@@ -111,23 +112,6 @@
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "browserTarget": "app:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "tests/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tests/tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.css"
-            ],
-            "scripts": []
           }
         }
       }
