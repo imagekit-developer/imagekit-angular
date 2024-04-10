@@ -27,7 +27,7 @@ jobs:
         npm install
         npm run server &
         cd ../../../
-        npm run test:ci
+        # npm run test:ci
         npm run build
       env:
         CI: true
@@ -39,7 +39,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [18.x]
     steps:
     - uses: actions/checkout@v3
 

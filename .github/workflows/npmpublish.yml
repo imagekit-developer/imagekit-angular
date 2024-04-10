@@ -45,11 +45,11 @@ jobs:
     - uses: actions/checkout@v1
     - uses: actions/setup-node@v1
       with:
-        node-version: 14
+        node-version: 18
         registry-url: https://registry.npmjs.org/
     - name: npm publish
       run: |
-        npm install -g @angular/cli@1.4.10
+        npm install -g @angular/cli@12.2.18
         cd sdk
         npm install
         npm run build
