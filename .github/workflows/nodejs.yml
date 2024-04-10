@@ -27,7 +27,7 @@ jobs:
         npm install
         npm run server &
         cd ../../../
-        npm run test:ci &
+        npm run test:ci
         npm run build
       env:
         CI: true
