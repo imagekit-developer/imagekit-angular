@@ -22,7 +22,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: npm install, build, and test
       run: |
-        npm install -g @angular/cli@1.4.10
+        npm install -g @angular/cli@12.2.18
         cd sdk
         npm install
         cd tests/test-apps/sample-server
