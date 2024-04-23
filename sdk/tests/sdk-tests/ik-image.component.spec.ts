@@ -1,23 +1,23 @@
 import { ElementRef } from "@angular/core";
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IkImageComponent } from "../../projects/imagekitio-angular/src/lib/ik-image/ik-image.component";
-import { ImagekitioAngularService } from "../../projects/imagekitio-angular/src/lib/imagekitio-angular.service";
+import { ImagekitService } from "../../projects/imagekitio-angular/src/lib/imagekitio-angular.service";
 import { IkImageComponentOptions, LqipOptions } from '../../projects/imagekitio-angular/src/lib/utility/ik-type-def-collection'
 
 describe("IkImageComponent", () => {
   let component: IkImageComponent;
-  let imageKitService: ImagekitioAngularService;
+  let imageKitService: ImagekitService;
   let fixture: ComponentFixture<IkImageComponent>;
 
   beforeEach(() => {
-    imageKitService = new ImagekitioAngularService({
+    imageKitService = new ImagekitService({
       urlEndpoint: "https://ik.imagekit.io/company/",
       publicKey: "abc",
     });
     TestBed.configureTestingModule({
       declarations: [IkImageComponent],
       providers: [ {
-        provide: ImagekitioAngularService, useValue: imageKitService
+        provide: ImagekitService, useValue: imageKitService
       }]
     }).compileComponents();
     fixture = TestBed.createComponent(IkImageComponent);
@@ -37,8 +37,8 @@ describe("IkImageComponent", () => {
 
   it("Presence and absence of trailing slash in urlEndpoint should not result in double slash (//) in the returned url", () => {
     let comp: IkImageComponent;
-    let iKService: ImagekitioAngularService;
-    iKService = new ImagekitioAngularService({
+    let iKService: ImagekitService;
+    iKService = new ImagekitService({
       urlEndpoint: "https://ik.imagekit.io/company",
       publicKey: "abc",
     });
@@ -61,8 +61,8 @@ describe("IkImageComponent", () => {
 
   it("Presence and absence of leading slash in path parameter should not result in double slash (//) in the returned url", () => {
     let comp: IkImageComponent;
-    let iKService: ImagekitioAngularService;
-    iKService = new ImagekitioAngularService({
+    let iKService: ImagekitService;
+    iKService = new ImagekitService({
       urlEndpoint: "https://ik.imagekit.io/company/",
       publicKey: "abc",
     });

@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, OnInit, ElementRef, Input, OnChanges } from '@angular/core';
-import { ImagekitioAngularService } from '../imagekitio-angular.service';
+import { ImagekitService } from '../imagekitio-angular.service';
 import { Dict, QueryParameters, IkImageComponentOptions, LqipOptions } from '../utility/ik-type-def-collection'
 import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transformation';
 
@@ -21,7 +21,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   
   observer: MutationObserver;
 
-  constructor(private el: ElementRef, private imagekit: ImagekitioAngularService) {
+  constructor(private el: ElementRef, private imagekit: ImagekitService) {
   }
 
   ngOnInit(): void {

@@ -7,8 +7,8 @@ export interface Lqip {
 }
 
 export class ImageKitConfiguration {
-  urlEndpoint: string ='';
-  publicKey: string ='';
+  urlEndpoint: string;
+  publicKey: string;
   authenticator?: () => Promise<any>
   lqip?: Lqip;
   fileName?: string;
@@ -21,10 +21,8 @@ export class ImageKitConfiguration {
   sdkVersion?: string;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
-export class ImagekitioAngularService {
+@Injectable()
+export class ImagekitService {
 
   _ikInstance: any;
   constructor(private configuration: ImageKitConfiguration) {

@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, Input } from '@angular/core';
-import { ImagekitioAngularService } from '../imagekitio-angular.service';
+import { ImagekitService } from '../imagekitio-angular.service';
 import { IkVideoComponentOptions, QueryParameters, Dict } from '../utility/ik-type-def-collection'
 import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transformation';
 
@@ -18,7 +18,7 @@ export class IkVideoComponent implements OnInit {
   @Input('queryParameters') queryParameters: QueryParameters;
   url = '';
 
-  constructor(private el: ElementRef, private imagekit: ImagekitioAngularService) { }
+  constructor(private el: ElementRef, private imagekit: ImagekitService) { }
 
   ngOnInit(): void {
     const options: IkVideoComponentOptions =  this.src ? {src: this.src} : {path: this.path};

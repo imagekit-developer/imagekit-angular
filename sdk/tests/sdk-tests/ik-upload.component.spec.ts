@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ImageKitConfiguration, ImagekitioAngularService } from "../../projects/imagekitio-angular/src/lib/imagekitio-angular.service";
+import { ImageKitConfiguration, ImagekitService } from "../../projects/imagekitio-angular/src/lib/imagekitio-angular.service";
 import { IkUploadComponent } from "../../projects/imagekitio-angular/src/lib/ik-upload/ik-upload.component";
 import { IkUploadComponentOptions } from '../../projects/imagekitio-angular/src/lib/utility/ik-type-def-collection';
 import { EventEmitter } from '@angular/core';
 
 describe("IkUploadComponent", () => {
   let component: IkUploadComponent;
-  let imageKitService: ImagekitioAngularService;
+  let imageKitService: ImagekitService;
   let imageKitConfiguration: ImageKitConfiguration;
   let fixture: ComponentFixture<IkUploadComponent>;
 
@@ -36,7 +36,7 @@ describe("IkUploadComponent", () => {
     TestBed.configureTestingModule({
       declarations: [IkUploadComponent],
       providers: [ 
-        {provide: ImagekitioAngularService, useValue: imageKitService},
+        {provide: ImagekitService, useValue: imageKitService},
         {provide: ImageKitConfiguration, useValue: imageKitConfiguration}
       ]
     }).compileComponents();

@@ -1,9 +1,9 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
-import { ImageKitConfiguration } from './imagekitio-angular.service';
-import { IkImageComponent } from './ik-image/ik-image.component';
-import { IkVideoComponent } from './ik-video/ik-video.component';
-import { IkUploadComponent } from './ik-upload/ik-upload.component';
 import { CommonModule } from '@angular/common';
+import { ModuleWithProviders, NgModule } from '@angular/core';
+import { IkImageComponent } from './ik-image/ik-image.component';
+import { IkUploadComponent } from './ik-upload/ik-upload.component';
+import { IkVideoComponent } from './ik-video/ik-video.component';
+import { ImageKitConfiguration, ImagekitService } from './imagekitio-angular.service';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,8 @@ import { CommonModule } from '@angular/common';
     IkImageComponent,
     IkVideoComponent,
     IkUploadComponent
-  ]
+  ],
+  providers: [ ImagekitService ]
 })
 export class ImagekitioAngularModule { 
   static forRoot(config: ImageKitConfiguration): ModuleWithProviders<ImagekitioAngularModule> {

@@ -1,9 +1,9 @@
-import { ImagekitioAngularService } from "../../projects/imagekitio-angular/src/lib/imagekitio-angular.service";
+import { ImagekitService } from "../../projects/imagekitio-angular/src/lib/imagekitio-angular.service";
 
 describe("ImagekitService", () => {
-  let imagekitService: ImagekitioAngularService;
+  let imagekitService: ImagekitService;
   beforeEach(() => {
-    imagekitService = new ImagekitioAngularService({
+    imagekitService = new ImagekitService({
       urlEndpoint: "url",
       publicKey: "pub",
     });
