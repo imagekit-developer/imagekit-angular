@@ -107,8 +107,8 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   }
 
   getConfigObject(options: IkImageComponentOptions): any {
-    const config: IkImageComponentOptions = {
-      'transformation' : options.transformation
+    const config = {
+      transformation : options.transformation
     };
     
     if (options.urlEndpoint) {
@@ -145,10 +145,9 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
 
   namedNodeMapToObject(source: NamedNodeMap): Dict {
     let target: Dict = {};
-    console.log({source})
     Object.keys(source).forEach(index => {
-      const name = source[Number(index)].name;
-      const value = source[Number(index)].value;
+      const name = source[index].name;
+      const value = source[index].value;
       target[name] = value;
     });
     return target;

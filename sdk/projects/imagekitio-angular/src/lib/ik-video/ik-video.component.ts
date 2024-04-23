@@ -45,8 +45,8 @@ export class IkVideoComponent implements OnInit {
   namedNodeMapToObject(source: NamedNodeMap): Dict {
       let target: Dict = {};
       Object.keys(source).forEach(index => {
-        const name = source[Number(index)].name;
-        const value = source[Number(index)].value;
+        const name = source[index].name;
+        const value = source[index].value;
         target[name] = value;
       });
       return target;
@@ -58,7 +58,7 @@ export class IkVideoComponent implements OnInit {
   }
 
   getConfigObject(options: IkVideoComponentOptions): any {
-    const config: IkVideoComponentOptions = {
+    const config = {
       transformation: options.transformation,
     };
     if (options.urlEndpoint) {
