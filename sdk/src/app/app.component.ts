@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transformation';
-import { IkUploadComponent } from "../../lib/src/public_api";
+import { IkUploadComponent } from "../../projects/imagekitio-angular/src/public-api";
 
 @Component({
   selector: 'app-root',

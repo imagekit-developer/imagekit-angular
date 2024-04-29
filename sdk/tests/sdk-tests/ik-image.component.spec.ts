@@ -1,8 +1,8 @@
 import { ElementRef } from "@angular/core";
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IkImageComponent } from "../../lib/src/imagekitio-angular/ik-image/ik-image.component";
-import { ImagekitService } from "../../lib/src/imagekitio-angular/imagekit.service";
-import { IkImageComponentOptions, LqipOptions } from '../../lib/src/imagekitio-angular/utility/ik-type-def-collection'
+import { IkImageComponent } from "../../projects/imagekitio-angular/src/lib/ik-image/ik-image.component";
+import { ImagekitService } from "../../projects/imagekitio-angular/src/lib/imagekitio-angular.service";
+import { IkImageComponentOptions, LqipOptions } from '../../projects/imagekitio-angular/src/lib/utility/ik-type-def-collection'
 
 describe("IkImageComponent", () => {
   let component: IkImageComponent;

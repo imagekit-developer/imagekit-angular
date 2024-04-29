@@ -7,7 +7,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Twitter Follow](https://img.shields.io/twitter/follow/imagekitio?label=Follow&style=social)](https://twitter.com/ImagekitIo)
 
-ImageKit Angular SDK allows you to resize, optimize, deliver, and upload images and videos in your react application.
+ImageKit Angular SDK allows you to resize, optimize, deliver, and upload images and videos in your angular application.
 
 ImageKit is complete media storage, optimization, and transformation solution that comes with an image and video CDN. It can be integrated with your existing infrastructure - storage like AWS S3, web servers, your CDN, and custom domain names, allowing you to deliver optimized images in minutes with minimal code changes.
 
@@ -57,6 +57,12 @@ authenticator = async () => {
 ```
 
 *Note*: Avoid generating security parameters on the client side. Always send a request to your backend to retrieve security parameters, as the generation of these parameters necessitates the use of your Imagekit `privateKey`, which must not be included in client-side code.
+
+## Version Support
+| SDK Version | Angular 11.x | Angular 12.2.x | Angular 13.x | Angular 14.x | Angular 15.x | Angular 16.x | Angular 17.x |
+|-------------|---------|---------|---------|---------|---------|---------|---------|
+| 5.x         | ❌     |  ✔️     | ✔️     | ✔️       | ✔️       | ✔️     |✔️      |
+| 4.x         | ✔️     |  ✔️     |  ✔️     |  ✔️      | ✔️       |  ❌     | ❌      |
 
 
 ## Installation

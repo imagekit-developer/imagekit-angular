@@ -56,3 +56,9 @@ export interface IkUploadComponentOptions {
     xhr?: XMLHttpRequest;
     transformation?: Object;
 }
+
+export interface AuthResponse {
+  signature: string;
+  expire: string;
+  token: string;
+}

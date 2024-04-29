@@ -1,8 +1,8 @@
 import { ElementRef } from "@angular/core";
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IkVideoComponent } from "../../lib/src/imagekitio-angular/ik-video/ik-video.component";
-import { ImagekitService } from "../../lib/src/imagekitio-angular/imagekit.service";
-import { IkVideoComponentOptions } from '../../lib/src/imagekitio-angular/utility/ik-type-def-collection'
+import { IkVideoComponent } from "../../projects/imagekitio-angular/src/lib/ik-video/ik-video.component";
+import { ImagekitService } from "../../projects/imagekitio-angular/src/lib/imagekitio-angular.service";
+import { IkVideoComponentOptions } from '../../projects/imagekitio-angular/src/lib/utility/ik-type-def-collection'
 
 describe("IkVideoComponent", () => {
   let component: IkVideoComponent;

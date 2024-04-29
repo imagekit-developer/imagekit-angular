@@ -1,6 +1,5 @@
-/* istanbul ignore file */
 import { AfterViewInit, ElementRef, Component, Input, Output, EventEmitter } from '@angular/core';
-import { ImagekitService } from '../imagekit.service';
+import { ImagekitService } from '../imagekitio-angular.service';
 import { IkUploadComponentOptions, Dict, HTMLInputEvent } from '../utility/ik-type-def-collection';
 
 @Component({
@@ -54,7 +53,7 @@ export class IkUploadComponent implements AfterViewInit {
     }
   }
 
-  handleFileInput(e: HTMLInputEvent): void {
+  handleFileInput(e: HTMLInputEvent| any): void {
     // Using IK-upload
     const files = e.target.files;
     this.fileToUpload = files.item(0);

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ImageKitConfiguration, ImagekitService } from "../../lib/src/imagekitio-angular/imagekit.service";
-import { IkUploadComponent } from "../../lib/src/imagekitio-angular/ik-upload/ik-upload.component";
-import { IkUploadComponentOptions } from '../../lib/src/imagekitio-angular/utility/ik-type-def-collection';
+import { ImageKitConfiguration, ImagekitService } from "../../projects/imagekitio-angular/src/lib/imagekitio-angular.service";
+import { IkUploadComponent } from "../../projects/imagekitio-angular/src/lib/ik-upload/ik-upload.component";
+import { IkUploadComponentOptions } from '../../projects/imagekitio-angular/src/lib/utility/ik-type-def-collection';
 import { EventEmitter } from '@angular/core';
 
 describe("IkUploadComponent", () => {
@@ -686,10 +686,14 @@ describe("IkUploadComponent", () => {
   });
   
   it('handleUploadResponse should handle an error', () => {
+    let dummyFile: File = new File([""], "dummy-file-name");
+
     const options = {
       onError: new EventEmitter<any>(),
       onSuccess: new EventEmitter<any>(),
-      xhr: null
+      xhr: null,
+      file: dummyFile,
+      fileName: 'dummyFile',
     };
 
     // Mock the throwError method

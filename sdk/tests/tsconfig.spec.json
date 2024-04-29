@@ -11,10 +11,11 @@
     ]
   },
   "files": [
-    "test.ts"
+    "test.ts",
+    "../src/polyfills.ts"
   ],
   "include": [
     "../tests/sdk-tests/*.spec.ts",
-    "../tests/**/*.d.ts"
+    "../tests/**/*.d.ts",
   ]
 }

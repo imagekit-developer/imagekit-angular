@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, Input } from '@angular/core';
-import { ImagekitService } from '../imagekit.service';
+import { ImagekitService } from '../imagekitio-angular.service';
 import { IkVideoComponentOptions, QueryParameters, Dict } from '../utility/ik-type-def-collection'
 import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transformation';
 

@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, OnInit, ElementRef, Input, OnChanges } from '@angular/core';
-import { ImagekitService } from '../imagekit.service';
+import { ImagekitService } from '../imagekitio-angular.service';
 import { Dict, QueryParameters, IkImageComponentOptions, LqipOptions } from '../utility/ik-type-def-collection'
 import { Transformation } from 'imagekit-javascript/dist/src/interfaces/Transformation';
 
@@ -59,7 +59,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     }
   }
 
-  onImageLoaded = (event: { srcElement: { src: string; }; }) => {
+  onImageLoaded = (event: { srcElement: { src: string; } | any }) => {
     const { loading, lqipUrl, url } = this;
 
     if (loading !== 'lazy' && event.srcElement.src === lqipUrl) {
@@ -107,7 +107,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   }
 
   getConfigObject(options: IkImageComponentOptions): any {
-    const config  = {
+    const config = {
       transformation : options.transformation
     };
     

@@ -1,5 +1,4 @@
-import { ImagekitService } from "../../lib/src/imagekitio-angular/imagekit.service";
-const pjson = require("../../lib/package.json");
+import { ImagekitService } from "../../projects/imagekitio-angular/src/lib/imagekitio-angular.service";
 
 describe("ImagekitService", () => {
   let imagekitService: ImagekitService;
