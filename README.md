@@ -209,6 +209,7 @@ To use the SDK, you need to provide it with a few configuration parameters. The 
         }
     ]
   }"
+  [checks]="'\'request.folder\' : \'sample-folder/\''" // To run server side checks before uploading files. Notice the quotes around request.folder and sample-folder.
 ></ik-upload>
 ```
 
