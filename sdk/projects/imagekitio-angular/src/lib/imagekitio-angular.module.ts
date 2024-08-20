@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { IkImageComponent } from './ik-image/ik-image.component';
 import { IkUploadComponent } from './ik-upload/ik-upload.component';
 import { IkVideoComponent } from './ik-video/ik-video.component';
@@ -17,7 +17,10 @@ import { ImageKitConfiguration, ImagekitService } from './imagekitio-angular.ser
     IkVideoComponent,
     IkUploadComponent
   ],
-  providers: [ ImagekitService ]
+  providers: [ ImagekitService ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class ImagekitioAngularModule { 
   static forRoot(config: ImageKitConfiguration): ModuleWithProviders<ImagekitioAngularModule> {
