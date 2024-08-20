@@ -8,6 +8,7 @@
     "strictPropertyInitialization": false,
     "noFallthroughCasesInSwitch": true,
     "paths": {
+      "tslib" : ["node_modules/tslib/tslib.d.ts"],
       "imagekitio-angular": [
         "dist/imagekitio-angular/imagekitio-angular",
         "dist/imagekitio-angular"
@@ -17,20 +18,21 @@
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
-    "importHelpers": true,
+    "moduleResolution": "Node",
+    "importHelpers": false,
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "target": "es2017",
+    "target": "ES2022",
     "module": "es2020",
     "typeRoots": [
       "node_modules/@types"
     ],
     "lib": [
-      "es2018",
+      "es2020",
       "dom"
-    ]
+    ],
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
