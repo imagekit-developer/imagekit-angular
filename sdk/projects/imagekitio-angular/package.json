@@ -2,8 +2,8 @@
   "name": "imagekitio-angular",
   "version": "5.0.0",
   "peerDependencies": {
-    "@angular/common": ">=13.3.11",
-    "@angular/core": ">=13.3.11",
+    "@angular/common": ">=15.2.10",
+    "@angular/core": ">=15.2.10",
     "imagekit-javascript": "^3.0.0"
   },
   "dependencies": {
