@@ -209,6 +209,7 @@ To use the SDK, you need to provide it with a few configuration parameters. The 
         }
     ]
   }"
+  [checks]="'\'request.folder\' : \'sample-folder/\''" // To run server side checks before uploading files. Notice the quotes around request.folder and sample-folder.
 ></ik-upload>
 ```
 
@@ -562,6 +563,7 @@ The SDK provides a component to upload files to the [ImageKit Media Library](htt
 | urlEndpoint      | String | Optional. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/ |
 | publicKey      | String | Optional |
 | authenticator      | ()=>Promise<{signature:string,token:string,expiry:number}> | Optional |
+| checks | String | Optional. Run server-side checks before uploading files. For example, `"'file.size' < '1mb'"` will check if the file size is less than 1 MB. Check [Upload API docs](https://imagekit.io/docs/api-reference/upload-file/upload-file#upload-api-checks) to learn more. Notice the quotes around `file.size` and `1mb`; otherwise, you will get an error `Your request contains invalid syntax for the checks parameter.` |
 
 Note: `urlEndpoint` and `publicKey` must be present in the attribute for them to take effect. Otherwise, the SDK will fall back to the values specified in `app.module.ts`.
 

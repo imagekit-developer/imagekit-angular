@@ -37,6 +37,7 @@ export class IkUploadComponent implements AfterViewInit {
   @Input('onUploadStart') onUploadStart: (e: HTMLInputEvent) => void;
   @Input('onUploadProgress') onUploadProgress: (e: ProgressEvent) => void;
   @Input('transformation') transformation: Object; //optional
+  @Input('checks') checks: string; //optional
   fileToUpload: File = null;
   xhr: XMLHttpRequest;
 
@@ -76,6 +77,7 @@ export class IkUploadComponent implements AfterViewInit {
       onError: this.onError,
       onSuccess: this.onSuccess,
       transformation: this.transformation,
+      checks: this.checks
     }
 
     // Custom validation
@@ -250,6 +252,11 @@ export class IkUploadComponent implements AfterViewInit {
     if (options.transformation !== undefined) {
       Object.assign(params, { transformation: options.transformation });
     }
+
+    if (options.checks !== undefined) {
+      Object.assign(params, { checks: options.checks });
+    }
+    
     return params;
   }
 }

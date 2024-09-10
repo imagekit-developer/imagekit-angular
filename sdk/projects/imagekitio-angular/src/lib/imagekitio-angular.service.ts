@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import ImageKit from 'imagekit-javascript';
-const SDK_VERSION = '5.0.0';
+const SDK_VERSION = '5.1.0';
 export interface Lqip {
   readonly active: boolean;
   readonly quality: number;

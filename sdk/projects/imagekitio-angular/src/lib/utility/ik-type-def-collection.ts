@@ -55,6 +55,7 @@ export interface IkUploadComponentOptions {
     validateFile?: Function;
     xhr?: XMLHttpRequest;
     transformation?: Object;
+    checks?: string;
 }
 
 export interface AuthResponse {

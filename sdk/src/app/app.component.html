@@ -92,6 +92,7 @@
     [onUploadStart]="onUploadStartFunction"
     [onUploadProgress]="onUploadProgressFunction"
     [authenticator]="authenticator"
+    [checks]="'\'request.folder\' : \'sample-folder/\''"
     class="file-upload-ik">
   </ik-upload>
   <button (click)="onAbortFunction()">Abort</button>
