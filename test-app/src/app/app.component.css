@@ -1,0 +1,171 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+header {
+  text-align: center;
+  padding: 40px 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.5em;
+}
+
+header p {
+  margin: 10px 0 0;
+  font-size: 1.2em;
+  opacity: 0.9;
+}
+
+.demo-section {
+  margin-bottom: 50px;
+  padding: 30px;
+  background: #f7f7f7;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.demo-section h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.8em;
+}
+
+.demo-section p {
+  color: #666;
+  font-size: 1em;
+  margin-bottom: 20px;
+}
+
+.demo-section ik-image,
+.demo-section ik-video {
+  display: block;
+  margin-top: 15px;
+  border-radius: 4px;
+}
+
+footer {
+  text-align: center;
+  padding: 40px 20px;
+  background: #f0f0f0;
+  border-radius: 8px;
+  margin-top: 60px;
+}
+
+footer p {
+  margin: 10px 0;
+  color: #666;
+}
+
+footer code {
+  background: #e0e0e0;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+}
+
+footer a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+.upload-container {
+  margin-top: 15px;
+}
+
+.file-input {
+  display: block;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 2px dashed #667eea;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  width: 100%;
+  max-width: 400px;
+}
+
+.file-input:hover {
+  border-color: #764ba2;
+}
+
+.upload-button {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.upload-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.upload-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.upload-status {
+  margin-top: 20px;
+  padding: 15px;
+  background: white;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.upload-status p {
+  margin: 10px 0;
+  color: #333;
+}
+
+.progress-bar {
+  position: relative;
+  width: 100%;
+  height: 30px;
+  background: #e0e0e0;
+  border-radius: 15px;
+  overflow: hidden;
+  margin: 15px 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #333;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.uploaded-image {
+  margin-top: 20px;
+}
+
+.uploaded-image ik-image {
+  margin-top: 10px;
+}

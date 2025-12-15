@@ -1,15 +1,14 @@
-import { ImagekitService } from "../../projects/imagekitio-angular/src/lib/imagekitio-angular.service";
+import { ImagekitService } from "../../src/lib/imagekitio-angular.service";
 
 describe("ImagekitService", () => {
   let imagekitService: ImagekitService;
   beforeEach(() => {
     imagekitService = new ImagekitService({
-      urlEndpoint: "url",
-      publicKey: "pub",
+      urlEndpoint: "url"
     });
   })
 
   it("url should be returning correctly if src is provided", () => {
-    expect(imagekitService.getUrl({ src: 'https://example.com/abc' })).toContain(`abc`)
+    expect(imagekitService.getUrl({ src: 'https://example.com/abc', urlEndpoint: 'url' })).toContain(`abc`)
   });
 });

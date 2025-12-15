@@ -1,0 +1,28 @@
+# Source files
+src/
+tests/
+
+# Config files
+angular.json
+ng-package.json
+tsconfig*.json
+karma.conf.js
+
+# Node modules
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test coverage
+coverage/
+
+# Build artifacts (we only want dist/imagekit-angular)
+out-tsc/

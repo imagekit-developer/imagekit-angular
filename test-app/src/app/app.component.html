@@ -1,0 +1,106 @@
+<div class="container">
+  <header>
+    <h1>{{ title }}</h1>
+    <p>Demo application showcasing ImageKit.io Angular SDK features</p>
+  </header>
+
+  <section class="demo-section">
+    <h2>1. Basic Image Rendering</h2>
+    <p>Simple image with default transformations</p>
+    <ik-image 
+      src="/default-image.jpg"
+      [transformation]="[{height: '300', width: '400'}]"
+      alt="Basic image">
+    </ik-image>
+  </section>
+
+  <section class="demo-section">
+    <h2>4. Responsive Image</h2>
+    <p>Automatically generates srcset for different screen sizes</p>
+    <ik-image 
+      src="/default-image.jpg"
+      [transformation]="[{height: '300', width: '400'}]"
+      [responsive]="true">
+    </ik-image>
+  </section>
+
+  <section class="demo-section">
+    <h2>5. Image with Transformations</h2>
+    <p>Multiple chained transformations: resize, crop, rotate, format</p>
+    <ik-image 
+      src="/default-image.jpg"
+      [transformation]="[
+        {height: '300', width: '300', crop: 'at_max'},
+        {rotation: '90'},
+        {quality: 80, format: 'webp'}
+      ]">
+    </ik-image>
+  </section>
+
+  <section class="demo-section">
+    <h2>6. Video Component</h2>
+    <p>Video rendering with transformations</p>
+    <ik-video 
+      src="/sample-video.mp4"
+      [transformation]="[{height: '400', width: '600', quality: 80}]"
+      autoplay
+      loop
+      muted>
+    </ik-video>
+  </section>
+
+  <section class="demo-section">
+    <h2>7. Image from External URL</h2>
+    <p>Using src parameter for external images</p>
+    <ik-image 
+      [src]="'https://placehold.co/300x400'"
+      [transformation]="[{height: '300', width: '400'}]">
+    </ik-image>
+  </section>
+
+  <section class="demo-section">
+    <h2>2. Image with Lazy Loading</h2>
+    <p>Image that loads lazily when it comes into viewport</p>
+    <ik-image 
+      src="/default-image.jpg"
+      [transformation]="[{height: '500', width: '500', quality: 80}]"
+      [loading]="'lazy'">
+    </ik-image>
+  </section>
+
+  <!-- Upload logic. Needs auth and creds setup -->
+  <!-- <section class="demo-section">
+    <h2>8. File Upload</h2>
+    <p>Upload files directly to ImageKit with authentication</p>
+    <div class="upload-container">
+      <input 
+        type="file" 
+        #fileInput
+        (change)="onFileSelected($event)"
+        accept="image/*"
+        class="file-input">
+      <button 
+        (click)="uploadFile()" 
+        [disabled]="!selectedFile || isUploading"
+        class="upload-button">
+        {{ isUploading ? 'Uploading...' : 'Upload Image' }}
+      </button>
+      
+      <div *ngIf="uploadStatus" class="upload-status">
+        <p><strong>Status:</strong> {{ uploadStatus }}</p>
+        <div *ngIf="uploadProgress !== null" class="progress-bar">
+          <div class="progress-fill" [style.width.%]="uploadProgress"></div>
+          <span class="progress-text">{{ uploadProgress }}%</span>
+        </div>
+        <div *ngIf="uploadedImageUrl" class="uploaded-image">
+          <p><strong>Uploaded Image:</strong></p>
+          <ik-image 
+            [src]="uploadedImageUrl"
+            [transformation]="[{height: 200, width: 300}]">
+          </ik-image>
+        </div>
+      </div>
+    </div>
+  </section> -->
+</div>
+

@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/imagekit-angular'),
+      dir: require('path').join(__dirname, './coverage/test-app'),
       subdir: '.',
       reporters: [
         { type: 'html' },
@@ -39,17 +39,6 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    restartOnFileChange: true,
-    browsers: ['ChromeHeadlessCustom'],
-    customLaunchers: {
-      ChromeHeadlessCustom: {
-        base: 'ChromeHeadless',
-        flags: [
-          '--no-sandbox',
-          '--disable-gpu',
-          // Add any other flags you might need here
-        ]
-      }
-    },
+    restartOnFileChange: true
   });
 };

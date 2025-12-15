@@ -25,18 +25,10 @@ jobs:
         npm install -g @angular/cli@12.2.18
         cd sdk
         npm install
-        cd tests/test-apps/sample-server
-        echo PRIVATE_KEY=${{ secrets.ik_private_key }} >> .env;
-        npm install
-        npm run server &
-        cd ../../../
         npm run test:ci
         npm run build
       env:
         CI: true
-        PUBLIC_KEY: ${{ secrets.ik_public_key }}
-        PRIVATE_KEY: ${{ secrets.ik_private_key }}
-        URL_ENDPOINT: ${{ secrets.ik_url_endopint }}
 
   publish:
     needs: build
@@ -53,7 +45,7 @@ jobs:
         cd sdk
         npm install
         npm run build
-        cd dist/imagekitio-angular
+        cd dist/imagekit-angular
         npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
         npm publish
       env:
