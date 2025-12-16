@@ -23,15 +23,8 @@ npm install
 Open `src/app/app.module.ts` and update the ImageKit configuration with your credentials:
 
 ```typescript
-ImagekitioAngularModule.forRoot({
-  publicKey: 'your_public_key_here',
+ImagekitAngularModule.forRoot({
   urlEndpoint: 'https://ik.imagekit.io/your_imagekit_id',
-  authenticator: async () => {
-    // Replace with your backend authentication endpoint
-    const response = await fetch('http://localhost:3000/auth');
-    const data = await response.json();
-    return { signature: data.signature, expire: data.expire, token: data.token };
-  }
 })
 ```
 
@@ -53,9 +46,7 @@ const app = express();
 app.use(cors());
 
 const imagekit = new ImageKit({
-  publicKey: 'your_public_key',
   privateKey: 'your_private_key',
-  urlEndpoint: 'https://ik.imagekit.io/your_imagekit_id'
 });
 
 app.get('/auth', (req, res) => {
@@ -88,7 +79,6 @@ This demo app showcases the following ImageKit Angular SDK features:
 
 1. **Basic Image Rendering** - Simple image display with transformations
 2. **Lazy Loading** - Images that load only when they enter the viewport
-3. **LQIP (Low Quality Image Placeholder)** - Progressive image loading with blur effect
 4. **Responsive Images** - Automatic srcset generation for different screen sizes
 5. **Chained Transformations** - Multiple transformations applied in sequence
 6. **Video Component** - Video rendering with transformations
@@ -136,7 +126,7 @@ async uploadFile(file: File) {
   const result = await upload({
     file: file,
     fileName: file.name,
-    publicKey: 'your_public_key',
+    publicKey: authData.publicKey,
     signature: authData.signature,
     expire: authData.expire,
     token: authData.token,
@@ -172,32 +162,14 @@ Common transformations you can apply:
 
 If you make changes to the SDK and want to test them:
 
-1. Navigate to the SDK directory:
-   ```bash
-   cd ../sdk
-   ```
+1. Make changes in the sdk
 
-2. Build the SDK:
-   ```bash
-   npm run build
-   ```
-
-3. Create a tarball from the dist directory:
-   ```bash
-   cd dist/imagekit-angular
-   npm pack
-   ```
-
-4. Install the updated package in the test app:
-   ```bash
-   cd ../../../test-app
-   npm install ../sdk/dist/imagekit-angular/imagekit-angular-6.0.0.tgz
-   ```
+2. Run `./install_sdk.sh`
 
 ## Running Tests
 
 ```bash
-npm test
+npm run e2e
 ```
 
 ## Building for Production

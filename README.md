@@ -115,10 +115,10 @@ The SDK supports both **module-based** and **standalone** Angular applications.
 
 #### Module-based Applications
 
-To use the SDK in a module-based app, import `ImagekitioAngularModule` in your `app.module.ts`:
+To use the SDK in a module-based app, import `ImagekitAngularModule` in your `app.module.ts`:
 
 ```typescript
-import { ImagekitioAngularModule } from '@imagekit/angular';
+import { ImagekitAngularModule } from '@imagekit/angular';
 
 @NgModule({
   declarations: [
@@ -127,7 +127,7 @@ import { ImagekitioAngularModule } from '@imagekit/angular';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ImagekitioAngularModule.forRoot({
+    ImagekitAngularModule.forRoot({
       urlEndpoint: environment.urlEndpoint,
     })
   ],
@@ -511,11 +511,11 @@ For client-side file uploads, you need to implement an `authenticator` function 
 
 ```typescript
 // app.module.ts
-import { ImagekitioAngularModule } from '@imagekit/angular';
+import { ImagekitAngularModule } from '@imagekit/angular';
 
 @NgModule({
   imports: [
-    ImagekitioAngularModule.forRoot({
+    ImagekitAngularModule.forRoot({
       urlEndpoint: environment.urlEndpoint,
     })
   ]
