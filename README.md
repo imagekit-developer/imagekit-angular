@@ -21,7 +21,7 @@ ImageKit is complete media storage, optimization, and transformation solution th
 
 2. **API parameter changes**
    - The `path` parameter has been renamed to `src` in `ik-image` and `ik-video` components
-   - The `publicKey` parameter has been removed from component-level usage.
+   - The `publicKey` parameter has been removed from the configuration provider
    - New: `<ik-image src="/default-image.jpg"></ik-image>`
 
 3. **LQIP feature removed**
@@ -111,9 +111,15 @@ Please note that this SDK version supports `Angular version 9 and onwards`. For 
 
 ### Initialization
 
-To use the SDK, you need to provide it with a few configuration parameters. The configuration parameters must be passed to the `ImagekitioAngularModule` module in your `app.module.ts` file. example:
+The SDK supports both **module-based** and **standalone** Angular applications.
 
-```js
+#### Module-based Applications
+
+To use the SDK in a module-based app, import `ImagekitioAngularModule` in your `app.module.ts`:
+
+```typescript
+import { ImagekitioAngularModule } from '@imagekit/angular';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -122,17 +128,35 @@ To use the SDK, you need to provide it with a few configuration parameters. The 
     BrowserModule,
     AppRoutingModule,
     ImagekitioAngularModule.forRoot({
-      publicKey: environment.publicKey,
       urlEndpoint: environment.urlEndpoint,
     })
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
+export class AppModule { }
 ```
 
+#### Standalone Applications (Angular 14+)
+
+For standalone Angular applications, use the `provideImageKit` function in your `app.config.ts`:
+
+```typescript
+import { ApplicationConfig } from '@angular/core';
+import { provideImageKit } from '@imagekit/angular';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideImageKit({
+      urlEndpoint: environment.urlEndpoint,
+    })
+  ]
+};
+```
+
+#### Configuration Options
+
 * `urlEndpoint` is required to use the SDK. You can get URL-endpoint from your ImageKit dashboard - https://imagekit.io/dashboard/url-endpoints.
-* `publicKey` and `authenticator` parameters are required if you want to use the SDK for client-side file upload. You can get `publicKey` from the developer section in your ImageKit dashboard - https://imagekit.io/dashboard/developer/api-keys.
 * `transformationPosition` is optional. The default value for the parameter is `query`. Acceptable values are `path` & `query`
 
 > Note: Do not include your [private key](https://docs.imagekit.io/api-reference/api-introduction/api-keys#private-key) in any client-side code.
@@ -679,14 +703,8 @@ The SDK re-exports the some of the core ImageKit JavaScript SDK methods, giving 
 ```js
 import { buildSrc } from '@imagekit/angular';
 ...
-// Initializing the service with configuration
-service = new ImagekitService({
-  urlEndpoint: "https://ik.imagekit.io/your_imagekit_id/endpoint/",
-  publicKey: "your_public_key",
-});
 
 // Generating URL
-// Note: You can choose to override the publicKey if necessary
 const url = buildSrc({
   src: "/default-image.jpg",
   urlEndpoint: "https://ik.imagekit.io/your_imagekit_id/endpoint/",
