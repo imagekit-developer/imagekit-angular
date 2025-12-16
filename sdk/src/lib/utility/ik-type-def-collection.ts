@@ -1,5 +1,4 @@
-import { EventEmitter } from '@angular/core';
-import type { Transformation, SrcOptions as JSSourceOptions, GetImageAttributesOptions } from '@imagekit/javascript';
+import type { SrcOptions as JSSourceOptions, GetImageAttributesOptions } from '@imagekit/javascript';
 
 /**
  * Contains all common type definitions used across multiple components
