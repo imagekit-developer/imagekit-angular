@@ -18,10 +18,10 @@ import { provideImageKit } from './imagekit-angular.tokens';
   ],
   providers: [ ImagekitService ]
 })
-export class ImagekitioAngularModule { 
-  static forRoot(config: ImageKitConfiguration): ModuleWithProviders<ImagekitioAngularModule> {
+export class ImagekitAngularModule { 
+  static forRoot(config: ImageKitConfiguration): ModuleWithProviders<ImagekitAngularModule> {
     return {
-      ngModule: ImagekitioAngularModule,
+      ngModule: ImagekitAngularModule,
       providers: [provideImageKit(config)]
     };
   }

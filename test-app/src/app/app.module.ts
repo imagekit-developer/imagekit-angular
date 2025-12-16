@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ImagekitioAngularModule } from '@imagekit/angular';
+import { ImagekitAngularModule } from '@imagekit/angular';
 
 import { AppComponent } from './app.component';
 
@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    ImagekitioAngularModule.forRoot({
+    ImagekitAngularModule.forRoot({
       urlEndpoint: 'https://ik.imagekit.io/demo/',
       transformationPosition: 'query'
     })
