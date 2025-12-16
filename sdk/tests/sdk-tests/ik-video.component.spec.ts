@@ -1,7 +1,7 @@
 import { ElementRef } from "@angular/core";
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IkVideoComponent } from "../../src/lib/ik-video/ik-video.component";
-import { ImagekitService } from "../../src/lib/imagekitio-angular.service";
+import { ImagekitService } from "../../src/lib/imagekit-angular.service";
 import { IkVideoComponentOptions } from '../../src/lib/utility/ik-type-def-collection'
 
 describe("IkVideoComponent", () => {

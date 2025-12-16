@@ -84,3 +84,9 @@ export interface AuthResponse {
   expire: string;
   token: string;
 }
+
+export class ImageKitConfiguration {
+  urlEndpoint: SrcOptions['urlEndpoint'];
+  transformationPosition?: SrcOptions['transformationPosition'];
+  sdkVersion?: string;
+}

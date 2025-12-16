@@ -2,7 +2,9 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { IkImageComponent } from './ik-image/ik-image.component';
 import { IkVideoComponent } from './ik-video/ik-video.component';
-import { ImageKitConfiguration, ImagekitService } from './imagekitio-angular.service';
+import { ImagekitService } from './imagekit-angular.service';
+import { ImageKitConfiguration } from './utility/ik-type-def-collection';
+import { provideImageKit } from './imagekit-angular.tokens';
 
 @NgModule({
   declarations: [
@@ -20,9 +22,7 @@ export class ImagekitioAngularModule {
   static forRoot(config: ImageKitConfiguration): ModuleWithProviders<ImagekitioAngularModule> {
     return {
       ngModule: ImagekitioAngularModule,
-      providers: [
-        {provide: ImageKitConfiguration, useValue: config }
-      ]
+      providers: [provideImageKit(config)]
     };
   }
 }

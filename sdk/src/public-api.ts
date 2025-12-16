@@ -2,10 +2,12 @@
  * Public API Surface of imagekitio-angular
  */
 
-export * from './lib/imagekitio-angular.service';
+export * from './lib/imagekit-angular.service';
+export * from './lib/imagekit-angular.tokens';
 export * from './lib/ik-image/ik-image.component';
 export * from './lib/ik-video/ik-video.component';
-export * from './lib/imagekitio-angular.module';
+export * from './lib/imagekit-angular.module';
+export { ImageKitConfiguration } from './lib/utility/ik-type-def-collection';
 
 // Re-export utility functions from @imagekit/javascript
 export {

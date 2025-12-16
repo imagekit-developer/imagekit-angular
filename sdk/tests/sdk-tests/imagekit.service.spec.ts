@@ -1,4 +1,4 @@
-import { ImagekitService } from "../../src/lib/imagekitio-angular.service";
+import { ImagekitService } from "../../src/lib/imagekit-angular.service";
 
 describe("ImagekitService", () => {
   let imagekitService: ImagekitService;

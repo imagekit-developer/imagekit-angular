@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, OnInit, ElementRef, Input, OnChanges } from '@angular/core';
-import { ImagekitService } from '../imagekitio-angular.service';
+import { ImagekitService } from '../imagekit-angular.service';
 import { Dict, QueryParameters, IkImageComponentOptions } from '../utility/ik-type-def-collection';
 import { getInt } from '../utility/utils';
 import { buildSrc, getResponsiveImageAttributes, SrcOptions } from '@imagekit/javascript';
