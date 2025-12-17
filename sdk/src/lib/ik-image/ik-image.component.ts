@@ -87,21 +87,15 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
     const attrsToSet = context.namedNodeMapToObject(attributes);
     attrsToSet['src'] = url;
     
-    // Add srcset if generated
     if (srcset) {
       attrsToSet['srcset'] = srcset;
     }
-    
-    // Add sizes if width is provided and responsive is enabled
-    if (context.responsive && context.width) {
-      attrsToSet['sizes'] = this.sizes;
+    if (context.sizes) {
+      attrsToSet['sizes'] = context.sizes;
     }
-    
-    // Add loading attribute if provided
     if (context.loading) {
       attrsToSet['loading'] = context.loading;
     }
-    
     const image = nativeElement.children[0];
     context.setElementAttributes(image, attrsToSet);
   }

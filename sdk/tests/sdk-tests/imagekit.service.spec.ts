@@ -8,7 +8,23 @@ describe("ImagekitService", () => {
     });
   })
 
-  it("url should be returning correctly if src is provided", () => {
-    expect(imagekitService.getUrl({ src: 'https://example.com/abc', urlEndpoint: 'url' })).toContain(`abc`)
+  it("should set urlEndpoint correctly", () => {
+    expect(imagekitService._ikInstance.options.urlEndpoint).toContain(`url`)
+  });
+
+  it("getUrlEndpoint should return passed urlEndpoint when provided", () => {
+    const passedUrlEndpoint = "https://example.com/";
+    const result = imagekitService.getUrlEndpoint(passedUrlEndpoint);
+    expect(result).toBe(passedUrlEndpoint);
+  });
+
+  it("getUrlEndpoint should return initialized urlEndpoint when passed urlEndpoint is null", () => {
+    const result = imagekitService.getUrlEndpoint(null);
+    expect(result).toBe("url");
+  });
+
+  it("getUrlEndpoint should return initialized urlEndpoint when passed urlEndpoint is undefined", () => {
+    const result = imagekitService.getUrlEndpoint(undefined);
+    expect(result).toBe("url");
   });
 });

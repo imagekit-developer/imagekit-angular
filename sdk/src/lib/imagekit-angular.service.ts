@@ -1,6 +1,4 @@
-import { Inject, Injectable, InjectionToken, Provider } from '@angular/core';
-import { buildSrc } from '@imagekit/javascript';
-import type { SrcOptions } from '@imagekit/javascript';
+import { Inject, Injectable } from '@angular/core';
 import { ImageKitConfiguration } from './utility/ik-type-def-collection';
 import { IMAGEKIT_CONFIG } from './imagekit-angular.tokens';
 const SDK_VERSION = '6.0.0';
@@ -20,22 +18,17 @@ export class ImagekitService {
     };
   }
 
-  get ikInstance(): any {
+  get ikInstance(): { options: ImageKitConfiguration } {
     return {
       options: this.configuration,
-      url: (options: SrcOptions) => this.getUrl(options)
     };
   }
 
-  get _ikInstance(): any {
+  get _ikInstance(): { options: ImageKitConfiguration } {
     return this.ikInstance;
   }
 
-  getUrl(options: SrcOptions): string {
-    const mergedOptions: SrcOptions = {
-      ...options,
-      urlEndpoint: options.urlEndpoint || this.configuration.urlEndpoint
-    };
-    return buildSrc(mergedOptions);
+  getUrlEndpoint(passedUrlEndpoint?: string | null): string {
+    return passedUrlEndpoint ?? this.configuration.urlEndpoint;
   }
 }
