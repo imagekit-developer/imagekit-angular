@@ -60,7 +60,7 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
 
     if (!options.urlEndpoint || options.urlEndpoint.trim() === "") {
       console.warn("urlEndpoint is neither provided in this component nor in any parent ImagekitService.");
-      return null;
+      return;
     }
 
     const strictOptions = options as SrcOptions;
