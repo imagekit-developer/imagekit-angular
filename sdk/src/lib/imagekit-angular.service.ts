@@ -24,10 +24,6 @@ export class ImagekitService {
     };
   }
 
-  get _ikInstance(): { options: ImageKitConfiguration } {
-    return this.ikInstance;
-  }
-
   getUrlEndpoint(passedUrlEndpoint?: string | null): string {
     return passedUrlEndpoint ?? this.configuration.urlEndpoint;
   }

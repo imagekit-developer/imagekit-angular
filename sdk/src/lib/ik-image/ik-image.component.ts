@@ -1,13 +1,13 @@
 import { Component, AfterViewInit, OnInit, ElementRef, Input, OnChanges } from '@angular/core';
 import { ImagekitService } from '../imagekit-angular.service';
 import { Dict, QueryParameters, IkImageComponentOptions } from '../utility/ik-type-def-collection';
-import { getInt } from '../utility/utils';
+import { getInt, namedNodeMapToObject, setElementAttributes } from '../utility/utils';
 import { buildSrc, getResponsiveImageAttributes, SrcOptions } from '@imagekit/javascript';
 import type { Transformation } from '@imagekit/javascript'
 
 @Component({
   selector: 'ik-image',
-  template: `<img src='' (load)="onImageLoaded($event)">`,
+  template: `<img src=''>`,
 })
 export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   @Input('src') src: string = "";
@@ -17,44 +17,41 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
   @Input('queryParameters') queryParameters: QueryParameters;
   @Input('loading') loading: string = "lazy";
   @Input('width') width: number | string;
-  @Input('height') height: string;
+  @Input('height') height: number | string;
   @Input('responsive') responsive: boolean = true;
   @Input('deviceBreakpoints') deviceBreakpoints: number[];
   @Input('imageBreakpoints') imageBreakpoints: number[];
   @Input('sizes') sizes: string;
   url = '';
   srcset = '';
+  selector = 'ik-image';
 
-  constructor(private el: ElementRef, private imagekit: ImagekitService) {
-  }
+  constructor(private el: ElementRef, private imagekit: ImagekitService) { }
 
   ngOnInit(): void {
+    this.setSrcParams();
+  }
+
+  ngOnChanges(): void {
+    this.setSrcParams();
+    this.loadImage(this, this.url, this.srcset);
+  }
+
+  ngAfterViewInit(): void {
+    this.loadImage(this, this.url, this.srcset);
+  }
+
+  setSrcParams(): void {
     const options: IkImageComponentOptions = {
       src: this.src,
-      urlEndpoint: this.urlEndpoint ? this.urlEndpoint : this.imagekit._ikInstance.options.urlEndpoint,
+      urlEndpoint: this.urlEndpoint ? this.urlEndpoint : this.imagekit.ikInstance.options.urlEndpoint,
       transformation: this.transformation,
       transformationPosition: this.transformationPosition,
       queryParameters: this.queryParameters,
     };
     this.setUrl(options);
   }
-
-  ngOnChanges(): void {
-    this.ngOnInit();
-    this.ngAfterViewInit();
-  }
-
-  ngAfterViewInit(): void {
-    if (!this.url) {
-      return;
-    }
-    this.loadImage(this, this.url, this.srcset);
-  }
-
-  onImageLoaded = (event: { srcElement: { src: string; } | any }) => {
-    // Image loaded
-  };
-
+ 
   setUrl(options: IkImageComponentOptions): void {
     const widthInt = getInt(this.width);
 
@@ -65,26 +62,35 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
 
     const strictOptions = options as SrcOptions;
 
-    if (!this.responsive) {
-      this.url = buildSrc(strictOptions);
+    try {
+      if (!this.responsive) {
+        this.url = buildSrc(strictOptions);
+        this.srcset = '';
+      } else {
+        const { src: newSrc, srcSet } = getResponsiveImageAttributes({
+          ...strictOptions,
+          width: isNaN(widthInt) ? undefined : widthInt,
+          sizes: this.sizes,
+          deviceBreakpoints: this.deviceBreakpoints,
+          imageBreakpoints: this.imageBreakpoints,
+        })
+        this.url = newSrc;
+        this.srcset = srcSet;
+      }
+    } catch (error) {
+      console.error("Error generating src params: ", error);
+      this.url = '';
       this.srcset = '';
-    } else {
-      const { src: newSrc, srcSet } = getResponsiveImageAttributes({
-        ...strictOptions,
-        width: isNaN(widthInt) ? undefined : widthInt,
-        sizes: this.sizes,
-        deviceBreakpoints: this.deviceBreakpoints,
-        imageBreakpoints: this.imageBreakpoints,
-      })
-      this.url = newSrc;
-      this.srcset = srcSet;
     }
   }
 
   loadImage(context: IkImageComponent, url: string, srcset: string): void {
+    if (!url) {
+      return;
+    }
     const nativeElement = context.el.nativeElement;
     const attributes = nativeElement.attributes;
-    const attrsToSet = context.namedNodeMapToObject(attributes);
+    const attrsToSet = namedNodeMapToObject(attributes);
     attrsToSet['src'] = url;
     
     if (srcset) {
@@ -97,26 +103,6 @@ export class IkImageComponent implements AfterViewInit, OnInit, OnChanges {
       attrsToSet['loading'] = context.loading;
     }
     const image = nativeElement.children[0];
-    context.setElementAttributes(image, attrsToSet);
-  }
-
-  namedNodeMapToObject(source: NamedNodeMap): Dict {
-    let target: Dict = {};
-    Object.keys(source).forEach(index => {
-      const name = source[index].name;
-      const value = source[index].value;
-      target[name] = value;
-    });
-    return target;
-  };
-
-  setElementAttributes(element: any, attributesLiteral: Dict): void {
-    Object.keys(attributesLiteral).forEach(attrName => {
-      if (attrName.startsWith('ng-') || attrName.startsWith('_ng')) {
-        element.removeAttribute(attrName);
-        return;
-      }
-        element.setAttribute(attrName, attributesLiteral[attrName]);
-    });
+    setElementAttributes(image, attrsToSet, context.selector);
   }
 }

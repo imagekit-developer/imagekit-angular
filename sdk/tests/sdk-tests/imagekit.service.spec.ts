@@ -9,7 +9,7 @@ describe("ImagekitService", () => {
   })
 
   it("should set urlEndpoint correctly", () => {
-    expect(imagekitService._ikInstance.options.urlEndpoint).toContain(`url`)
+    expect(imagekitService.ikInstance.options.urlEndpoint).toContain(`url`)
   });
 
   it("getUrlEndpoint should return passed urlEndpoint when provided", () => {

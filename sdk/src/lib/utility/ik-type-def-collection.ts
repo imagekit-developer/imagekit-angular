@@ -84,7 +84,7 @@ export interface AuthResponse {
   token: string;
 }
 
-export class ImageKitConfiguration {
+export interface ImageKitConfiguration {
   urlEndpoint: SrcOptions['urlEndpoint'];
   transformationPosition?: SrcOptions['transformationPosition'];
   sdkVersion?: string;
