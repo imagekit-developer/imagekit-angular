@@ -1,0 +1,34 @@
+# Build source (only distribute built files)
+/projects/
+/node_modules/
+/src/
+/test-app/
+
+# Config files
+angular.json
+tsconfig.json
+*.md
+!README.md
+!LICENSE
+
+# Development files
+.git/
+.github/
+*.spec.ts
+*.test.ts
+/test-app/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+*.log
+npm-debug.log*
+
