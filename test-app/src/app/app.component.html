@@ -1,5 +1,24 @@
 <div>
-  <h1>Image</h1>
+  <div class="tabs">
+    <button 
+      class="tab-button" 
+      [class.active]="activeTab === 'display'"
+      (click)="setActiveTab('display')"
+    >
+      Display Tests (Image & Video)
+    </button>
+    <button 
+      class="tab-button" 
+      [class.active]="activeTab === 'upload'"
+      (click)="setActiveTab('upload')"
+    >
+      Upload Test
+    </button>
+  </div>
+
+  <div class="tab-content">
+    <div *ngIf="activeTab === 'display'" class="display-tests">
+      <h1>Image</h1>
 
   <!-- Image without ImageKit provider (using urlEndpoint prop) -->
   <ik-image
@@ -16,6 +35,13 @@
     alt="Image with ImageKit provider"
     [height]="300"
     [width]="300"
+    [passthrough]="{
+        'data-testid': 'hero-image',
+        'aria-describedby': 'image-description',
+        'data-track': 'analytics-id',
+        'crossorigin': 'anonymous',
+        'decoding': 'async',
+      }"
   ></ik-image>
 
   <!-- Width not number -->
@@ -194,8 +220,8 @@ sizes="(max-width: 600px) 100vw, 50vw"
   <!-- Passing all props to the video tag as it is -->
   <ik-video
     src="sample-video.mp4"
-    [height]="300"
-    [width]="300"
+    height="300"
+    width="300"
     [controls]="true"
     [autoplay]="true"
     [loop]="true"
@@ -221,5 +247,10 @@ sizes="(max-width: 600px) 100vw, 50vw"
     [width]="300"
     [transformation]="[{ height: 100, width: 100 }]"
   ></ik-video>
+    </div>
 
+    <div *ngIf="activeTab === 'upload'" class="upload-tests">
+      <app-upload-test></app-upload-test>
+    </div>
+  </div>
 </div>

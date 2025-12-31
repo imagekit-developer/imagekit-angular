@@ -6,6 +6,9 @@
 export { IKImageComponent } from './lib/components/ik-image.component';
 export { IKVideoComponent } from './lib/components/ik-video.component';
 
+// Directives
+export { BindDirective } from './lib/directives/bind.directive';
+
 // Module (for Angular 12-14 compatibility)
 export { ImageKitModule } from './lib/imagekit.module';
 

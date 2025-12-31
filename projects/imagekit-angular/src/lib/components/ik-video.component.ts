@@ -7,24 +7,21 @@ import {
   Optional,
   PLATFORM_ID,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  ViewChild,
+  AfterViewInit
 } from '@angular/core';
 import { isPlatformBrowser, NgStyle, NgClass } from '@angular/common';
 import { ImageKitService } from '../services/imagekit.service';
 import { IMAGEKIT_CONFIG } from '../config/imagekit.config';
 import type { ImageKitConfig, IKVideoProps } from '../types';
+import { BindDirective } from '../directives/bind.directive';
 
 /**
  * IKVideo - A standalone Angular component for optimized video delivery
  * 
  * This component wraps the native `<video>` element and adds ImageKit's
- * transformation capabilities. It supports SSR out of the box.
- * 
- * Features:
- * - Video transformations (resize, crop, format conversion, etc.)
- * - SSR-safe (works with Angular Universal)
- * - Supports all native `video` attributes
- * - Tree-shakeable (standalone component)
+ * transformation capabilities.
  * 
  * @example
  * ```typescript
@@ -50,10 +47,11 @@ import type { ImageKitConfig, IKVideoProps } from '../types';
 @Component({
   selector: 'ik-video',
   standalone: true,
-  imports: [NgStyle, NgClass],
+  imports: [NgStyle, NgClass, BindDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <video
+      ikBind
       [src]="finalSrc"
       [attr.title]="title || null"
       [attr.controls]="controls || null"
@@ -70,7 +68,7 @@ import type { ImageKitConfig, IKVideoProps } from '../types';
     ></video>
   `
 })
-export class IKVideoComponent implements OnChanges {
+export class IKVideoComponent implements OnChanges, AfterViewInit {
   @Input() src: string = '';
   @Input() urlEndpoint?: string;
   @Input() transformation?: Array<Record<string, any>>;
@@ -88,6 +86,9 @@ export class IKVideoComponent implements OnChanges {
   @Input() width?: number | string;
   @Input() height?: number | string;
   @Input() poster?: string;
+  @Input() passthrough?: Record<string, any> | null;
+
+  @ViewChild(BindDirective, { static: false }) bindDirective?: BindDirective;
 
   finalSrc: string = '';
 
@@ -104,6 +105,18 @@ export class IKVideoComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.updateVideoSrc();
+    
+    // Apply passthrough attributes if changed
+    if (changes['passthrough'] && this.bindDirective) {
+      this.bindDirective.setAttrs(this.passthrough);
+    }
+  }
+
+  ngAfterViewInit(): void {
+    // Apply passthrough attributes on init
+    if (this.passthrough && this.bindDirective) {
+      this.bindDirective.setAttrs(this.passthrough);
+    }
   }
 
   private updateVideoSrc(): void {

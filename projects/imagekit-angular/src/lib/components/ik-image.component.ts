@@ -7,12 +7,15 @@ import {
   Optional,
   PLATFORM_ID,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  ViewChild,
+  AfterViewInit
 } from '@angular/core';
 import { isPlatformBrowser, NgStyle, NgClass } from '@angular/common';
 import { ImageKitService } from '../services/imagekit.service';
 import { IMAGEKIT_CONFIG } from '../config/imagekit.config';
 import type { ImageKitConfig, IKImageProps } from '../types';
+import { BindDirective } from '../directives/bind.directive';
 
 /**
  * Helper function to parse width/height values
@@ -32,16 +35,9 @@ function getInt(x: unknown): number {
 
 /**
  * IKImage - A standalone Angular component for optimized image delivery
- * 
  * This component wraps the native `<img>` element and adds ImageKit's
- * optimization and transformation capabilities. It supports SSR out of the box.
+ * optimization and transformation capabilities.
  * 
- * Features:
- * - Automatic responsive `srcSet` generation
- * - Lazy loading by default
- * - SSR-safe (works with Angular Universal)
- * - Supports all native `img` attributes
- * - Tree-shakeable (standalone component)
  * 
  * @example
  * ```typescript
@@ -67,10 +63,11 @@ function getInt(x: unknown): number {
 @Component({
   selector: 'ik-image',
   standalone: true,
-  imports: [NgStyle, NgClass],
+  imports: [NgStyle, NgClass, BindDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <img
+      ikBind
       [src]="finalSrc"
       [attr.srcset]="finalSrcSet || null"
       [attr.sizes]="sizes || null"
@@ -83,7 +80,7 @@ function getInt(x: unknown): number {
     />
   `
 })
-export class IKImageComponent implements OnChanges {
+export class IKImageComponent implements OnChanges, AfterViewInit {
   @Input() src: string = '';
   @Input() urlEndpoint?: string;
   @Input() transformation?: Array<Record<string, any>>;
@@ -99,6 +96,9 @@ export class IKImageComponent implements OnChanges {
   @Input() sizes?: string;
   @Input() deviceBreakpoints?: number[];
   @Input() imageBreakpoints?: number[];
+  @Input() passthrough?: Record<string, any> | null;
+
+  @ViewChild(BindDirective, { static: false }) bindDirective?: BindDirective;
 
   finalSrc: string = '';
   finalSrcSet: string = '';
@@ -116,6 +116,18 @@ export class IKImageComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.updateImageAttributes();
+    
+    // Apply passthrough attributes if changed
+    if (changes['passthrough'] && this.bindDirective) {
+      this.bindDirective.setAttrs(this.passthrough);
+    }
+  }
+
+  ngAfterViewInit(): void {
+    // Apply passthrough attributes on init
+    if (this.passthrough && this.bindDirective) {
+      this.bindDirective.setAttrs(this.passthrough);
+    }
   }
 
   private updateImageAttributes(): void {

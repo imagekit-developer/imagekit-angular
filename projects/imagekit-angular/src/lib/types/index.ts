@@ -132,6 +132,18 @@ export interface IKImageProps extends IKSrcProps {
    * Custom image breakpoints for responsive image generation
    */
   imageBreakpoints?: number[];
+
+  /**
+   * Additional attributes to pass through to the underlying img element.
+   * This allows you to set any native HTML attributes (e.g., data-*, aria-*, etc.)
+   * that aren't explicitly defined as component inputs.
+   * 
+   * @example
+   * ```typescript
+   * passthrough={{ 'data-testid': 'my-image', 'aria-label': 'Hero image' }}
+   * ```
+   */
+  passthrough?: Record<string, any> | null;
 }
 
 /**
@@ -197,5 +209,17 @@ export interface IKVideoProps extends IKSrcProps {
    * Poster image for the video
    */
   poster?: string;
+
+  /**
+   * Additional attributes to pass through to the underlying video element.
+   * This allows you to set any native HTML attributes (e.g., data-*, aria-*, etc.)
+   * that aren't explicitly defined as component inputs.
+   * 
+   * @example
+   * ```typescript
+   * passthrough={{ 'data-testid': 'my-video', 'aria-label': 'Promotional video' }}
+   * ```
+   */
+  passthrough?: Record<string, any> | null;
 }
 
