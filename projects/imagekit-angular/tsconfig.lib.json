@@ -5,7 +5,13 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": []
+    "types": [],
+    "skipLibCheck": false
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true,
+    "strictInputAccessModifiers": true,
+    "strictInjectionParameters": true
   },
   "exclude": [
     "**/*.spec.ts"
