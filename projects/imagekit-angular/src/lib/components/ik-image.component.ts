@@ -16,22 +16,7 @@ import { ImageKitService } from '../services/imagekit.service';
 import { IMAGEKIT_CONFIG } from '../config/imagekit.config';
 import type { ImageKitConfig, IKImageProps } from '../types';
 import { BindDirective } from '../directives/bind.directive';
-
-/**
- * Helper function to parse width/height values
- */
-function getInt(x: unknown): number {
-  if (typeof x === 'undefined') {
-    return NaN;
-  }
-  if (typeof x === 'number') {
-    return Number.isFinite(x) ? x : NaN;
-  }
-  if (typeof x === 'string' && /^[0-9]+$/.test(x)) {
-    return parseInt(x, 10);
-  }
-  return NaN;
-}
+import { getInt, validateUrlEndpoint, getTransformationConfig } from '../utils/common.utils';
 
 /**
  * IKImage - A standalone Angular component for optimized image delivery
@@ -131,21 +116,20 @@ export class IKImageComponent implements OnChanges, AfterViewInit {
   }
 
   private updateImageAttributes(): void {
-    const urlEndpoint = this.urlEndpoint || this.config?.urlEndpoint || '';
+    const urlEndpoint = validateUrlEndpoint(this.urlEndpoint, this.config, this.isBrowser);
 
-    // Validate urlEndpoint
-    if (!urlEndpoint || urlEndpoint.trim() === '') {
-      if (this.isBrowser && typeof console !== 'undefined') {
-        console.error('urlEndpoint is neither provided in this component nor in the ImageKit configuration.');
-      }
+    if (!urlEndpoint) {
       this.finalSrc = '';
       this.finalSrcSet = '';
       this.cdr.markForCheck();
       return;
     }
 
-    const transformation = this.transformation || [];
-    const transformationPosition = this.transformationPosition || this.config?.transformationPosition;
+    const { transformation, transformationPosition } = getTransformationConfig(
+      this.transformation,
+      this.transformationPosition,
+      this.config
+    );
 
     if (!this.responsive) {
       // Non-responsive image - just build a simple src

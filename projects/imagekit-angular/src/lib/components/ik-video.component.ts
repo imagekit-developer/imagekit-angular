@@ -16,6 +16,7 @@ import { ImageKitService } from '../services/imagekit.service';
 import { IMAGEKIT_CONFIG } from '../config/imagekit.config';
 import type { ImageKitConfig, IKVideoProps } from '../types';
 import { BindDirective } from '../directives/bind.directive';
+import { validateUrlEndpoint, getTransformationConfig } from '../utils/common.utils';
 
 /**
  * IKVideo - A standalone Angular component for optimized video delivery
@@ -120,20 +121,19 @@ export class IKVideoComponent implements OnChanges, AfterViewInit {
   }
 
   private updateVideoSrc(): void {
-    const urlEndpoint = this.urlEndpoint || this.config?.urlEndpoint || '';
+    const urlEndpoint = validateUrlEndpoint(this.urlEndpoint, this.config, this.isBrowser);
 
-    // Validate urlEndpoint
-    if (!urlEndpoint || urlEndpoint.trim() === '') {
-      if (this.isBrowser && typeof console !== 'undefined') {
-        console.error('urlEndpoint is neither provided in this component nor in the ImageKit configuration.');
-      }
+    if (!urlEndpoint) {
       this.finalSrc = '';
       this.cdr.markForCheck();
       return;
     }
 
-    const transformation = this.transformation || [];
-    const transformationPosition = this.transformationPosition || this.config?.transformationPosition;
+    const { transformation, transformationPosition } = getTransformationConfig(
+      this.transformation,
+      this.transformationPosition,
+      this.config
+    );
 
     this.finalSrc = this.imagekitService.buildSrc({
       src: this.src,
