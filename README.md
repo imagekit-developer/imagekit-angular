@@ -15,6 +15,7 @@ ImageKit is a complete media management, optimization, and transformation soluti
   - [IKVideoComponent](#ik-video-component)
   - [Passthrough Attributes](#passthrough-attributes)
 - [Configuration](#configuration)
+- [Build Output Structure](#build-output-structure)
 - [API Reference](#api-reference)
 - [Support](#support)
 
@@ -127,11 +128,6 @@ export class AppComponent { }
 
 The `ik-image` component renders an optimized `<img>` tag with automatic responsive image support.
 
-**Features:**
-- Automatic responsive `srcSet` generation
-- Lazy loading by default
-- SSR support (Angular Universal)
-- All standard `img` attributes supported
 
 **Basic Usage:**
 
@@ -385,7 +381,57 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-The SDK uses Angular's View Engine and Ivy compilation modes to support a wide range of versions.
+### Local Configuration
+
+Use `provideImageKit()` to provide configuration at the component level:
+
+```typescript
+import { provideImageKit } from '@imagekit/angular';
+
+@Component({
+  selector: 'app-my-component',
+  standalone: true,
+  imports: [IKImageComponent],
+  providers: [
+    provideImageKit({
+      urlEndpoint: 'https://ik.imagekit.io/different_endpoint',
+      transformationPosition: 'path'
+    })
+  ],
+  template: `<ik-image src="/image.jpg"></ik-image>`
+})
+export class MyComponent {}
+```
+
+## Build Output Structure
+
+This library is built using [ng-packagr](https://github.com/ng-packagr/ng-packagr), which generates an Angular Package Format (APF) compliant package structure. When you run `npm run build`, the output is generated in the `dist/imagekit-angular` directory with the following structure:
+
+```
+dist/imagekit-angular/
+├── esm2022/              # ES2022 module format (individual modules)
+│   ├── lib/            # Individual component/service files
+│   └── public-api.mjs  # Main entry point
+├── fesm2022/           # Flattened ES2022 modules (single bundle)
+│   └── imagekit-angular.mjs
+├── lib/                # TypeScript declaration files (.d.ts)
+│   ├── components/
+│   ├── services/
+│   └── ...
+├── package.json        # Package metadata with proper exports
+├── index.d.ts          # Main type definitions
+└── public-api.d.ts     # Public API type definitions
+```
+
+**Key points:**
+- **ng-packagr** automatically generates this structure following Angular Package Format (APF) specifications
+- Both `esm2022/` and `fesm2022/` are **tree-shakeable** ES modules. The difference:
+  - `esm2022/`: Individual ES modules (optimal for tree-shaking in large applications)
+  - `fesm2022/`: Flattened single bundle (still tree-shakeable, faster parsing, default for most bundlers)
+- The `lib/` folder contains TypeScript declaration files for type checking
+- The `package.json` includes proper `exports` fields that point to the correct module formats based on the bundler's capabilities
+
+This structure ensures compatibility with various build tools and bundlers while maintaining optimal bundle sizes through tree-shaking.
 
 ## API Reference
 
@@ -420,20 +466,10 @@ export class ExampleComponent {
 }
 ```
 
-## Browser Support
-
-This SDK works with all modern browsers that Angular supports:
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-
 ## Angular Version Compatibility
 
 | Angular Version | SDK Support |
 |----------------|-------------|
-| 12.x | ✅ Full support (use ImageKitModule) |
-| 13.x | ✅ Full support (use ImageKitModule) |
 | 14.x | ✅ Full support (use ImageKitModule) |
 | 15.x | ✅ Full support (standalone or module) |
 | 16.x | ✅ Full support (standalone recommended) |
@@ -441,10 +477,6 @@ This SDK works with all modern browsers that Angular supports:
 | 18.x | ✅ Full support (standalone recommended) |
 | 19.x | ✅ Full support (standalone recommended) |
 | 20.x | ✅ Full support (standalone recommended) |
-
-## TypeScript Support
-
-This SDK is written in TypeScript and provides comprehensive type definitions. TypeScript 4.6+ is recommended.
 
 ## Support
 

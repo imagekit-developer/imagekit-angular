@@ -1,12 +1,15 @@
 {
   "name": "imagekit-angular-workspace",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "ng": "ng",
-    "build": "ng build imagekit-angular --configuration production",
+    "build": "ng build imagekit-angular",
     "watch": "ng build imagekit-angular --watch",
     "test": "ng test imagekit-angular",
-    "pack": "cd dist/imagekit-angular && npm pack"
+    "pack": "npm run build && cd dist/imagekit-angular && npm pack"
   },
   "private": true,
   "dependencies": {
