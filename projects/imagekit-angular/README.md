@@ -16,5 +16,5 @@ For complete documentation, installation instructions, and examples, please visi
 
 ## License
 
-MIT
+Apache 2.0
 
