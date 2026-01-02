@@ -13,15 +13,6 @@ For complete documentation, installation instructions, and examples, please visi
 - 💬 [Community Forum](https://community.imagekit.io)
 - 🐛 [Report Issues](https://github.com/imagekit-developer/imagekit-angular/issues)
 
-## Features
-
-- ✅ SSR Support (Angular Universal)
-- ✅ Tree-shaking Optimization
-- ✅ Dual ESM/CJS Builds
-- ✅ Angular 12-20 LTS Support
-- ✅ Standalone Components
-- ✅ Responsive Images
-- ✅ TypeScript Support
 
 ## License
 
