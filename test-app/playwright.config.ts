@@ -31,11 +31,12 @@ export default defineConfig({
   // Run your local dev server before starting the tests:
   // https://playwright.dev/docs/test-advanced#launching-a-development-web-server-during-the-tests
   webServer: {
-    command: "npm start",
+    command: `npm start -- --port ${PORT}`,
     url: baseURL,
     timeout: 120 * 1000,
-    // @ts-ignore
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !process.env['CI'],
+    // Show output in CI for debugging server startup issues
+    // Playwright will poll the URL until it gets a successful HTTP response (200 OK)
   },
 
   use: {

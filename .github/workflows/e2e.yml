@@ -31,6 +31,14 @@ jobs:
       - name: Build SDK
         run: npm run build
       
+      - name: Verify SDK build
+        run: |
+          if [ ! -d "dist/imagekit-angular" ]; then
+            echo "Error: SDK build directory not found"
+            exit 1
+          fi
+          echo "✓ SDK built successfully"
+      
       - name: Install test app dependencies
         working-directory: ./test-app
         run: npm ci
