@@ -10,7 +10,13 @@
     "postbuild": "cp README.md dist/imagekit-angular/ && cp LICENSE dist/imagekit-angular/",
     "watch": "ng build imagekit-angular --watch",
     "test": "ng test imagekit-angular",
-    "pack": "npm run build && cd dist/imagekit-angular && npm pack"
+    "pack": "npm run build && cd dist/imagekit-angular && npm pack",
+    "start:test-app": "cd test-app && npm start",
+    "test:e2e": "cd test-app && npm run test:e2e",
+    "test:e2e:ui": "cd test-app && npm run test:e2e:ui",
+    "test:e2e:headed": "cd test-app && npm run test:e2e:headed",
+    "test:e2e:ci": "cd test-app && npm run test:e2e",
+    "testapp" : "cd test-app && npm start"
   },
   "private": true,
   "dependencies": {
@@ -24,6 +30,7 @@
     "@angular/cli": "^17.0.0",
     "@angular/compiler": "^17.0.0",
     "@angular/compiler-cli": "^17.0.0",
+    "@types/http-proxy": "^1.17.17",
     "ng-packagr": "^17.0.0",
     "typescript": "~5.2.2"
   }

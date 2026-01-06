@@ -66,22 +66,22 @@ import { getInt, validateUrlEndpoint, getTransformationConfig } from '../utils/c
   `
 })
 export class IKImageComponent implements OnChanges, AfterViewInit {
-  @Input() src: string = '';
+  @Input() src: IKImageProps['src'] = '';
   @Input() urlEndpoint?: string;
-  @Input() transformation?: Array<Record<string, any>>;
-  @Input() queryParameters?: Record<string, string | number>;
-  @Input() transformationPosition?: 'path' | 'query';
-  @Input() responsive: boolean = true;
-  @Input() width?: number | string;
-  @Input() height?: number | string;
-  @Input() alt?: string;
-  @Input() loading?: 'lazy' | 'eager';
-  @Input() className?: string;
-  @Input() style?: Record<string, string>;
-  @Input() sizes?: string;
-  @Input() deviceBreakpoints?: number[];
-  @Input() imageBreakpoints?: number[];
-  @Input() passthrough?: Record<string, any> | null;
+  @Input() transformation?: IKImageProps['transformation'];
+  @Input() queryParameters?: IKImageProps['queryParameters'];
+  @Input() transformationPosition?: IKImageProps['transformationPosition'];
+  @Input() responsive: IKImageProps['responsive'] = true;
+  @Input() width?: IKImageProps['width'];
+  @Input() height?: IKImageProps['height'];
+  @Input() alt?: IKImageProps['alt'];
+  @Input() loading?: IKImageProps['loading'];
+  @Input() className?: IKImageProps['className'];
+  @Input() style?: IKImageProps['style'];
+  @Input() sizes?: IKImageProps['sizes'];
+  @Input() deviceBreakpoints?: IKImageProps['deviceBreakpoints'];
+  @Input() imageBreakpoints?: IKImageProps['imageBreakpoints'];
+  @Input() passthrough?: IKImageProps['passthrough'];
 
   @ViewChild(BindDirective, { static: false }) bindDirective?: BindDirective;
 

@@ -44,10 +44,10 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# Environment files
-.env
-.env.local
-.env.*.local
+# Playwright
+/test-app/test-results/
+/test-app/playwright-report/
+/test-app/playwright/.cache/
 
 # Logs
 *.log
@@ -60,3 +60,8 @@ logs/
 # Test coverage
 coverage/
 .nyc_output/
+
+# Environment files
+.env
+.env.local
+.env.*.local

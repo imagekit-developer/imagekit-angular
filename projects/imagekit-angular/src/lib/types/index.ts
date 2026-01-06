@@ -1,3 +1,5 @@
+import { Transformation } from '@imagekit/javascript';
+
 /**
  * Re-export types from @imagekit/javascript for convenience
  */
@@ -40,7 +42,7 @@ export interface IKSrcProps {
    *
    * @see https://imagekit.io/docs/transformations#chained-transformations
    */
-  transformation?: Array<Record<string, any>>;
+  transformation?: Array<Transformation> | Array<Record<string, any>>;
 
   /**
    * By default, the transformation string is added as a `query` parameter in the URL, e.g., `?tr=w-100,h-100`.

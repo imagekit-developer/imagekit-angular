@@ -5,7 +5,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build"
+    "build": "ng build",
+    "postinstall": "playwright install --with-deps",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed"
   },
   "dependencies": {
     "@angular/animations": "^17.0.0",
@@ -23,6 +27,8 @@
     "@angular-devkit/build-angular": "^17.0.0",
     "@angular/cli": "^17.0.0",
     "@angular/compiler-cli": "^17.0.0",
+    "@playwright/test": "^1.40.1",
+    "@types/node": "^20",
     "typescript": "~5.2.2"
   }
 }

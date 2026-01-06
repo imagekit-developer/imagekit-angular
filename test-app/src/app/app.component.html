@@ -130,7 +130,7 @@
     src="/default-image.jpg"
     alt="Image with path transformation + custom transformations"
     transformationPosition="path"
-    [transformation]="[{ height: 100, width: 100 }]"
+    [transformation]="[{ height: 100, width: 100,  }]"
     [height]="300"
     [width]="300"
   ></ik-image>
@@ -231,6 +231,7 @@ sizes="(max-width: 600px) 100vw, 50vw"
 
   <!-- urlEndpoint override -->
   <ik-video
+    alt="Video with urlEndpoint override"
     urlEndpoint="https://ik.imagekit.io/demo2/"
     src="sample-video.mp4"
     [height]="300"

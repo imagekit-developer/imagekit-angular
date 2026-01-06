@@ -70,24 +70,24 @@ import { validateUrlEndpoint, getTransformationConfig } from '../utils/common.ut
   `
 })
 export class IKVideoComponent implements OnChanges, AfterViewInit {
-  @Input() src: string = '';
+  @Input() src: IKVideoProps['src'] = '';
   @Input() urlEndpoint?: string;
-  @Input() transformation?: Array<Record<string, any>>;
-  @Input() queryParameters?: Record<string, string | number>;
-  @Input() transformationPosition?: 'path' | 'query';
-  @Input() className?: string;
-  @Input() style?: Record<string, string>;
-  @Input() title?: string;
-  @Input() controls?: boolean;
-  @Input() autoplay?: boolean;
-  @Input() loop?: boolean;
-  @Input() muted?: boolean;
-  @Input() playsinline?: boolean;
-  @Input() preload?: string;
-  @Input() width?: number | string;
-  @Input() height?: number | string;
-  @Input() poster?: string;
-  @Input() passthrough?: Record<string, any> | null;
+  @Input() transformation?: IKVideoProps['transformation'];
+  @Input() queryParameters?: IKVideoProps['queryParameters'];
+  @Input() transformationPosition?: IKVideoProps['transformationPosition'];
+  @Input() className?: IKVideoProps['className'];
+  @Input() style?: IKVideoProps['style'];
+  @Input() title?: IKVideoProps['title'];
+  @Input() controls?: IKVideoProps['controls'];
+  @Input() autoplay?: IKVideoProps['autoplay'];
+  @Input() loop?: IKVideoProps['loop'];
+  @Input() muted?: IKVideoProps['muted'];
+  @Input() playsinline?: IKVideoProps['playsinline'];
+  @Input() preload?: IKVideoProps['preload'];
+  @Input() width?: IKVideoProps['width'];
+  @Input() height?: IKVideoProps['height'];
+  @Input() poster?: IKVideoProps['poster'];
+  @Input() passthrough?: IKVideoProps['passthrough'];
 
   @ViewChild(BindDirective, { static: false }) bindDirective?: BindDirective;
 
