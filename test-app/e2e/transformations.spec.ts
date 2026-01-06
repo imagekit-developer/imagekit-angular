@@ -9,7 +9,7 @@ test.describe("ImageKit Transformations E2E Tests", () => {
   test.describe("Image URL Transformation Format", () => {
     test("should format transformation string correctly", async ({ page }) => {
       const img = page.locator('ik-image img[alt="With transformation"]');
-      await expect(img).toHaveAttribute("src", /\tr=h-100,w-100/);
+      await expect(img).toHaveAttribute("src", /tr=h-100,w-100/);
     });
 
     test("should handle multiple transformation parameters", async ({ page }) => {
