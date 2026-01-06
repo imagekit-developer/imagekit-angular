@@ -1,12 +1,13 @@
 {
   "name": "imagekit-angular-workspace",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "engines": {
     "node": ">=18.0.0"
   },
   "scripts": {
     "ng": "ng",
     "build": "ng build imagekit-angular",
+    "postbuild": "cp README.md dist/imagekit-angular/ && cp LICENSE dist/imagekit-angular/",
     "watch": "ng build imagekit-angular --watch",
     "test": "ng test imagekit-angular",
     "pack": "npm run build && cd dist/imagekit-angular && npm pack"
@@ -16,17 +17,13 @@
     "@angular/common": "^17.0.0",
     "@angular/core": "^17.0.0",
     "@angular/platform-browser": "^17.0.0",
-    "@imagekit/javascript": "^5.1.0",
-    "rxjs": "~7.8.0",
-    "tslib": "^2.3.0",
-    "zone.js": "~0.14.0"
+    "@imagekit/javascript": "^5.1.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.0.0",
     "@angular/cli": "^17.0.0",
     "@angular/compiler": "^17.0.0",
     "@angular/compiler-cli": "^17.0.0",
-    "@types/http-proxy": "^1.17.17",
     "ng-packagr": "^17.0.0",
     "typescript": "~5.2.2"
   }
