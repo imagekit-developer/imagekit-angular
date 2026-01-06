@@ -12,10 +12,16 @@ const baseURL = `http://localhost:${PORT}`;
 export default defineConfig({
   // Timeout per test
   timeout: 30 * 1000,
+  // Global timeout for the entire test run (prevents infinite stalling)
+  globalTimeout: 60 * 60 * 1000, // 60 minutes
+  // Expect timeout for assertions
+  expect: {
+    timeout: 5 * 1000, // 5 seconds
+  },
   // Test directory
   testDir: path.join(__dirname, "e2e"),
-  // If a test fails, retry it additional 2 times
-  retries: 2,
+  // If a test fails, retry it only once
+  retries: 1,
   // Artifacts folder where screenshots, videos, and traces are stored.
   outputDir: "test-results/",
 

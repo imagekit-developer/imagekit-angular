@@ -1,4 +1,4 @@
-import { Transformation } from '@imagekit/javascript';
+import type { Transformation } from '@imagekit/javascript';
 
 /**
  * Re-export types from @imagekit/javascript for convenience
