@@ -34,14 +34,11 @@ jobs:
       - name: Install test app dependencies
         working-directory: ./test-app
         run: npm ci
-      
-      - name: Install Playwright browsers
-        working-directory: ./test-app
-        run: npx playwright install --with-deps
-      
+        # Note: Playwright browsers are installed via postinstall script
+    
       - name: Run Playwright tests
         working-directory: ./test-app
-        run: npx playwright test --project="${{ matrix.project }}"
+        run: npm run test:e2e -- --project="${{ matrix.project }}"
       
       - name: Upload test results on failure
         if: failure()
