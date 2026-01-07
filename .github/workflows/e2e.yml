@@ -46,8 +46,13 @@ jobs:
         working-directory: ./test-app
         run: npm install ../dist/imagekit-angular/imagekit-angular-*.tgz --no-save
         # Note: Playwright browsers are installed via postinstall script
-    
+      
+      - name: Install browsers for Playwright
+        working-directory: ./test-app
+        run: npx playwright install --with-deps
+
       - name: Run Playwright tests
+        working-directory: ./test-app
         run: npm run test:e2e
       
       - name: Upload test results on failure
