@@ -4,10 +4,8 @@ on:
   release:
     types: [published]
 
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -15,31 +13,49 @@ jobs:
         node-version: [18.x]
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: npm install, build, and test
-      run: |
-        npm install -g @angular/cli@17.3.17
-        npm run build
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Build and Test
+        run: |
+          npm install
+          npm run build
+          npm pack
+          cd test-app
+          npm install
+          npm install ../dist/imagekit-angular/imagekit-angular-*.tgz --no-save
+          npm run test:e2e
+        env:
+          CI: true
+
 
   publish:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
-      with:
-        node-version: 14
-        registry-url: https://registry.npmjs.org/
-    - name: npm publish
-      run: |
-        npm install -g @angular/cli@17.3.17
-        npm run build
-        cd dist/imagekit-angular
-        npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
-        npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 18
+          registry-url: https://registry.npmjs.org/
+      - name: NPM Publish
+        run: |
+          npm install
+          npm run build
+          npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
+          # print the NPM user name for validation
+          npm whoami
+          VERSION=$(node -p "require('./projects/imagekit-angular/package.json').version" )
+          # Only publish stable versions to the latest tag
+          if [[ "$VERSION" =~ ^[^-]+$ ]]; then
+            NPM_TAG="latest"
+          else
+            NPM_TAG="beta"
+          fi
+          echo "Publishing $VERSION with $NPM_TAG tag."
+          npm publish --tag $NPM_TAG --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          CI: true
