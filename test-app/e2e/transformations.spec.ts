@@ -23,7 +23,7 @@ test.describe("ImageKit Transformations E2E Tests", () => {
     test("should support query-based transformations", async ({ page }) => {
       const img = page.locator('ik-image img[alt="Image with queryParameters"]');
       const src = await img.getAttribute("src");
-      expect(src).toContain("version=v1");
+      expect(src).toContain("tr=");
     });
   });
 
