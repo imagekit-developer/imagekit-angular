@@ -1,14 +1,5 @@
-import { defineConfig, devices } from "@playwright/test";
-import path from "path";
+import { defineConfig, devices } from '@playwright/test';
 
-// Use process.env.PORT by default and fallback to port 4200
-// @ts-ignore
-const PORT = process.env.PORT || 4200;
-
-// Set webServer.url and use.baseURL with the location of the WebServer respecting the correct set port
-const baseURL = `http://localhost:${PORT}`;
-
-// Reference: https://playwright.dev/docs/test-configuration
 export default defineConfig({
   // Timeout per test
   timeout: 100000,
@@ -18,58 +9,48 @@ export default defineConfig({
   expect: {
     timeout: 10 * 1000, // 5 seconds
   },
-  // Test directory
-  testDir: path.join(__dirname, "e2e"),
-  // If a test fails, retry it only once
-  retries: 1,
-  // Artifacts folder where screenshots, videos, and traces are stored.
-  outputDir: "test-results/",
+  testDir: './e2e',
+  fullyParallel: true,
+  forbidOnly: !!process.env['CI'],
+  retries: process.env['CI'] ? 2 : 0,
+  workers: process.env['CI'] ? 1 : undefined,
+  reporter: 'html',
   
-  // Reporter configuration - use list reporter in CI for real-time output
-  reporter: 'list',
-
-  // Run your local dev server before starting the tests:
-  // https://playwright.dev/docs/test-advanced#launching-a-development-web-server-during-the-tests
-  webServer: {
-    command: `npm start -- --port ${PORT}`,
-    url: baseURL,
-    timeout: 120 * 1000,
-    reuseExistingServer: !process.env['CI'],
-    stdout: 'pipe',
-    stderr: 'pipe',
-    // Playwright will poll the URL until it gets a successful HTTP response (200 OK)
-  },
-
   use: {
-    // Use baseURL so to make navigations relative.
-    // More information: https://playwright.dev/docs/api/class-testoptions#test-options-base-url
-    baseURL,
-
-    // Retry a test if its failing with enabled tracing. This allows you to analyze the DOM, console logs, network traffic etc.
-    // More information: https://playwright.dev/docs/trace-viewer
-    trace: "retain-on-failure",
-
-    // All available context options: https://playwright.dev/docs/api/class-browser#browser-new-context
-    // contextOptions: {
-    //   ignoreHTTPSErrors: true,
-    // },
+    baseURL: 'http://localhost:4200',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
   },
 
   projects: [
     {
-      name: "Desktop Chrome",
-      use: {
-        ...devices["Desktop Chrome"],
-      },
-    
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
     },
-    // Test against mobile viewports.
     {
-      name: "Mobile Chrome",
-      use: {
-        ...devices["Pixel 5"],
-      },
-    }
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
+    {
+      name: 'mobile-chrome',
+      use: { ...devices['Pixel 5'] },
+    },
+    {
+      name: 'mobile-safari',
+      use: { ...devices['iPhone 12'] },
+    },
   ],
-});
 
+  webServer: {
+    command: 'npm run start',
+    url: 'http://localhost:4200',
+    reuseExistingServer: !process.env['CI'],
+    timeout: 120 * 1000,
+    stdout: 'pipe',
+    stderr: 'pipe',
+  },
+});

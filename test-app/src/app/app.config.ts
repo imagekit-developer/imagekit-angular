@@ -1,16 +1,17 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+
+import { routes } from './app.routes';
+import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideImageKit } from '@imagekit/angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    // Configure ImageKit with your credentials
-    // Replace with your actual ImageKit URL endpoint
+    provideBrowserGlobalErrorListeners(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes), provideClientHydration(withEventReplay()),
     provideImageKit({
-      urlEndpoint: 'https://ik.imagekit.io/demo',
-      // Optional: Add these for upload functionality
-      // publicKey: 'your_public_key',
-      // authenticationEndpoint: 'https://your-server.com/auth'
+      urlEndpoint: 'https://ik.imagekit.io/demo/',
     })
   ]
 };
-

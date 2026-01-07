@@ -1,111 +1,59 @@
-# ImageKit Angular SDK - Test Application
+# test-app
 
-This is a test/demo application showcasing the `@imagekit/angular` SDK.
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.13.
 
-## Setup
+## Development server
 
-1. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-2. **Configure ImageKit (Optional):**
-   Edit `src/app/app.config.ts` and replace the demo URL with your ImageKit endpoint:
-   ```typescript
-   provideImageKit({
-     urlEndpoint: 'https://ik.imagekit.io/your_imagekit_id'
-   })
-   ```
-
-3. **Run the application:**
-   ```bash
-   npm start
-   ```
-
-4. **Open browser:**
-   Navigate to `http://localhost:4200`
-
-## What's Included
-
-- ✅ Basic image rendering with transformations
-- ✅ Advanced transformations (resize, quality, format, effects)
-- ✅ Responsive images with automatic srcSet
-- ✅ Video component with transformations
-- ✅ Image gallery example
-- ✅ Multiple use cases demonstrated
-
-## Features Tested
-
-1. **IKImageComponent** - Standalone image component
-2. **IKVideoComponent** - Standalone video component
-3. **Transformations** - Width, height, crop, quality, format
-4. **Responsive** - Automatic srcSet generation
-5. **Lazy Loading** - Default lazy loading for images
-6. **SSR Support** - Platform-aware rendering
-
-## File Structure
-
-```
-test-app/
-├── src/
-│   ├── app/
-│   │   ├── app.component.ts      # Main component
-│   │   ├── app.component.html    # Template with examples
-│   │   ├── app.component.css     # Styles
-│   │   └── app.config.ts         # ImageKit configuration
-│   ├── index.html
-│   ├── main.ts
-│   └── styles.css
-├── angular.json
-├── package.json
-└── tsconfig.json
-```
-
-## Customization
-
-### Change ImageKit Endpoint
-
-Edit `src/app/app.config.ts`:
-```typescript
-provideImageKit({
-  urlEndpoint: 'https://ik.imagekit.io/your_id',
-  publicKey: 'your_public_key',              // for uploads
-  authenticationEndpoint: 'https://...'       // for uploads
-})
-```
-
-### Add Your Images
-
-Replace the image paths in `app.component.html`:
-```html
-<ik-image
-  src="/your-image-path.jpg"
-  [transformation]="[...]"
-></ik-image>
-```
-
-### Test File Upload
-
-Add an upload component (see EXAMPLES.md in root for upload examples).
-
-## Commands
+To start a local development server, run:
 
 ```bash
-# Install dependencies
-npm install
-
-# Start dev server
-npm start
-
-# Build for production
-npm run build
-
-# Serve production build
-npx http-server dist/test-app
+ng serve
 ```
 
-## Notes
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-- The app uses the ImageKit demo endpoint by default
-- TypeScript path mapping points to the built library in `../dist/imagekit-angular`
+## Code scaffolding
 
+Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+
+```bash
+ng generate component component-name
+```
+
+For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+
+```bash
+ng generate --help
+```
+
+## Building
+
+To build the project run:
+
+```bash
+ng build
+```
+
+This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+
+## Running unit tests
+
+To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+
+```bash
+ng test
+```
+
+## Running end-to-end tests
+
+For end-to-end (e2e) testing, run:
+
+```bash
+ng e2e
+```
+
+Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Additional Resources
+
+For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
