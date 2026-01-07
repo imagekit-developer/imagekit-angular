@@ -26,6 +26,7 @@ jobs:
           cd test-app
           npm install
           npm install ../dist/imagekit-angular/imagekit-angular-*.tgz --no-save
+          npx playwright install --with-deps
           npm run test:e2e
         env:
           CI: true
