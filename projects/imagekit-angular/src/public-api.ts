@@ -39,7 +39,8 @@ export type {
   IKSrcProps,
   ImageKitConfig,
   IKImageProps,
-  IKVideoProps
+  IKVideoProps,
+  Transformations,
 } from './lib/types';
 
 // Re-export types from @imagekit/javascript

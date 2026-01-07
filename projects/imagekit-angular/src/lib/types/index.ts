@@ -225,3 +225,4 @@ export interface IKVideoProps extends IKSrcProps {
   passthrough?: Record<string, any> | null;
 }
 
+export type Transformations = Array<Transformation> | Array<Record<string, any>>;
