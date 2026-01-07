@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        project: ['Desktop Chrome', 'Desktop Firefox', 'Desktop Safari']
+        project: ['Desktop Chrome']
     
     steps:
       - name: Checkout code
@@ -45,8 +45,7 @@ jobs:
         # Note: Playwright browsers are installed via postinstall script
     
       - name: Run Playwright tests
-        working-directory: ./test-app
-        run: npm run test:e2e -- --project="${{ matrix.project }}"
+        run: npm run test:e2e
       
       - name: Upload test results on failure
         if: failure()

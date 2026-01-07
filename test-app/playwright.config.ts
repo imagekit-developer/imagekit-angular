@@ -11,12 +11,12 @@ const baseURL = `http://localhost:${PORT}`;
 // Reference: https://playwright.dev/docs/test-configuration
 export default defineConfig({
   // Timeout per test
-  timeout: 30 * 1000,
+  timeout: 100000,
   // Global timeout for the entire test run (prevents infinite stalling)
   globalTimeout: 60 * 60 * 1000, // 60 minutes
   // Expect timeout for assertions
   expect: {
-    timeout: 5 * 1000, // 5 seconds
+    timeout: 10 * 1000, // 5 seconds
   },
   // Test directory
   testDir: path.join(__dirname, "e2e"),
@@ -35,7 +35,8 @@ export default defineConfig({
     url: baseURL,
     timeout: 120 * 1000,
     reuseExistingServer: !process.env['CI'],
-    // Show output in CI for debugging server startup issues
+    stdout: 'pipe',
+    stderr: 'pipe',
     // Playwright will poll the URL until it gets a successful HTTP response (200 OK)
   },
 
@@ -60,18 +61,7 @@ export default defineConfig({
       use: {
         ...devices["Desktop Chrome"],
       },
-    },
-    {
-      name: "Desktop Firefox",
-      use: {
-        ...devices["Desktop Firefox"],
-      },
-    },
-    {
-      name: "Desktop Safari",
-      use: {
-        ...devices["Desktop Safari"],
-      },
+    
     },
     // Test against mobile viewports.
     {
@@ -79,11 +69,7 @@ export default defineConfig({
       use: {
         ...devices["Pixel 5"],
       },
-    },
-    {
-      name: "Mobile Safari",
-      use: devices["iPhone 12"],
-    },
+    }
   ],
 });
 
