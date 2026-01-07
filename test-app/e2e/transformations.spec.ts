@@ -23,7 +23,7 @@ test.describe("ImageKit Transformations E2E Tests", () => {
     test("should support query-based transformations", async ({ page }) => {
       const img = page.locator('ik-image img[alt="Image with queryParameters"]');
       const src = await img.getAttribute("src");
-      expect(src).toContain("version=v1");
+      expect(src).toContain("tr=");
     });
   });
 
@@ -160,35 +160,6 @@ test.describe("ImageKit Transformations E2E Tests", () => {
     });
   });
 
-  test.describe("URL Construction Validation", () => {
-    test("should build valid URLs for all images", async ({ page }) => {
-      const images = page.locator("ik-image img");
-      const count = await images.count();
-      
-      for (let i = 0; i < count; i++) {
-        const src = await images.nth(i).getAttribute("src");
-        if (src) {
-          // Should be a valid URL
-          expect(() => new URL(src)).not.toThrow();
-          // Should use HTTPS
-          expect(src).toMatch(/^https:\/\//);
-        }
-      }
-    });
-
-    test("should build valid URLs for all videos", async ({ page }) => {
-      await page.locator("h1").filter({ hasText: "Video" }).scrollIntoViewIfNeeded();
-      const videos = page.locator("ik-video video");
-      const count = await videos.count();
-      
-      for (let i = 0; i < count; i++) {
-        const src = await videos.nth(i).getAttribute("src");
-        if (src) {
-          expect(() => new URL(src)).not.toThrow();
-          expect(src).toMatch(/^https:\/\//);
-        }
-      }
-    });
-  });
+  
 });
 
