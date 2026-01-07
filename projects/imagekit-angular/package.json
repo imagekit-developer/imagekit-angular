@@ -18,8 +18,8 @@
   "license": "MIT",
   "sideEffects": false,
   "peerDependencies": {
-    "@angular/common": ">=15.0.0 <21.0.0",
-    "@angular/core": ">=15.0.0 <21.0.0"
+    "@angular/common": ">=14.0.0 <21.0.0",
+    "@angular/core": ">=14.0.0 <21.0.0"
   },
   "dependencies": {
     "@imagekit/javascript": "^5.1.0",

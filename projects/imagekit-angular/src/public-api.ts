@@ -9,7 +9,7 @@ export { IKVideoComponent } from './lib/components/ik-video.component';
 // Directives
 export { BindDirective } from './lib/directives/bind.directive';
 
-// Module (for Angular 12-14 compatibility)
+// Module (for Angular 14 compatibility)
 export { ImageKitModule } from './lib/imagekit.module';
 
 // Services

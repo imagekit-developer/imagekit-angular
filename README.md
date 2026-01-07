@@ -2,7 +2,7 @@
 
 # ImageKit.io Angular SDK
 
-![Node CI](https://github.com/imagekit-developer/imagekit-angular/workflows/Node%20CI/badge.svg)
+![Node CI](https://github.com/imagekit-developer/imagekit-angular/workflows/E2E%20Tests/badge.svg)
 [![npm version](https://img.shields.io/npm/v/@imagekit/angular)](https://www.npmjs.com/package/@imagekit/angular)
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache%20License%202.0-blue)](https://opensource.org/license/apache-2-0)
 [![Twitter Follow](https://img.shields.io/twitter/follow/imagekitio?label=Follow&style=social)](https://twitter.com/ImagekitIo)

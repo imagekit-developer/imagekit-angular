@@ -1,12 +1,15 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { IKImageComponent } from './components/ik-image.component';
 import { IKVideoComponent } from './components/ik-video.component';
 
 /**
- * ImageKitModule - Module for Angular versions 12-14 that don't support standalone components
+ * ImageKitModule - Module for Angular version 14 compatibility
+ * 
+ * While Angular 14 supports standalone components, this module provides a traditional
+ * NgModule-based approach for easier integration in module-based Angular applications.
  * 
  * For Angular 15+ users, it's recommended to import components directly as they are standalone.
- * This module is provided for backward compatibility with older Angular versions.
  * 
  * @example
  * ```typescript
@@ -37,13 +40,15 @@ import { IKVideoComponent } from './components/ik-video.component';
  */
 @NgModule({
   imports: [
+    CommonModule,
     IKImageComponent,
     IKVideoComponent
   ],
   exports: [
     IKImageComponent,
     IKVideoComponent
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ImageKitModule { }
 
