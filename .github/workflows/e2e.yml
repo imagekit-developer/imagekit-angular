@@ -28,8 +28,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: Build SDK
-        run: npm run build
+      - name: Build SDK and pack
+        run: npm run pack
       
       - name: Verify SDK build
         run: |
@@ -42,6 +42,9 @@ jobs:
       - name: Install test app dependencies
         working-directory: ./test-app
         run: npm ci
+      - name: Install SDK 
+        working-directory: ./test-app
+        run: npm install ../dist/imagekit-angular/imagekit-angular-*.tgz --no-save
         # Note: Playwright browsers are installed via postinstall script
     
       - name: Run Playwright tests

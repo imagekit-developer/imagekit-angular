@@ -24,11 +24,6 @@
       "ES2022",
       "dom"
     ],
-    "paths": {
-      "@imagekit/angular": [
-        "../dist/imagekit-angular"
-      ]
-    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
