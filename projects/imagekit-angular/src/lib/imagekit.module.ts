@@ -13,11 +13,12 @@ import { IKVideoComponent } from './components/ik-video.component';
  * 
  * @example
  * ```typescript
- * import { NgModule } from '@angular/core';
+ * import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
  * import { ImageKitModule } from '@imagekit/angular';
  * 
  * @NgModule({
  *   imports: [ImageKitModule],
+ *   schemas: [CUSTOM_ELEMENTS_SCHEMA],
  *   // ... other module config
  * })
  * export class AppModule { }
@@ -48,7 +49,7 @@ import { IKVideoComponent } from './components/ik-video.component';
     IKImageComponent,
     IKVideoComponent
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: []
 })
 export class ImageKitModule { }
 
