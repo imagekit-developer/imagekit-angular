@@ -1,6 +1,6 @@
 {
   "name": "@imagekit/angular",
-  "version": "6.0.3",
+  "version": "6.0.0",
   "description": "Angular SDK for ImageKit.io which implements client-side upload and URL generation for use inside an Angular application.",
   "keywords": [
     "imagekit",
@@ -18,8 +18,8 @@
   "license": "MIT",
   "sideEffects": false,
   "peerDependencies": {
-    "@angular/common": ">=14.0.0 <21.0.0",
-    "@angular/core": ">=14.0.0 <21.0.0"
+    "@angular/common": ">=14.0.0 <22.0.0",
+    "@angular/core": ">=14.0.0 <22.0.0"
   },
   "dependencies": {
     "@imagekit/javascript": "^5.1.0",
