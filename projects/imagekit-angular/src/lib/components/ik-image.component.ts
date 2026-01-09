@@ -54,12 +54,12 @@ import { getInt, validateUrlEndpoint, getTransformationConfig } from '../utils/c
     <img
       ikBind
       [src]="finalSrc"
-      [attr.srcset]="finalSrcSet || null"
-      [attr.sizes]="sizes || null"
-      [alt]="alt || ''"
-      [attr.loading]="loading || 'lazy'"
-      [attr.width]="width || null"
-      [attr.height]="height || null"
+      [attr.srcset]="finalSrcSet !== undefined ? finalSrcSet : null"
+      [attr.sizes]="sizes !== undefined ? sizes : null"
+      [alt]="alt !== undefined ? alt : ''"
+      [attr.loading]="loading !== undefined ? loading : 'lazy'"
+      [attr.width]="width !== undefined ? width : null"
+      [attr.height]="height !== undefined ? height : null"
       [ngClass]="className"
       [ngStyle]="style"
     />
@@ -161,7 +161,7 @@ export class IKImageComponent implements OnChanges, AfterViewInit {
     });
 
     this.finalSrc = responsiveAttrs.src;
-    this.finalSrcSet = responsiveAttrs.srcSet || '';
+    this.finalSrcSet = responsiveAttrs.srcSet !== undefined ? responsiveAttrs.srcSet : '';
     this.cdr.markForCheck();
   }
 }

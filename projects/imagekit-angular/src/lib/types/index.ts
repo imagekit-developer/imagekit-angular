@@ -42,7 +42,7 @@ export interface IKSrcProps {
    *
    * @see https://imagekit.io/docs/transformations#chained-transformations
    */
-  transformation?: Array<Transformation> | Array<Record<string, any>>;
+  transformation?: Array<Transformation> ;
 
   /**
    * By default, the transformation string is added as a `query` parameter in the URL, e.g., `?tr=w-100,h-100`.
