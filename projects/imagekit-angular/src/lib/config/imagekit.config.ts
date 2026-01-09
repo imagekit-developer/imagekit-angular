@@ -27,8 +27,6 @@ export const IMAGEKIT_CONFIG = new InjectionToken<ImageKitConfig>(
  *   providers: [
  *     provideImageKit({
  *       urlEndpoint: 'https://ik.imagekit.io/your_imagekit_id',
- *       publicKey: 'your_public_key',
- *       authenticationEndpoint: 'https://your-server.com/auth'
  *     })
  *   ]
  * };

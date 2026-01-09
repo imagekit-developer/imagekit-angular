@@ -36,10 +36,8 @@ export function validateUrlEndpoint(
   const finalUrlEndpoint = urlEndpoint || config?.urlEndpoint || '';
 
   if (!finalUrlEndpoint || finalUrlEndpoint.trim() === '') {
-    if (isBrowser && typeof console !== 'undefined') {
       console.error('urlEndpoint is neither provided in this component nor in the ImageKit configuration.');
-    }
-    return '';
+
   }
 
   return finalUrlEndpoint;

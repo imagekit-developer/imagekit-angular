@@ -118,13 +118,7 @@ export class ImageKitService {
    * ```
    */
   async upload(options: UploadOptions): Promise<UploadResponse> {
-    const mergedOptions: UploadOptions & { authenticationEndpoint?: string } = {
-      ...options,
-      publicKey: options.publicKey || this.config?.publicKey || '',
-      authenticationEndpoint: this.config?.authenticationEndpoint
-    };
-
-    return upload(mergedOptions);
+    return upload(options);
   }
 
   /**

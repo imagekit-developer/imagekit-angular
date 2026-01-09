@@ -25,7 +25,7 @@ export interface IKSrcProps {
   /**
    * Get your urlEndpoint from the ImageKit dashboard (https://imagekit.io/dashboard/url-endpoints).
    * 
-   * You can also set `urlEndpoint` globally using `provideImageKit()` or `IMAGEKIT_CONFIG` token,
+   * You can also set `urlEndpoint` globally using `provideImageKit()`
    * which will be used as a default value for all components.
    */
   urlEndpoint?: string;
@@ -64,16 +64,6 @@ export interface ImageKitConfig {
    * Default transformation position for all components
    */
   transformationPosition?: 'path' | 'query';
-
-  /**
-   * Your ImageKit public key (required for upload functionality)
-   */
-  publicKey?: string;
-
-  /**
-   * Authentication endpoint for secure uploads (required for upload functionality)
-   */
-  authenticationEndpoint?: string;
 }
 
 /**
@@ -142,7 +132,7 @@ export interface IKImageProps extends IKSrcProps {
    * 
    * @example
    * ```typescript
-   * passthrough={{ 'data-testid': 'my-image', 'aria-label': 'Hero image' }}
+   * [passthrough]="{ 'data-testid': 'my-image', 'aria-label': 'Hero image' }"
    * ```
    */
   passthrough?: Record<string, any> | null;
