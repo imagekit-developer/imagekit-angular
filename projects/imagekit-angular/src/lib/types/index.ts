@@ -106,9 +106,9 @@ export interface IKImageProps extends IKSrcProps {
   className?: string;
 
   /**
-   * CSS styles to apply to the image element
+   * CSS styles to apply to the image element via ngStyle directive
    */
-  style?: Record<string, string>;
+  style?: Record<string, string|number>;
 
   /**
    * The sizes attribute for responsive images
@@ -148,9 +148,9 @@ export interface IKVideoProps extends IKSrcProps {
   className?: string;
 
   /**
-   * CSS styles to apply to the video element
+   * CSS styles to apply to the video element via ngStyle directive
    */
-  style?: Record<string, string>;
+  style?: Record<string, string|number>;
 
   /**
    * Title attribute for the video element

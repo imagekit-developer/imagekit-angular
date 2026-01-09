@@ -9,8 +9,6 @@ export { IKVideoComponent } from './lib/components/ik-video.component';
 // Directives
 export { BindDirective } from './lib/directives/bind.directive';
 
-// Services
-export { ImageKitService } from './lib/services/imagekit.service';
 
 // Configuration
 export { IMAGEKIT_CONFIG, provideImageKit } from './lib/config/imagekit.config';
