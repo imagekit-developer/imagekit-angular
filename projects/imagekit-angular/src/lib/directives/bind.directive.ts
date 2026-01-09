@@ -1,7 +1,8 @@
 import {
   Directive,
   ElementRef,
-  Renderer2
+  Renderer2,
+  OnDestroy
 } from '@angular/core';
 
 /**
@@ -28,7 +29,7 @@ import {
   selector: '[ikBind]',
   standalone: true
 })
-export class BindDirective {
+export class BindDirective implements OnDestroy {
   private appliedAttributes = new Set<string>();
 
   constructor(
@@ -84,6 +85,10 @@ export class BindDirective {
       this.renderer.removeAttribute(this.el.nativeElement, attr);
     });
     this.appliedAttributes.clear();
+  }
+
+  ngOnDestroy(): void {
+    this.clearAttrs();
   }
 }
 

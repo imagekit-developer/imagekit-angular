@@ -137,7 +137,7 @@ export class IKVideoComponent implements OnChanges, AfterViewInit {
 
     this.finalSrc = this.imagekitService.buildSrc({
       src: this.src,
-      transformation: [...transformation], // Clone to avoid mutation
+      transformation,
       queryParameters: this.queryParameters,
       urlEndpoint,
       transformationPosition
