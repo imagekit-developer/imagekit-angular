@@ -41,7 +41,7 @@ jobs:
       
       - name: Install test app dependencies
         working-directory: ./test-app
-        run: npm ci
+        run: npm install
       - name: Install SDK 
         working-directory: ./test-app
         run: npm install ../dist/imagekit-angular/imagekit-angular-*.tgz --no-save
