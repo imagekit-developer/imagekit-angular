@@ -19,19 +19,19 @@ import { BindDirective } from '../directives/bind.directive';
 import { getInt, validateUrlEndpoint, getTransformationConfig } from '../utils/common.utils';
 
 /**
- * IKImage - A standalone Angular component for optimized image delivery
+ * Image - A standalone Angular component for optimized image delivery
  * This component wraps the native `<img>` element and adds ImageKit's
  * optimization and transformation capabilities.
  * 
  * 
  * @example
  * ```typescript
- * import { IKImageComponent } from '@imagekit/angular';
+ * import { Image } from '@imagekit/angular';
  * 
  * @Component({
  *   selector: 'app-my-component',
  *   standalone: true,
- *   imports: [IKImageComponent],
+ *   imports: [Image],
  *   template: `
  *     <ik-image
  *       src="/default-image.jpg"
@@ -65,7 +65,7 @@ import { getInt, validateUrlEndpoint, getTransformationConfig } from '../utils/c
     />
   `
 })
-export class IKImageComponent implements OnChanges, AfterViewInit {
+export class Image implements OnChanges, AfterViewInit {
   @Input() src: IKImageProps['src'] = '';
   @Input() urlEndpoint?: string;
   @Input() transformation?: IKImageProps['transformation'];

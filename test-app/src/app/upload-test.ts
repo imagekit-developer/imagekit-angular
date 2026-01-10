@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ImageKitService } from '@imagekit/angular';
+import { upload  } from '@imagekit/angular';
 
 interface UploadResult {
   success: boolean;
@@ -31,16 +31,7 @@ interface UploadResult {
           />
         </div>
         
-        <div class="form-group">
-          <label for="publicKey">Public Key:</label>
-          <input 
-            id="publicKey"
-            type="text" 
-            [(ngModel)]="credentials.publicKey" 
-            placeholder="public_xyz..."
-            class="input-field"
-          />
-        </div>
+     
         
         <input type="radio" name="authentication" value="authenticationServer" [(ngModel)]="authenticationType"> Authentication
         <input type="radio" name="authentication" value="signature" [(ngModel)]="authenticationType"> Signature
@@ -448,8 +439,6 @@ export class UploadTestComponent {
   isUploading = false;
   uploadResult: UploadResult | null = null;
 
-  constructor(private imagekitService: ImageKitService) {}
-
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -464,10 +453,10 @@ export class UploadTestComponent {
     }
 
     // Validate credentials
-    if (!this.credentials.urlEndpoint || !this.credentials.publicKey) {
+    if (!this.credentials.urlEndpoint ) {
       this.uploadResult = {
         success: false,
-        message: 'Please provide both URL Endpoint and Public Key',
+        message: 'Please provide URL Endpoint',
         error: { message: 'Missing required credentials' }
       };
       return;
@@ -502,7 +491,7 @@ export class UploadTestComponent {
       }
 
       // Perform upload using the service
-      const response = await this.imagekitService.upload(uploadOptions);
+      const response = await upload(uploadOptions);
 
       this.uploadResult = {
         success: true,

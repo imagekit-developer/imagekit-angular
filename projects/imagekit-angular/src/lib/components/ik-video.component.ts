@@ -19,19 +19,19 @@ import { BindDirective } from '../directives/bind.directive';
 import { validateUrlEndpoint, getTransformationConfig } from '../utils/common.utils';
 
 /**
- * IKVideo - A standalone Angular component for optimized video delivery
+ * Video - A standalone Angular component for optimized video delivery
  * 
  * This component wraps the native `<video>` element and adds ImageKit's
  * transformation capabilities.
  * 
  * @example
  * ```typescript
- * import { IKVideoComponent } from '@imagekit/angular';
+ * import { Video } from '@imagekit/angular';
  * 
  * @Component({
  *   selector: 'app-my-component',
  *   standalone: true,
- *   imports: [IKVideoComponent],
+ *   imports: [Video],
  *   template: `
  *     <ik-video
  *       src="/default-video.mp4"
@@ -69,7 +69,7 @@ import { validateUrlEndpoint, getTransformationConfig } from '../utils/common.ut
     ></video>
   `
 })
-export class IKVideoComponent implements OnChanges, AfterViewInit {
+export class Video implements OnChanges, AfterViewInit {
   @Input() src: IKVideoProps['src'] = '';
   @Input() urlEndpoint?: string;
   @Input() transformation?: IKVideoProps['transformation'];
