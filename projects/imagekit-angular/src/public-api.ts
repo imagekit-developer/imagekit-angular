@@ -8,7 +8,8 @@ export { Video } from './lib/components/ik-video.component';
 
 // Directives
 export { BindDirective } from './lib/directives/bind.directive';
-
+export { IKImageDirective } from './lib/directives/ik-image.directive';
+export { IKVideoDirective } from './lib/directives/ik-video.directive';
 
 // Configuration
 export { IMAGEKIT_CONFIG, provideImageKit } from './lib/config/imagekit.config';
