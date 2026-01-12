@@ -2,9 +2,6 @@
  * Public API Surface of @imagekit/angular
  */
 
-// Components
-export { Image } from './lib/components/ik-image.component';
-export { Video } from './lib/components/ik-video.component';
 
 // Directives
 export { BindDirective } from './lib/directives/bind.directive';
