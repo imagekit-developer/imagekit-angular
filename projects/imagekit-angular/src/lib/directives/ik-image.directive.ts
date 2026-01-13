@@ -100,13 +100,7 @@ export class IKImageDirective implements OnChanges {
    * If non-numeric values like "100px" or "100%" are provided, they are ignored for srcset generation.
    */
   @Input() width?: IKImageProps['width'];
-  
-  /**
-   * The intended display height of the image.
-   * Applied to the height attribute of the img element.
-   */
-  @Input() height?: IKImageProps['height'];
-  
+    
   /**
    * The sizes attribute for responsive images.
    * Defines the intended display size of the image for different viewport conditions.
@@ -221,11 +215,6 @@ export class IKImageDirective implements OnChanges {
     // Apply width attribute if provided
     if (this.width) {
       this.renderer.setAttribute(this.el.nativeElement, 'width', this.width.toString());
-    }
-
-    // Apply height attribute if provided
-    if (this.height) {
-      this.renderer.setAttribute(this.el.nativeElement, 'height', this.height.toString());
     }
 
     if (this.loading) {
