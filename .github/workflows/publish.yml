@@ -21,8 +21,7 @@ jobs:
       - name: Build and Test
         run: |
           npm install
-          npm run build
-          npm pack
+          npm run pack
           cd test-app
           npm install
           npm install ../dist/imagekit-angular/imagekit-angular-*.tgz --no-save
@@ -45,10 +44,11 @@ jobs:
         run: |
           npm install
           npm run build
+          cd dist/imagekit-angular
           npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
           # print the NPM user name for validation
           npm whoami
-          VERSION=$(node -p "require('./projects/imagekit-angular/package.json').version" )
+          VERSION=$(node -p "require('./package.json').version" )
           # Only publish stable versions to the latest tag
           if [[ "$VERSION" =~ ^[^-]+$ ]]; then
             NPM_TAG="latest"
