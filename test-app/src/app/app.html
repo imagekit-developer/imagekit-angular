@@ -155,7 +155,9 @@
         alt="Image with responsive off"
         [height]="300"
         [width]="300"
-        [transformation]=""
+        [transformation]="[{
+          named: 'restrict-unnamed',
+        }]"
         [responsive]="false"
         sizes="(max-width: 600px) 100vw, 50vw"
       />
@@ -164,6 +166,7 @@
 
       <!-- Video without ImageKit provider -->
       <video
+        title="Video without ImageKit provider"
         ikSrc="sample-video.mp4"
         urlEndpoint="https://ik.imagekit.io/demo/"
         [height]="300"
@@ -172,7 +175,13 @@
       ></video>
 
       <!-- With ImageKit provider -->
-      <video ikSrc="sample-video.mp4" [height]="300" [width]="300" [controls]="true"></video>
+      <video 
+        ikSrc="sample-video.mp4"
+        [height]="300"
+        [width]="300"
+        [controls]="true"
+        title="Video with ImageKit provider"
+      ></video>
 
       <!-- With transformations -->
       <video
@@ -181,6 +190,7 @@
         [height]="300"
         [width]="300"
         [controls]="true"
+        title="Video with transformations"
       ></video>
 
       <!-- Passing all props to the video tag as it is -->
@@ -192,18 +202,21 @@
         [autoplay]="true"
         [loop]="true"
         [muted]="true"
+        [playsInline]="true"
+        preload='none'
         poster="https://ik.imagekit.io/demo/default-image.jpg"
+        title="Video with all props"
       ></video>
 
       <!-- urlEndpoint override -->
       <video
         ikSrc="sample-video.mp4"
-        alt="Video with urlEndpoint override"
         urlEndpoint="https://ik.imagekit.io/demo2/"
         [height]="300"
         [width]="300"
         [transformation]="[{ height: 100, width: 100 }]"
         [controls]="true"
+        title="Video with urlEndpoint override"
       ></video>
 
       <!-- transformationPosition="path" -->
@@ -213,6 +226,7 @@
         [height]="300"
         [width]="300"
         [transformation]="[{ height: 100, width: 100 }]"
+        title="Video with path transformation"
       ></video>
     </div>
     <div *ngIf="activeTab === 'upload'" class="upload-tests">
