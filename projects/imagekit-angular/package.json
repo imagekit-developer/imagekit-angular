@@ -15,7 +15,7 @@
     "url": "https://github.com/imagekit-developer/imagekit-angular"
   },
   "author": "ImageKit",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "sideEffects": false,
   "peerDependencies": {
     "@angular/common": ">=14.0.0 <22.0.0",
