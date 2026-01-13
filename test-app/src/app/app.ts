@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { IKImageDirective, IKVideoDirective, Image, Video } from '@imagekit/angular';
+import { IKVideoDirective, IKImageDirective } from '@imagekit/angular';
 import { CommonModule } from '@angular/common';
 import { UploadTestComponent } from './upload-test';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, Image, IKImageDirective, Video, IKVideoDirective, UploadTestComponent],
+  imports: [CommonModule, IKVideoDirective, IKImageDirective, UploadTestComponent],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
