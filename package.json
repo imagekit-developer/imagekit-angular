@@ -20,9 +20,9 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/common": "^15.0.0",
+    "@angular/common": "^21.0.8",
     "@angular/core": "^15.0.0",
-    "@angular/platform-browser": "^15.0.0",
+    "@angular/platform-browser": "^21.0.8",
     "@imagekit/javascript": "^5.1.0"
   },
   "devDependencies": {
