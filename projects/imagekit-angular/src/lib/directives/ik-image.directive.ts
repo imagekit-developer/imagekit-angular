@@ -208,7 +208,7 @@ export class IKImageDirective implements OnChanges {
     }
 
     // Apply sizes attribute if provided
-    if (this.sizes) {
+    if (this.sizes && this.responsive) {
       this.renderer.setAttribute(this.el.nativeElement, 'sizes', this.sizes);
     }
 
