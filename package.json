@@ -1,0 +1,37 @@
+{
+  "name": "imagekit-angular-workspace",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "ng": "ng",
+    "build": "ng build imagekit-angular",
+    "postbuild": "cp README.md dist/imagekit-angular/ && cp LICENSE dist/imagekit-angular/",
+    "watch": "ng build imagekit-angular --watch",
+    "test": "ng test imagekit-angular",
+    "pack": "npm run build && cd dist/imagekit-angular && npm pack",
+    "start:test-app": "cd test-app && npm start",
+    "test:e2e": "cd test-app && npm run test:e2e",
+    "test:e2e:ui": "cd test-app && npm run test:e2e:ui",
+    "test:e2e:headed": "cd test-app && npm run test:e2e:headed",
+    "test:e2e:ci": "cd test-app && npm run test:e2e",
+    "testapp" : "cd test-app && npm start"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/common": "^15.0.0",
+    "@angular/core": "^15.0.0",
+    "@angular/platform-browser": "^15.0.0",
+    "@imagekit/javascript": "^5.1.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^15.0.0",
+    "@angular/cli": "^15.0.0",
+    "@angular/compiler": "^15.0.0",
+    "@angular/compiler-cli": "^15.0.0",
+    "@types/http-proxy": "^1.17.17",
+    "ng-packagr": "^15.0.0",
+    "typescript": "~4.8.4"
+  }
+}

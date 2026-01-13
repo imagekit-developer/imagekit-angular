@@ -1,0 +1,236 @@
+<div>
+  <div class="tabs">
+    <button
+      class="tab-button"
+      [class.active]="activeTab === 'display'"
+      (click)="setActiveTab('display')"
+    >
+      Display Tests (Image & Video)
+    </button>
+    <button
+      class="tab-button"
+      [class.active]="activeTab === 'upload'"
+      (click)="setActiveTab('upload')"
+    >
+      Upload Test
+    </button>
+  </div>
+
+  <div class="tab-content">
+    <div *ngIf="activeTab === 'display'" class="display-tests">
+      <h1>Directive</h1>
+      <h2>IKImageDirective</h2>
+
+      <!-- Image without ImageKit provider (using urlEndpoint prop) -->
+      <img
+        ikSrc="default-image.jpg"
+        urlEndpoint="https://ik.imagekit.io/demo/"
+        alt="Image without ImageKit provider"
+        [height]="300"
+        [width]="300"
+      />
+
+      <!-- Image with ImageKit provider (from config) -->
+      <img
+        ikSrc="/default-image.jpg"
+        alt="Image with ImageKit provider"
+        [height]="300"
+        [width]="300"
+      />
+
+      <!-- Width not number -->
+      <img
+        ikSrc="/default-image.jpg"
+        alt="Image with width not number, should produce larger srcset"
+        width="300px"
+      />
+
+      <!-- With transformation -->
+      <img
+        ikSrc="/default-image.jpg"
+        alt="With transformation"
+        [transformation]="[{ height: 100, width: 100 }]"
+        [height]="300"
+        [width]="300"
+      />
+
+      <!-- Image with queryParameters -->
+      <img
+        ikSrc="/default-image.jpg"
+        alt="Image with queryParameters"
+        [queryParameters]="{ version: 'v1' }"
+        [transformation]="[{ height: 100, width: 100 }]"
+        [height]="300"
+        [width]="300"
+      />
+
+      <!-- Responsive images with sizes -->
+      <img
+        ikSrc="/default-image.jpg"
+        alt="Responsive image with sizes"
+        sizes="(max-width: 600px) 100vw, 50vw"
+        [height]="300"
+        [width]="300"
+      />
+
+      <!-- Responsive images with sizes not having vw token -->
+      <img
+        ikSrc="/default-image.jpg"
+        alt="Responsive image with sizes - should have very large srcset for all breakpoints"
+        sizes="300px"
+        [height]="300"
+        [width]="300"
+      />
+
+      <!-- urlEndpoint override -->
+      <img
+        ikSrc="/default-image.jpg"
+        urlEndpoint="https://ik.imagekit.io/demo2/"
+        alt="Image with urlEndpoint override"
+        [transformation]="[{ height: 100, width: 100 }]"
+        [height]="300"
+        [width]="300"
+      />
+
+      <!-- Pass class to the image tag as it is -->
+      <img
+        ikSrc="/default-image.jpg"
+        alt="Image with class"
+        class="custom-class"
+        [height]="300"
+        [width]="300"
+      />
+
+      <!-- Lazy loading eager -->
+      <img
+        ikSrc="/default-image.jpg"
+        alt="Image with lazy loading eager"
+        loading="eager"
+        [height]="300"
+        [width]="300"
+      />
+
+      <!-- Transformation position test -->
+      <img
+        ikSrc="/default-image.jpg"
+        alt="Image with path transformation"
+        transformationPosition="path"
+        [height]="300"
+        [width]="300"
+      />
+
+      <!-- Transformation position test with custom transformations -->
+      <img
+        ikSrc="/default-image.jpg"
+        alt="Image with path transformation + custom transformations"
+        transformationPosition="path"
+        [transformation]="[{ height: 100, width: 100,  }]"
+        [height]="300"
+        [width]="300"
+      />
+
+      <!-- Path not respected with absolute url -->
+      <img
+        ikSrc="https://ik.imagekit.io/demo/default-image.jpg"
+        alt="path not respected with absolute url"
+        transformationPosition="path"
+        [height]="300"
+        [width]="300"
+      />
+
+      <!-- No width -->
+      <img ikSrc="/default-image.jpg" alt="No width" />
+
+      <!-- Custom deviceBreakpoints -->
+      <img
+        ikSrc="https://ik.imagekit.io/demo/default-image.jpg"
+        alt="Custom deviceBreakpoints"
+        [deviceBreakpoints]="[200, 400, 800]"
+        [imageBreakpoints]="[100]"
+      />
+
+      <!-- Responsive off -->
+      <img
+        ikSrc="/default-image.jpg"
+        alt="Image with responsive off"
+        [height]="300"
+        [width]="300"
+        [transformation]="[{
+          named: 'restrict-unnamed',
+        }]"
+        [responsive]="false"
+        sizes="(max-width: 600px) 100vw, 50vw"
+      />
+
+      <h2>IKVideoDirective</h2>
+
+      <!-- Video without ImageKit provider -->
+      <video
+        title="Video without ImageKit provider"
+        ikSrc="sample-video.mp4"
+        urlEndpoint="https://ik.imagekit.io/demo/"
+        [height]="300"
+        [width]="300"
+        [controls]="true"
+      ></video>
+
+      <!-- With ImageKit provider -->
+      <video 
+        ikSrc="sample-video.mp4"
+        [height]="300"
+        [width]="300"
+        [controls]="true"
+        title="Video with ImageKit provider"
+      ></video>
+
+      <!-- With transformations -->
+      <video
+        ikSrc="sample-video.mp4"
+        [transformation]="[{ height: 100, width: 100 }]"
+        [height]="300"
+        [width]="300"
+        [controls]="true"
+        title="Video with transformations"
+      ></video>
+
+      <!-- Passing all props to the video tag as it is -->
+      <video
+        ikSrc="sample-video.mp4"
+        height="300"
+        width="300"
+        [controls]="true"
+        [autoplay]="true"
+        [loop]="true"
+        [muted]="true"
+        [playsInline]="true"
+        preload='none'
+        poster="https://ik.imagekit.io/demo/default-image.jpg"
+        title="Video with all props"
+      ></video>
+
+      <!-- urlEndpoint override -->
+      <video
+        ikSrc="sample-video.mp4"
+        urlEndpoint="https://ik.imagekit.io/demo2/"
+        [height]="300"
+        [width]="300"
+        [transformation]="[{ height: 100, width: 100 }]"
+        [controls]="true"
+        title="Video with urlEndpoint override"
+      ></video>
+
+      <!-- transformationPosition="path" -->
+      <video
+        ikSrc="sample-video.mp4"
+        transformationPosition="path"
+        [height]="300"
+        [width]="300"
+        [transformation]="[{ height: 100, width: 100 }]"
+        title="Video with path transformation"
+      ></video>
+    </div>
+    <div *ngIf="activeTab === 'upload'" class="upload-tests">
+      <app-upload-test></app-upload-test>
+    </div>
+  </div>
+</div>

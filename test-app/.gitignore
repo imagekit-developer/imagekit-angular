@@ -1,4 +1,4 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # Compiled output
 /dist
@@ -8,8 +8,7 @@
 
 # Node
 /node_modules
-/test-app/node_modules
-
+package-lock.json
 npm-debug.log
 yarn-error.log
 
@@ -32,37 +31,14 @@ yarn-error.log
 
 # Miscellaneous
 /.angular/cache
-/test-app/.angular/cache
 .sass-cache/
 /connect.lock
 /coverage
 /libpeerconnection.log
 testem.log
 /typings
-/test-app/package-lock.json
+__screenshots__/
 
 # System files
 .DS_Store
 Thumbs.db
-
-# Playwright
-/test-app/test-results/
-/test-app/playwright-report/
-/test-app/playwright/.cache/
-
-# Logs
-*.log
-logs/
-
-# Build artifacts
-*.tsbuildinfo
-*.map
-
-# Test coverage
-coverage/
-.nyc_output/
-
-# Environment files
-.env
-.env.local
-.env.*.local
