@@ -135,6 +135,15 @@ export class IKImageDirective implements OnChanges, OnDestroy {
    */
   @Input() imageBreakpoints?: IKImageProps['imageBreakpoints'];
 
+  /**
+   * Specifies the loading behavior of the image.
+   * Determines whether the image should be loaded lazily or eagerly.
+   * 
+   * @default 'lazy'
+   * @see {@link IKImageProps}
+   */
+  @Input() loading?: IKImageProps['loading'] = 'lazy';
+
   constructor(
     private el: ElementRef<HTMLImageElement>,
     private renderer: Renderer2,
@@ -222,6 +231,10 @@ export class IKImageDirective implements OnChanges, OnDestroy {
     // Apply height attribute if provided
     if (this.height) {
       this.renderer.setAttribute(this.el.nativeElement, 'height', this.height.toString());
+    }
+
+    if (this.loading) {
+      this.renderer.setAttribute(this.el.nativeElement, 'loading', this.loading);
     }
   }
 
