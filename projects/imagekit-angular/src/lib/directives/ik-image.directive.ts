@@ -165,6 +165,23 @@ export class IKImageDirective implements OnChanges {
       this.config
     );
 
+    // Apply sizes attribute if provided and in responsive mode
+    if (this.sizes && this.responsive) {
+      this.renderer.setAttribute(this.el.nativeElement, 'sizes', this.sizes);
+    } else {
+      this.renderer.removeAttribute(this.el.nativeElement, 'sizes');
+    }
+
+    // Apply width attribute if provided
+    if (this.width) {
+      this.renderer.setAttribute(this.el.nativeElement, 'width', this.width.toString());
+    }
+
+    // Apply loading attribute if provided
+    if (this.loading) {
+      this.renderer.setAttribute(this.el.nativeElement, 'loading', this.loading);
+    }
+
     if (!this.responsive) {
       // Non-responsive image - just build a simple src
       const finalSrc = this.imagekitService.buildSrc({
@@ -205,20 +222,6 @@ export class IKImageDirective implements OnChanges {
       this.setSrcSet(responsiveAttrs.srcSet);
     } else {
       this.removeSrcSet();
-    }
-
-    // Apply sizes attribute if provided
-    if (this.sizes && this.responsive) {
-      this.renderer.setAttribute(this.el.nativeElement, 'sizes', this.sizes);
-    }
-
-    // Apply width attribute if provided
-    if (this.width) {
-      this.renderer.setAttribute(this.el.nativeElement, 'width', this.width.toString());
-    }
-
-    if (this.loading) {
-      this.renderer.setAttribute(this.el.nativeElement, 'loading', this.loading);
     }
   }
 
