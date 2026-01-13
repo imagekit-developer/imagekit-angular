@@ -148,7 +148,9 @@ export class ImageKitService {
   }
 
   /**
-   * Gets the current ImageKit configuration
+   * Gets the current ImageKit configuration injected via IMAGEKIT_CONFIG token.
+   * 
+   * @returns The ImageKit configuration object or null if not provided
    */
   getConfig(): ImageKitConfig | null {
     return this.config;

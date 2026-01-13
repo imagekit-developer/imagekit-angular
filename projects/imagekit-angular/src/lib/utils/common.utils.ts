@@ -21,17 +21,17 @@ export function getInt(x: unknown): number {
 }
 
 /**
- * Validates and returns the URL endpoint with error logging
+ * Validates and returns the URL endpoint with error logging.
+ * Checks component input first, then falls back to global configuration.
+ * Logs an error to console if no valid endpoint is found.
  * 
  * @param urlEndpoint - URL endpoint from component input
- * @param config - ImageKit configuration
- * @param isBrowser - Whether running in browser environment
- * @returns Validated URL endpoint or empty string
+ * @param config - ImageKit configuration from injection token
+ * @returns Validated URL endpoint or empty string if none found
  */
 export function validateUrlEndpoint(
   urlEndpoint: string | undefined,
   config: ImageKitConfig | null,
-  isBrowser: boolean
 ): string {
   const finalUrlEndpoint = urlEndpoint || config?.urlEndpoint || '';
 
@@ -44,12 +44,14 @@ export function validateUrlEndpoint(
 }
 
 /**
- * Gets transformation array and position with fallback to config
+ * Gets transformation array and position with fallback to global configuration.
+ * Prioritizes component-level inputs over global config values.
+ * Returns an empty array for transformations if none provided.
  * 
- * @param transformation - Transformation array from component input
- * @param transformationPosition - Transformation position from component input
- * @param config - ImageKit configuration
- * @returns Object with transformation array and position
+ * @param transformation - Transformation array from component input (optional)
+ * @param transformationPosition - Transformation position from component input (optional)
+ * @param config - ImageKit configuration from injection token
+ * @returns Object containing transformation array and optional transformationPosition
  */
 export function getTransformationConfig(
   transformation: Array<Record<string, any>> | undefined,

@@ -38,11 +38,14 @@ export interface IKSrcProps {
   queryParameters?: Record<string, string | number>;
 
   /**
-   * An array of objects specifying the transformations to be applied in the URL. If more than one transformation is specified, they are applied in the order they are specified as chained transformations.
-   *
+   * An array of transformation objects to be applied to the image/video URL.
+   * If more than one transformation is specified, they are applied in the order 
+   * specified as chained transformations.
+   * 
+   * @example [{ width: 400, height: 300, crop: 'at_max' }]
    * @see https://imagekit.io/docs/transformations#chained-transformations
    */
-  transformation?: Array<Transformation> ;
+  transformation?: Array<Transformation>;
 
   /**
    * By default, the transformation string is added as a `query` parameter in the URL, e.g., `?tr=w-100,h-100`.
@@ -71,17 +74,23 @@ export interface ImageKitConfig {
  */
 export interface IKImageProps extends IKSrcProps {
   /**
-   * Set to `false` to disable automatic responsive `srcSet` generation.
-   * Defaults to `true`.
+   * Enable or disable automatic responsive srcset generation.
+   * When true, generates multiple image sizes in the srcset attribute for responsive images.
+   * When false, only generates a single src attribute.
+   * 
+   * @default true
    */
   responsive?: boolean;
 
   /**
    * The intended display width of the image.
+   * Used for srcset generation in responsive mode.
+   * 
    * - Accepts a number (e.g. 100) or a numeric string (e.g. "100").
    * - If you pass units such as "100px" or a percentage like "100%", the value
-   *   is ignored when generating the `srcSet`. In that case, a broad range of
+   *   is ignored when generating the srcset. In that case, a broad range of
    *   widths is produced to cover all possible viewport sizes.
+   * - Falls back to the element's width attribute if not specified.
    */
   width?: number | string;
 
@@ -111,108 +120,33 @@ export interface IKImageProps extends IKSrcProps {
   style?: Record<string, string|number>;
 
   /**
-   * The sizes attribute for responsive images
+   * The sizes attribute for responsive images.
+   * Defines the intended display size for different viewport conditions.
+   * 
+   * @example "(max-width: 768px) 100vw, 50vw"
    */
   sizes?: string;
 
   /**
-   * Custom device breakpoints for responsive image generation
+   * Custom device pixel ratio breakpoints for responsive image generation.
+   * Allows you to define specific device pixel ratios for which image variants should be generated.
+   * 
+   * @example [1, 2, 3]
    */
   deviceBreakpoints?: number[];
 
   /**
-   * Custom image breakpoints for responsive image generation
+   * Custom image width breakpoints for responsive image generation.
+   * Allows you to define specific image widths for which variants should be generated.
+   * 
+   * @example [320, 640, 1024, 1920]
    */
   imageBreakpoints?: number[];
-
-  /**
-   * Additional attributes to pass through to the underlying img element.
-   * This allows you to set any native HTML attributes (e.g., data-*, aria-*, etc.)
-   * that aren't explicitly defined as component inputs.
-   * 
-   * @example
-   * ```typescript
-   * [passthrough]="{ 'data-testid': 'my-image', 'aria-label': 'Hero image' }"
-   * ```
-   */
-  passthrough?: Record<string, any> | null;
 }
 
 /**
  * Props for the IK Video component
  */
-export interface IKVideoProps extends IKSrcProps {
-  /**
-   * CSS classes to apply to the video element
-   */
-  className?: string;
-
-  /**
-   * CSS styles to apply to the video element via ngStyle directive
-   */
-  style?: Record<string, string|number>;
-
-  /**
-   * Title attribute for the video element
-   */
-  title?: string;
-
-  /**
-   * Whether the video should have controls
-   */
-  controls?: boolean;
-
-  /**
-   * Whether the video should autoplay
-   */
-  autoplay?: boolean;
-
-  /**
-   * Whether the video should loop
-   */
-  loop?: boolean;
-
-  /**
-   * Whether the video should be muted
-   */
-  muted?: boolean;
-
-  /**
-   * Whether the video should play inline
-   */
-  playsinline?: boolean;
-
-  /**
-   * Preload strategy for the video
-   */
-  preload?: string;
-
-  /**
-   * Width of the video element
-   */
-  width?: number | string;
-
-  /**
-   * Height of the video element
-   */
-  height?: number | string;
-
-  /**
-   * Poster image for the video
-   */
-  poster?: string;
-
-  /**
-   * Additional attributes to pass through to the underlying video element.
-   * This allows you to set any native HTML attributes (e.g., data-*, aria-*, etc.)
-   * that aren't explicitly defined as component inputs.
-   * 
-   * @example
-   * ```typescript
-   * passthrough={{ 'data-testid': 'my-video', 'aria-label': 'Promotional video' }}
-   * ```
-   */
-  passthrough?: Record<string, any> | null;
-}
+export interface IKVideoProps extends IKSrcProps {}
 
 export type Transformations = Array<Transformation>;

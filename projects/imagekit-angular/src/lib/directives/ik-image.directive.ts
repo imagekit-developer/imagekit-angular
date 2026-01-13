@@ -3,14 +3,11 @@ import {
   ElementRef,
   Input,
   OnChanges,
-  SimpleChanges,
   Inject,
   Optional,
-  PLATFORM_ID,
   Renderer2,
   OnDestroy
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
 import { ImageKitService } from '../services/imagekit.service';
 import { IMAGEKIT_CONFIG } from '../config/imagekit.config';
 import type { ImageKitConfig, IKImageProps } from '../types';
@@ -19,16 +16,17 @@ import { getInt, validateUrlEndpoint, getTransformationConfig } from '../utils/c
 /**
  * IKImageDirective - A directive for enhancing img elements with ImageKit optimization
  * 
- * This directive can be applied to any `<img>` element to add ImageKit's
+ * This directive can be applied to any `<img>` element using the `ikSrc` attribute to add ImageKit's
  * optimization and transformation capabilities. It modifies the src and srcset
  * attributes while preserving all other native attributes.
+ * 
+ * Note: The directive selector is 'img[ikSrc]', meaning you must use `ikSrc` instead of `src`.
  * 
  * @example
  * ```html
  * <!-- Basic usage -->
  * <img 
- *   ikImage
- *   src="/default-image.jpg"
+ *   ikSrc="/default-image.jpg"
  *   alt="My image"
  *   width="500"
  *   height="500"
@@ -37,8 +35,7 @@ import { getInt, validateUrlEndpoint, getTransformationConfig } from '../utils/c
  * 
  * <!-- Responsive image -->
  * <img 
- *   ikImage
- *   src="/hero-image.jpg"
+ *   ikSrc="/hero-image.jpg"
  *   [transformation]="[{ quality: 80, format: 'webp' }]"
  *   [responsive]="true"
  *   sizes="(max-width: 768px) 100vw, 50vw"
@@ -48,8 +45,7 @@ import { getInt, validateUrlEndpoint, getTransformationConfig } from '../utils/c
  * 
  * <!-- With custom URL endpoint -->
  * <img 
- *   ikImage
- *   src="/product.jpg"
+ *   ikSrc="/product.jpg"
  *   [urlEndpoint]="'https://ik.imagekit.io/demo'"
  *   [transformation]="[{ width: 300, height: 300, crop: 'at_max' }]"
  *   alt="Product"
@@ -57,7 +53,7 @@ import { getInt, validateUrlEndpoint, getTransformationConfig } from '../utils/c
  * ```
  */
 @Directive({
-  selector: 'img[ikImage]',
+  selector: 'img[ikSrc]',
   exportAs: 'ikImageDirective',
   standalone: true
 })
@@ -65,7 +61,7 @@ export class IKImageDirective implements OnChanges, OnDestroy {
   /**
    * Image source path - can be relative (requires imagekit urlEndpoint to be configured or passed) or absolute URL
    */
-  @Input() src: IKImageProps['src'] = '';
+  @Input() ikSrc: IKImageProps['src'] = '';
   
   /**
    * ImageKit URL endpoint
@@ -88,49 +84,66 @@ export class IKImageDirective implements OnChanges, OnDestroy {
   @Input() transformationPosition?: IKImageProps['transformationPosition'];
   
   /**
-   * Enable responsive image with automatic srcset generation
+   * Enable responsive image with automatic srcset generation.
+   * When true, generates a srcset attribute with multiple image sizes for responsive images.
+   * When false, only generates a single src attribute.
+   * 
    * @default true
    */
   @Input() responsive: IKImageProps['responsive'] = true;
   
   /**
-   * Width of the image - used for srcset generation in responsive mode
+   * The intended display width of the image.
+   * Used for srcset generation in responsive mode. When provided, helps generate
+   * optimized breakpoints. Falls back to the element's width attribute if not specified.
+   * 
+   * Accepts a number (e.g. 100) or a numeric string (e.g. "100").
+   * If non-numeric values like "100px" or "100%" are provided, they are ignored for srcset generation.
    */
   @Input() width?: IKImageProps['width'];
   
   /**
-   * Height of the image
+   * The intended display height of the image.
+   * Applied to the height attribute of the img element.
    */
   @Input() height?: IKImageProps['height'];
   
   /**
-   * Sizes attribute for responsive images
+   * The sizes attribute for responsive images.
+   * Defines the intended display size of the image for different viewport conditions.
+   * Works in conjunction with srcset to help the browser choose the appropriate image.
+   * 
+   * @example "(max-width: 768px) 100vw, 50vw"
    */
   @Input() sizes?: IKImageProps['sizes'];
   
   /**
-   * Custom device breakpoints for srcset generation
+   * Custom device pixel ratio breakpoints for srcset generation.
+   * Allows you to define specific device pixel ratios for which image variants should be generated.
+   * 
+   * @example [640, 750, 828]
+   * @default [640, 750, 828, 1080, 1200, 1920, 2048, 3840]
    */
   @Input() deviceBreakpoints?: IKImageProps['deviceBreakpoints'];
   
   /**
-   * Custom image breakpoints for srcset generation
+   * Custom image width breakpoints for srcset generation.
+   * Allows you to define specific image widths for which variants should be generated.
+   * 
+   * @example [16, 32, 48]
+   * @default [16, 32, 48, 64, 96, 128, 256, 384]
    */
   @Input() imageBreakpoints?: IKImageProps['imageBreakpoints'];
-
-  private isBrowser: boolean;
 
   constructor(
     private el: ElementRef<HTMLImageElement>,
     private renderer: Renderer2,
     private imagekitService: ImageKitService,
     @Optional() @Inject(IMAGEKIT_CONFIG) private config: ImageKitConfig | null,
-    @Inject(PLATFORM_ID) platformId: Object
   ) {
-    this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     this.updateImageAttributes();
   }
 
@@ -139,7 +152,7 @@ export class IKImageDirective implements OnChanges, OnDestroy {
   }
 
   private updateImageAttributes(): void {
-    const urlEndpoint = validateUrlEndpoint(this.urlEndpoint, this.config, this.isBrowser);
+    const urlEndpoint = validateUrlEndpoint(this.urlEndpoint, this.config);
 
     if (!urlEndpoint) {
       // Clear src and srcset if no valid endpoint
@@ -157,7 +170,7 @@ export class IKImageDirective implements OnChanges, OnDestroy {
     if (!this.responsive) {
       // Non-responsive image - just build a simple src
       const finalSrc = this.imagekitService.buildSrc({
-        src: this.src,
+        src: this.ikSrc,
         transformation,
         queryParameters: this.queryParameters,
         urlEndpoint,
@@ -177,7 +190,7 @@ export class IKImageDirective implements OnChanges, OnDestroy {
     const widthInt = getInt(widthValue);
 
     const responsiveAttrs = this.imagekitService.getResponsiveImageAttributes({
-      src: this.src,
+      src: this.ikSrc,
       transformation,
       width: isNaN(widthInt) ? undefined : widthInt,
       sizes: this.sizes,
@@ -199,6 +212,16 @@ export class IKImageDirective implements OnChanges, OnDestroy {
     // Apply sizes attribute if provided
     if (this.sizes) {
       this.renderer.setAttribute(this.el.nativeElement, 'sizes', this.sizes);
+    }
+
+    // Apply width attribute if provided
+    if (this.width) {
+      this.renderer.setAttribute(this.el.nativeElement, 'width', this.width.toString());
+    }
+
+    // Apply height attribute if provided
+    if (this.height) {
+      this.renderer.setAttribute(this.el.nativeElement, 'height', this.height.toString());
     }
   }
 
