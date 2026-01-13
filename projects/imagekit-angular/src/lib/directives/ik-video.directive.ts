@@ -6,7 +6,6 @@ import {
   Inject,
   Optional,
   Renderer2,
-  OnDestroy
 } from '@angular/core';
 import { ImageKitService } from '../services/imagekit.service';
 import { IMAGEKIT_CONFIG } from '../config/imagekit.config';
@@ -66,7 +65,7 @@ import { validateUrlEndpoint, getTransformationConfig } from '../utils/common.ut
   exportAs: 'ikVideoDirective',
   standalone: true
 })
-export class IKVideoDirective implements OnChanges, OnDestroy {
+export class IKVideoDirective implements OnChanges {
   /**
    * Video source path - can be relative (requires imagekit urlEndpoint to be configured or passed) or absolute URL
    */
@@ -101,10 +100,6 @@ export class IKVideoDirective implements OnChanges, OnDestroy {
 
   ngOnChanges(): void {
     this.updateVideoSrc();
-  }
-
-  ngOnDestroy(): void {
-    // Cleanup if needed
   }
 
   private updateVideoSrc(): void {

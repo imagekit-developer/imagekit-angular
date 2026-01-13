@@ -6,7 +6,6 @@ import {
   Inject,
   Optional,
   Renderer2,
-  OnDestroy
 } from '@angular/core';
 import { ImageKitService } from '../services/imagekit.service';
 import { IMAGEKIT_CONFIG } from '../config/imagekit.config';
@@ -57,7 +56,7 @@ import { getInt, validateUrlEndpoint, getTransformationConfig } from '../utils/c
   exportAs: 'ikImageDirective',
   standalone: true
 })
-export class IKImageDirective implements OnChanges, OnDestroy {
+export class IKImageDirective implements OnChanges {
   /**
    * Image source path - can be relative (requires imagekit urlEndpoint to be configured or passed) or absolute URL
    */
@@ -155,11 +154,7 @@ export class IKImageDirective implements OnChanges, OnDestroy {
   ngOnChanges(): void {
     this.updateImageAttributes();
   }
-
-  ngOnDestroy(): void {
-    // Cleanup if needed
-  }
-
+  
   private updateImageAttributes(): void {
     const urlEndpoint = validateUrlEndpoint(this.urlEndpoint, this.config);
 
