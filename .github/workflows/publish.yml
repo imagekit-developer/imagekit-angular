@@ -24,6 +24,7 @@ jobs:
           npm run build
           npm pack
           cd test-app
+          npm uninstall @imagekit/angular
           npm install
           npm install ../dist/imagekit-angular/imagekit-angular-*.tgz --no-save
           npx playwright install --with-deps
