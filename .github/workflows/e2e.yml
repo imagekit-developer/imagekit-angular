@@ -38,7 +38,9 @@ jobs:
             exit 1
           fi
           echo "✓ SDK built successfully"
-      
+      - name: Uninstall @imagekit/angular from test app
+        working-directory: ./test-app
+        run: npm uninstall @imagekit/angular      
       - name: Install test app dependencies
         working-directory: ./test-app
         run: npm install
