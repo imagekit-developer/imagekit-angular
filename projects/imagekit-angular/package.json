@@ -22,7 +22,7 @@
     "@angular/core": ">=14.0.0 <22.0.0"
   },
   "dependencies": {
-    "@imagekit/javascript": "^5.1.0",
+    "@imagekit/javascript": "^5.5.0",
     "tslib": "^2.3.0"
   }
 }
