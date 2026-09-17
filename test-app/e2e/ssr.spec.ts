@@ -17,6 +17,10 @@ test("SSR test case", async ({ page }) => {
   // Grab the entire HTML from the element
   const outputHtml = await outputElement.evaluate(el => el.outerHTML);
 
+  // Angular stamps its exact version on the root element; normalize it so the
+  // snapshot doesn't break on every Angular patch release.
+  const normalizedHtml = outputHtml.replace(/ng-version="[^"]*"/g, 'ng-version="x.y.z"');
+
   // Compare against a stored snapshot
-  expect(outputHtml).toMatchSnapshot();
+  expect(normalizedHtml).toMatchSnapshot();
 });
