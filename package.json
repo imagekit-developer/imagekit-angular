@@ -1,6 +1,6 @@
 {
   "name": "imagekit-angular-workspace",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -16,7 +16,7 @@
     "test:e2e:ui": "cd test-app && npm run test:e2e:ui",
     "test:e2e:headed": "cd test-app && npm run test:e2e:headed",
     "test:e2e:ci": "cd test-app && npm run test:e2e",
-    "testapp" : "cd test-app && npm start"
+    "testapp": "cd test-app && npm start"
   },
   "private": true,
   "dependencies": {
